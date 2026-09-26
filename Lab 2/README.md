@@ -304,12 +304,34 @@ python hourglass_clock.py        # normal: one emptying per day
 python hourglass_clock.py 120    # timelapsed for filming
 ```
 
+### A second clock: the Fall Season Tree
+
+I worked with Ammar on the first part of this lab because I had not received my Raspberry Pi
+yet, but I could not contribute much to the second part. So I decided to make a different
+representation of time on my own.
+
+I wanted to represent the fall season and the leaves falling. This clock represents the months
+of fall: the tree starts full on the first day of fall (September 22) and loses one leaf a day
+until it is bare on the last day of fall (December 21). The leaves on the ground are the days
+already spent, and the leaves still on the tree are the days of fall that remain.
+
+- **Button A** resets the tree to day 1 of fall.
+- **Button B** advances the tree by one day, and the leaf for that day drifts down to the ground.
+- Even if button B is never pressed, the clock keeps time on its own: when the actual day is
+  over it advances by a day at midnight, following the real calendar.
+
+Code: [leaf_clock.py](leaf_clock.py)
+
+```
+python leaf_clock.py
+```
+
 
 As always, make sure you document contributions and ideas from others (and AI) explicitly in your writeup.
 
 ### Contributions
 
-I used Claude to help with the python code/scripts ( `hourglass_simple.py` and `hourglass_clock.py`). Those that gave feedback helped to refine the final video ideas in the end. 
+I used Claude to help with the python code/scripts ( `hourglass_simple.py`, `hourglass_clock.py` and `leaf_clock.py`). Those that gave feedback helped to refine the final video ideas in the end. 
 
 
 You are permitted (but not required) to work in groups and share a turn in; you are expected to make equal contribution on any group work you do, and N people's group project should look like N times the work of a single person's lab.  Make sure the page for the group turn in is linked to your personal Interactive Lab Hub page. 
