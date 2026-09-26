@@ -66,6 +66,12 @@ pi@raspberrypi:~ $ source venv/bin/activate
 (venv) pi@raspberrypi:~ $ 
 
 ```
+
+Copy-paste version (commands only):
+```bash
+python -m venv venv
+source venv/bin/activate
+```
 ### Setup Personal Access Tokens on GitHub
 Set your git name and email so that commits appear under your name.
 ```
@@ -86,6 +92,12 @@ Clone your own lab-hub repo for this assignment to your Pi and change the direct
 (venv) pi@raspberrypi:~$ git clone https://github.com/<YOURGITID>/Interactive-Lab-Hub.git
 (venv) pi@raspberrypi:~$ cd Interactive-Lab-Hub/Lab\ 2/
 ```
+
+Copy-paste version (commands only):
+```bash
+git clone https://github.com/<YOURGITID>/Interactive-Lab-Hub.git
+cd Interactive-Lab-Hub/Lab\ 2/
+```
 Depends on the setting, you might be asked to provide your GitHub user name and password. Remember to use the "Personal Access Tokens" you just set up as the password instead of your account one!
 
 Check if the directory has clone sucessfully, you should see the Interactive-Lab-Hub under the home directory listed:
@@ -104,6 +116,12 @@ Install the packages from the requirements.txt and run the example script `cli_c
 (venv) pi@raspberrypi:~/Interactive-Lab-Hub/Lab 2 $ pip install -r requirements.txt
 (venv) pi@raspberrypi:~/Interactive-Lab-Hub/Lab 2 $ python cli_clock.py 
 02/24/2021 11:20:49
+```
+
+Copy-paste version (commands only):
+```bash
+pip install -r requirements.txt
+python cli_clock.py
 ```
 
 The terminal should show the time, you can press `ctrl-c` to exit the script.
@@ -144,9 +162,19 @@ We can test it by typing
 (venv) pi@raspberrypi:~/Interactive-Lab-Hub/Lab 2 $ python screen_test.py
 ```
 
+Copy-paste version (commands only):
+```bash
+python screen_test.py
+```
+
 You can type the name of a color then press either of the buttons on the MiniPiTFT to see what happens on the display! You can press `ctrl-c` to exit the script. Take a look at the code with
 ```
 (venv) pi@raspberrypi:~/Interactive-Lab-Hub/Lab 2 $ cat screen_test.py
+```
+
+Copy-paste version (commands only):
+```bash
+cat screen_test.py
 ```
 
 #### Displaying Info with Texts
@@ -168,6 +196,11 @@ Option 1. One of the ways for you to edit scripts on Pi through terminal is usin
 ```
 (venv) pi@raspberrypi:~/Interactive-Lab-Hub/Lab 2 $ nano screen_clock.py
 ```
+
+Copy-paste version (commands only):
+```bash
+nano screen_clock.py
+```
 You can make changes to the script this way, remember to save the changes by pressing `ctrl-o` and press enter again. You can press `ctrl-x` to exit the nano mode. There are more options listed down in the terminal you can use in nano.
 
 Option 2. Another way for you to edit scripts is to use VNC on your laptop to remotely connect your Pi. Try to open the files directly like what you will do with your laptop and edit them. Since the default OS we have for you does not come up a python programmer, you will have to install one yourself otherwise you will have to edit the codes with text editor. [Thonny IDE](https://thonny.org/) is a good option for you to install, try run the following command lines in your Pi's ternimal:
@@ -175,6 +208,12 @@ Option 2. Another way for you to edit scripts is to use VNC on your laptop to re
   ```
   pi@raspberrypi:~ $ sudo apt install thonny
   pi@raspberrypi:~ $ sudo apt update && sudo apt upgrade -y
+  ```
+
+  Copy-paste version (commands only):
+  ```bash
+  sudo apt install thonny
+  sudo apt update && sudo apt upgrade -y
   ```
 
 Now you should be able to edit python scripts with Thonny on your Pi.
@@ -227,6 +266,13 @@ After you edit and work on the scripts for Lab 2, the files should be upload bac
 (venv) pi@raspberrypi:~/Interactive-Lab-Hub/Lab 2 $ git add .
 (venv) pi@raspberrypi:~/Interactive-Lab-Hub/Lab 2 $ git commit -m 'your commit message here'
 (venv) pi@raspberrypi:~/Interactive-Lab-Hub/Lab 2 $ git push
+```
+
+Copy-paste version (commands only):
+```bash
+git add .
+git commit -m 'your commit message here'
+git push
 ```
 
 After that, Git will ask you to login to your GitHub account to push the updates online, you will be asked to provide your GitHub user name and password. Remember to use the "Personal Access Tokens" you set up in Part A as the password instead of your account one! Go on your GitHub repo with your laptop, you should be able to see the updated files from your Pi!
