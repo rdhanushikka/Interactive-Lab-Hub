@@ -326,6 +326,10 @@ Code: [leaf_clock.py](leaf_clock.py)
 python leaf_clock.py
 ```
 
+![The Fall Season Tree running on the Pi](images/leaf-clock.jpeg)
+
+[Video: the Fall Season Tree, advancing days with button B](images/leaf-clock.mp4)
+
 
 As always, make sure you document contributions and ideas from others (and AI) explicitly in your writeup.
 
