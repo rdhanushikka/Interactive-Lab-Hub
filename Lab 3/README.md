@@ -111,6 +111,28 @@ The demo script also shows `--output-raw`, which streams audio to the speaker as
 
 \*\***Then answer: Is the same greeting, in these different voices, the same greeting? Describe one concrete way the voice changed what the utterance seemed to mean or who seemed to be speaking.**\*\*
 
+### Part A: greeting script and voice comparison
+
+**Script:** [`speech-scripts/greet.sh`](speech-scripts/greet.sh)
+
+It greets me by name with Piper, streamed straight to the speaker so the first word comes out before the rest of the sentence is synthesized. The greeting picks "morning", "afternoon", or "evening" from the clock and reads out the current time. Flags play the identical line through the classic engines for comparison:
+
+```
+./greet.sh              # Piper (neural), my pick
+./greet.sh --espeak     # formant synthesizer
+./greet.sh --festival   # concatenative
+```
+
+The line every engine speaks: *"Good evening, Dhanushikka. Welcome back. It's 4:08 PM and your Pi is ready."*
+
+**Is it the same greeting?** No. The words are identical but the utterance isn't, because each voice changes who seems to be saying it.
+
+- **espeak** makes it sound like the Pi is announcing something, not greeting me. The flat pitch and clipped syllables read as a status line being read aloud. "Welcome back" loses any warmth and comes across as a system state, closer to "login successful" than to a person saying hello. The mispronunciation of my name also reinforces that no one is really speaking; it's a machine sounding out letters.
+- **festival** sounds more like a person, but the seams between stitched fragments make it stumble on "Dhanushikka" and put odd emphasis mid-sentence, so it comes across as someone reading unfamiliar text off a card. The greeting feels recited rather than meant.
+- **Piper** has natural pitch movement, so "Good evening" rises and falls like a real greeting and "your Pi is ready" sounds like an offer rather than a report. Piper's voice is the only one where the greeting seems addressed *to me* rather than emitted near me.
+
+The concrete change: the same words "Welcome back" mean *a notification* in espeak and *a welcome* in Piper. The voice, not the text, decided which one it was.
+
 ## B. Speech to Text
 
 We use [faster-whisper](https://github.com/SYSTRAN/faster-whisper), a reimplementation of OpenAI's Whisper model that runs several times faster on CPU and does not require PyTorch. All processing happens on the Pi; nothing is sent to a server.
