@@ -218,6 +218,14 @@ Speak, pause, and watch it transcribe. Now change the endpointing threshold — 
 
 There is no correct value. A system that takes drink orders and a system that listens to someone think out loud want very different thresholds, and the right one depends on what your users are doing with their pauses.
 
+### Part C: endpointing thresholds
+
+I tried `listen.py` at 0.2 s, 0.5 s, and 1.5 s of silence.
+
+- **1.5 s** feels like a long time for a conversation. The wait after you stop talking feels like forever, and the system seems slow to respond.
+- **0.2 s** feels more real-time, but things get cut off. If the person isn't actually pausing for a break and is just having a regular conversation, a normal breath between phrases is enough to end their turn. 0.2 s is too short to assume someone is done talking.
+- **0.5 s** seemed more normal. It still responds quickly but doesn't cut in mid-sentence.
+
 ### The complete loop
 
 `echo_bot.py` puts the pieces together: it listens, endpoints, transcribes, and speaks a reply through Piper. The dialogue policy is deliberately trivial — it repeats what you said — so that everything you notice is a property of the timing rather than the content.
