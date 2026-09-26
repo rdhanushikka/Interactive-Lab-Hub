@@ -163,7 +163,7 @@ I recorded five seconds of myself saying *"Cinderella had to go home at midnight
 | base.en | correct, word for word | 0.71 s | 2.13 s | 0.43x |
 | small.en | correct, word for word | 1.21 s | 6.03 s | 1.21x |
 
-**Where does accuracy stop being worth the delay?** For this sentence, immediately: all three transcripts were identical and correct, so `base.en` and `small.en` bought nothing and cost 2x and 6x the wait. `small.en` is too slow for a system that has to answer you. Its real-time factor is above 1, meaning it transcribes slower than people talk, so it falls further behind the longer you speak. A six-second silence after a five-second sentence reads as the device being broken. `tiny.en` answers within about a second, which is inside the range of a normal conversational pause. `base.en` is the only upgrade worth considering, and only if `tiny.en` starts making errors on harder input like names, numbers, or noisy rooms.
+**Where does accuracy stop being worth the delay?** For this sentence, immediately: all three transcripts were identical and correct, so `base.en` and `small.en` bought nothing and cost 2x and 6x the wait. `small.en` is too slow for a system that has to answer you. Its real-time factor is above 1, meaning it transcribes slower than people talk, so it falls further behind the longer you speak. A six-second silence after a five-second sentence reads as the device being broken. `tiny.en` answers within about a second, which is inside the range of a normal conversational pause. `base.en` is the only upgrade worth considering, and only if `tiny.en` starts making errors on harder input like names, numbers, or noisy rooms. It turns out it does, on numbers, as the next section shows.
 
 \*\***Write your own script that verbally asks for a numerical input (a phone number, zipcode, number of pets) and records the answer the respondent provides.**\*\* Numbers are a good stress test — transcription systems make characteristic errors on digit strings, and you will want to know what they are before you design around them.
 
@@ -179,7 +179,17 @@ python ask_number.py --question "What is your zip code?" --seconds 4
 python ask_number.py --question "How many pets do you have?" --seconds 3
 ```
 
-**Digit errors observed.** Asked for my phone number, `tiny.en` returned 11 digits instead of 10: an extra `0` was inserted mid-string. The transcript came back as `400-879-937-06`, grouped in a pattern that doesn't match how phone numbers are said, which shows the model was guessing at the structure rather than hearing it. I never said that zero. The model produced a digit with no corresponding sound. My guess is that a pause or breath between digit groups was decoded as a "0", but I haven't confirmed that; re-running the saved recording through the larger models would show whether it's the small model guessing or something in the audio. Transcription took 1.78 s for 6 s of audio (0.30x). On a second attempt, saying the same number, it got all 10 digits right. The error isn't consistent, which is worse for design: you can't predict it, so the system has to be built to catch it.
+**Digit errors observed.** Asked for my phone number, `tiny.en` returned 11 digits instead of 10: an extra `0` was inserted mid-string. The transcript came back as `400-879-937-06`, grouped in a pattern that doesn't match how phone numbers are said, which shows the model was guessing at the structure rather than hearing it. I never said that zero. To find out whether it was in the audio or in the model, I re-ran the saved recording through all three sizes:
+
+| model | transcript of the same recording | digits | transcription |
+|---|---|---|---|
+| tiny.en | `400-879-937-06` | 11, wrong | 1.78 s (0.30x) |
+| base.en | `4087993706.` | 10, correct | 1.72 s (0.29x) |
+| small.en | `4087993706` | 10, correct | 4.85 s (0.81x) |
+
+The zero was not in the audio. `tiny.en` inserts it every time on this recording, and both larger models get all ten digits right. So this is the small model guessing, and on a given input it guesses the same way each time. A fresh recording of the same number transcribed correctly with `tiny.en`, so across recordings the error comes and goes, but on a fixed input it is repeatable.
+
+This revises the conclusion above: on a plain sentence the three models tied, but on a digit string `base.en` is worth it. It cost the same time as `tiny.en` here and was the difference between a usable and an unusable phone number.
 
 Two design takeaways for a system that collects numbers:
 
