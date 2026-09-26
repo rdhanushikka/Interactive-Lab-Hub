@@ -252,48 +252,50 @@ A small box by the front door of a shared apartment. When someone arrives, it as
 
 **Storyboard**
 
-*(sketches to be added: `images/greeter-storyboard.jpeg`)*
+First iteration, drawn before acting it out:
 
-1. A visitor walks up to the door. The greeter's proximity sensor notices them and its light turns on. It says: "Hi! Who are you here for?"
-2. The visitor says a name. While they talk, the light pulses so they know they're being heard.
-3. The greeter waits half a second of silence, then repeats the name back as a question: "Nicole?" The light goes solid while it thinks.
-4. The visitor confirms with "yes". If they say "no", the greeter asks again, and after a second miss it offers the list of residents.
-5. Inside, a speaker announces: "Someone is here for Nicole." Out front, the greeter says "I've let Nicole know. One moment."
-6. If nobody comes to the door in a while, the greeter tells the visitor rather than leaving them standing there: "Nicole isn't answering. Want to leave a message?"
+![Door Greeter storyboard, first iteration](images/greeter-storyboard-v1.png)
+
+1. No one at the door. The greeter sits beside the door, light off.
+2. The proximity sensor notices a visitor. The greeter asks "Who are you here for?" and its yellow light pulses while it listens. The visitor says "Sam."
+3. The greeter waits 0.5 s of silence, then confirms: "Did you say Sam?"
+4. The visitor says "Yes." The greeter says "One moment please" and announces inside.
+5. Inside, a speaker says "Someone is here for Sam." Outside, the visitor waits.
+6. After 30 s with no response, the greeter says "Sam is unavailable now. Please come back later."
 
 **Script with pauses**
 
 ```
-[visitor detected by proximity sensor, light on]
-Device:   Hi! Who are you here for?
+[visitor detected by proximity sensor, yellow light pulses]
+Device:   Who are you here for?
           [listens; ends the visitor's turn after 0.5 s of silence]
-Visitor:  I'm here for Nicole.
+Visitor:  Sam.
           [0.3 s thinking pause, light solid]
-Device:   Nicole?
+Device:   Did you say Sam?
           [waits up to 3 s for an answer]
 Visitor:  Yes.
           [0.3 s]
-Device:   Okay, one moment.
-          [announces inside: "Someone is here for Nicole."]
+Device:   One moment please.
+          [announces inside: "Someone is here for Sam."]
           [waits up to 30 s for the door to open]
-Device:   Nicole isn't answering. Want to leave a message?
-          [waits up to 5 s; if silence, says "Okay, goodbye." and light off]
+Device:   Sam is unavailable now. Please come back later.
+          [light off]
 ```
 
 Fallback branch when the name is misheard:
 
 ```
-Device:   Nicole?
-Visitor:  No, Nicholas.
+Device:   Did you say Sam?
+Visitor:  No, Pam.
           [0.3 s]
-Device:   Nicholas?
+Device:   Did you say Pam?
 Visitor:  Yes.
 ```
 
 After two misses in a row:
 
 ```
-Device:   Sorry. The people here are Nicole, Nicholas, and Sam. Which one?
+Device:   Sorry. The people here are Sam, Pam, and Nicole. Which one?
 ```
 
 **Where it waits, and why**
@@ -302,7 +304,6 @@ Device:   Sorry. The people here are Nicole, Nicholas, and Sam. Which one?
 - *0.3 s before replying.* Just enough that the confirmation doesn't sound like it interrupted. Longer than that starts to feel like the device is unsure.
 - *3 s for yes/no.* A yes or no comes fast. If nothing comes in 3 s the visitor probably didn't realize it was a question, so the device re-asks.
 - *30 s for the door.* The one long wait. The visitor can see the door, so silence here is the resident's delay, not the device's, but the device still has to say something eventually so the visitor knows it hasn't given up.
-- *5 s for the message offer.* Longer than the yes/no wait because deciding whether to leave a message takes a moment.
 
 **Process**
 
@@ -338,7 +339,7 @@ What actually happened, with timestamps from the recording:
 
 - **The name exchange worked as designed.** Ask, answer, confirm, yes, in about 8 seconds with no confusion. The confirmation question didn't feel awkward when spoken, which I'd worried about.
 - **The long wait is where the design broke.** The script has the device silent for up to 30 s while the resident comes to the door. My partner lasted about 4 s before asking "How long does this take?", then complained again 6 s later. The device had no line for talk during the wait, so I stayed silent, which is exactly what made the visitor feel ignored. The wait needs a progress signal, something like "Still waiting for Sam" every 10 s or so, or at least a listening light.
-- **I skipped my own fallback.** The script offers "Want to leave a message?" I said "Please come back later" instead, which ends the interaction rather than offering the visitor something.
+- **The ending gives the visitor nothing.** "Please come back later" closes the interaction without offering anything, and the visitor had no way to respond to it. An option like "Want to leave a message?" would give them a next step.
 - **The visitor pushed back and the device had nothing.** "But I know he's in there" is a completely normal thing to say, and the script has no branch for it. The visitor doesn't accept the device's conclusion just because the device said it.
 
 The biggest lesson: everything I designed carefully was the part that worked, and the part I hand-waved, the 30 s wait, was where the interaction fell apart. Silence from a device reads as the device not working, even when the silence is intentional.
