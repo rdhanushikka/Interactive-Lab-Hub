@@ -224,11 +224,30 @@ class Listener(threading.Thread):
     def run(self):
         buf = np.empty(0, dtype=np.float32)
         per_read = int(0.1 * SAMPLE_RATE)
+        was_speaking = False
         with sd.InputStream(channels=1, dtype="float32", samplerate=SAMPLE_RATE) as stream:
             while True:
+                if S.speaking:
+                    # Throw away everything the mic captures while we talk,
+                    # including audio already queued in the stream buffer.
+                    n = stream.read_available
+                    if n:
+                        stream.read(n)
+                    was_speaking = True
+                    time.sleep(0.05)
+                    continue
+                if was_speaking:
+                    # Speech just ended: drop the tail, reset the detectors.
+                    n = stream.read_available
+                    if n:
+                        stream.read(n)
+                    self.vad_turn.reset()
+                    self.vad_msg.reset()
+                    buf = np.empty(0, dtype=np.float32)
+                    was_speaking = False
                 chunk, _ = stream.read(per_read)
                 if S.speaking:
-                    continue  # don't transcribe our own voice
+                    continue  # started talking mid-read; drop this chunk too
                 buf = np.concatenate([buf, chunk.reshape(-1)])
                 while len(buf) > self.window:
                     self.vad_turn.accept_waveform(buf[:self.window])
