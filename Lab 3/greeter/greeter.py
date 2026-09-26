@@ -216,10 +216,15 @@ class Listener(threading.Thread):
         self.vad_msg, _ = build_vad(MESSAGE_SILENCE)
         self.on_utterance = on_utterance
         self.on_message = on_message
+        # First transcription after load is slow; do it now on a second of silence.
+        self.recognizer.transcribe(np.zeros(SAMPLE_RATE, dtype=np.float32), beam_size=1)
 
     def transcribe(self, samples):
+        t0 = time.perf_counter()
         segments, _ = self.recognizer.transcribe(samples, beam_size=1)
-        return " ".join(s.text.strip() for s in segments).strip()
+        text = " ".join(s.text.strip() for s in segments).strip()
+        print(f"  [{len(samples) / SAMPLE_RATE:.1f}s audio -> {time.perf_counter() - t0:.2f}s to transcribe]")
+        return text
 
     def run(self):
         buf = np.empty(0, dtype=np.float32)
