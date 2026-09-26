@@ -128,7 +128,7 @@ The line every engine speaks: *"Good evening, Dhanushikka. Welcome back. It's 4:
 **Is it the same greeting?** No. Same words, different speaker.
 
 - **espeak**: flat pitch and clipped syllables make "Welcome back" sound like a status line, closer to "login successful" than to a hello.
-- **festival**: more human, but the seams between stitched fragments make it stumble on my name, like someone reading unfamiliar text off a card.
+- **festival**: more human but is fragmented.
 - **Piper**: natural pitch movement, so "Good evening" rises and falls like a real greeting and the line feels addressed *to me*.
 
 The concrete change: "Welcome back" is a *notification* in espeak and a *welcome* in Piper. The voice, not the text, decided which.
