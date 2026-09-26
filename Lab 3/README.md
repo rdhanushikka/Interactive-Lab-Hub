@@ -342,7 +342,7 @@ What actually happened, with timestamps from the recording:
 - **The ending gives the visitor nothing.** "Please come back later" closes the interaction without offering anything, and the visitor had no way to respond to it. An option like "Want to leave a message?" would give them a next step.
 - **The visitor pushed back and the device had nothing.** "But I know he's in there" is a normal thing to say, and the script has no branch for it. The visitor doesn't accept the device's conclusion just because the device said it.
 
-The main lesson: the parts I designed carefully worked, and the part I hand-waved, the 30 s wait, was where the interaction fell apart. Silence from a device reads as the device not working, even when the silence is intentional.
+**Conclusion:** the parts I designed carefully worked, and the part I hand-waved, the 30 s wait, was where the interaction fell apart. Silence from a device reads as the device not working, even when the silence is intentional.
 
 ---
 
