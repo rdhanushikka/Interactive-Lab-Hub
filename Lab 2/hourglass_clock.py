@@ -126,11 +126,18 @@ while True:
     draw.text((width - 4 - draw.textlength(label, font=font), 1),
               label, font=font, fill=color)
 
-    status = "PAUSED - B resumes" if paused else "A to pause"
+    # Button hints sit next to the button they refer to: A is the top-left
+    # button, B the bottom-left one (screen is in landscape, header at top).
+    if paused:
+        draw.text((4, 17), "PAUSED", font=small, fill=color)
+        draw.text((4, BOTY + 2), "B to resume", font=small, fill=GLASS)
+    else:
+        draw.text((4, 17), "A to pause", font=small, fill=GLASS)
     if PERIOD < 86400.0:
         # e.g. a 60s period means one real minute stands in for a whole day
-        status += "  [%gmin = 1 day]" % (PERIOD / 60.0)
-    draw.text((4, BOTY + 2), status, font=small, fill=GLASS)
+        note = "[%gmin = 1 day]" % (PERIOD / 60.0)
+        draw.text((width - 4 - draw.textlength(note, font=small), BOTY + 2),
+                  note, font=small, fill=GLASS)
 
     disp.image(image, rotation)
     time.sleep(0.2)
