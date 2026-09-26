@@ -246,6 +246,68 @@ Write out what you imagine the dialogue to be. Use cards, post-its, or whatever 
 
 Your script should include the pauses. Where does your device wait, and for how long? You now know from Part C that this is a parameter you have to choose, not something that happens for free.
 
+### Part D: the Door Greeter
+
+A small box by the front door of a shared apartment. When someone arrives, it asks who they're here for, announces them to that person, and lets the visitor know whether to wait. It has to get a *name* right, which is the same problem as the phone number in Part B: names are short, easy to mishear, and wrong guesses are embarrassing rather than harmless.
+
+**Storyboard**
+
+*(sketches to be added: `images/greeter-storyboard.jpeg`)*
+
+1. A visitor walks up to the door. The greeter's proximity sensor notices them and its light turns on. It says: "Hi! Who are you here for?"
+2. The visitor says a name. While they talk, the light pulses so they know they're being heard.
+3. The greeter waits half a second of silence, then repeats the name back as a question: "Nicole?" The light goes solid while it thinks.
+4. The visitor confirms with "yes". If they say "no", the greeter asks again, and after a second miss it offers the list of residents.
+5. Inside, a speaker announces: "Someone is here for Nicole." Out front, the greeter says "I've let Nicole know. One moment."
+6. If nobody comes to the door in a while, the greeter tells the visitor rather than leaving them standing there: "Nicole isn't answering. Want to leave a message?"
+
+**Script with pauses**
+
+```
+[visitor detected by proximity sensor, light on]
+Device:   Hi! Who are you here for?
+          [listens; ends the visitor's turn after 0.5 s of silence]
+Visitor:  I'm here for Nicole.
+          [0.3 s thinking pause, light solid]
+Device:   Nicole?
+          [waits up to 3 s for an answer]
+Visitor:  Yes.
+          [0.3 s]
+Device:   Okay, one moment.
+          [announces inside: "Someone is here for Nicole."]
+          [waits up to 30 s for the door to open]
+Device:   Nicole isn't answering. Want to leave a message?
+          [waits up to 5 s; if silence, says "Okay, goodbye." and light off]
+```
+
+Fallback branch when the name is misheard:
+
+```
+Device:   Nicole?
+Visitor:  No, Nicholas.
+          [0.3 s]
+Device:   Nicholas?
+Visitor:  Yes.
+```
+
+After two misses in a row:
+
+```
+Device:   Sorry. The people here are Nicole, Nicholas, and Sam. Which one?
+```
+
+**Where it waits, and why**
+
+- *0.5 s to end the visitor's turn.* From Part C. 0.2 s cut people off mid-phrase, 1.5 s felt like forever. A name is short, so the shorter side of normal is fine.
+- *0.3 s before replying.* Just enough that the confirmation doesn't sound like it interrupted. Longer than that starts to feel like the device is unsure.
+- *3 s for yes/no.* A yes or no comes fast. If nothing comes in 3 s the visitor probably didn't realize it was a question, so the device re-asks.
+- *30 s for the door.* The one long wait. The visitor can see the door, so silence here is the resident's delay, not the device's, but the device still has to say something eventually so the visitor knows it hasn't given up.
+- *5 s for the message offer.* Longer than the yes/no wait because deciding whether to leave a message takes a moment.
+
+**Process**
+
+I started from the Part B finding that the transcriber inserts or drops tokens on short, unpredictable inputs. A name is exactly that kind of input, so the design puts a confirmation step in the middle of every exchange rather than trusting the first transcription. I then wrote the happy-path script, and worked out the branches by asking at each device line "what if the answer is wrong, and what if there's no answer at all?" Every wait in the script has a timeout with a spoken fallback, so the visitor is never left in silence wondering whether the device is still working. The 0.5 s threshold came straight from Part C. The 30 s wait is the one number I couldn't derive from anything measured; it's a guess about how long a resident takes to reach the door, and Part E should tell me whether it's right.
+
 ## E. Acting out the dialogue
 
 Find a partner, and *without sharing the script with your partner* try out the dialogue you've designed, where you (as the device designer) act as the device you are designing. Please record this interaction (for example, using Zoom's record feature).
