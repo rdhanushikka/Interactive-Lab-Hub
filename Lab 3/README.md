@@ -338,11 +338,11 @@ What actually happened, with timestamps from the recording:
 **How it differed from what I imagined**
 
 - **The name exchange worked as designed.** Ask, answer, confirm, yes, in about 8 seconds with no confusion. The confirmation question didn't feel awkward when spoken, which I'd worried about.
-- **The long wait is where the design broke.** The script has the device silent for up to 30 s while the resident comes to the door. My partner lasted about 4 s before asking "How long does this take?", then complained again 6 s later. The device had no line for talk during the wait, so I stayed silent, which is exactly what made the visitor feel ignored. The wait needs a progress signal, something like "Still waiting for Sam" every 10 s or so, or at least a listening light.
+- **The long wait is where the design broke.** The script has the device silent for up to 30 s while the resident comes to the door. My partner lasted about 4 s before asking "How long does this take?", then complained again 6 s later. The device had no line for talk during the wait, so I stayed silent, which is what made the visitor feel ignored. The wait needs a progress signal, something like "Still waiting for Sam" every 10 s or so, or at least a listening light.
 - **The ending gives the visitor nothing.** "Please come back later" closes the interaction without offering anything, and the visitor had no way to respond to it. An option like "Want to leave a message?" would give them a next step.
-- **The visitor pushed back and the device had nothing.** "But I know he's in there" is a completely normal thing to say, and the script has no branch for it. The visitor doesn't accept the device's conclusion just because the device said it.
+- **The visitor pushed back and the device had nothing.** "But I know he's in there" is a normal thing to say, and the script has no branch for it. The visitor doesn't accept the device's conclusion just because the device said it.
 
-The biggest lesson: everything I designed carefully was the part that worked, and the part I hand-waved, the 30 s wait, was where the interaction fell apart. Silence from a device reads as the device not working, even when the silence is intentional.
+The main lesson: the parts I designed carefully worked, and the part I hand-waved, the 30 s wait, was where the interaction fell apart. Silence from a device reads as the device not working, even when the silence is intentional.
 
 ---
 
