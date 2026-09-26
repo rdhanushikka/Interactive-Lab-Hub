@@ -1,0 +1,3 @@
+# recorded visitor messages are audio; keep them local
+messages/
+# session logs are small text and useful for the write-up, so they are NOT ignored

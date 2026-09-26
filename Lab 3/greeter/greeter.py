@@ -88,6 +88,28 @@ STATE_LABELS = {
 
 
 # ---------------------------------------------------------------------------
+# Event log: terminal + logs/session_<time>.log
+# ---------------------------------------------------------------------------
+LOG_DIR = Path(__file__).resolve().parent / "logs"
+_log_file = None
+_log_lock = threading.Lock()
+_t_start = time.time()
+
+
+def log(kind, msg=""):
+    """One line per event: wall clock, seconds since start, kind, message."""
+    global _log_file
+    line = f"{datetime.now():%H:%M:%S.%f}"[:-3] + f" +{time.time() - _t_start:7.2f}s  {kind:<9} {msg}"
+    with _log_lock:
+        print(line, flush=True)
+        if _log_file is None:
+            LOG_DIR.mkdir(exist_ok=True)
+            _log_file = open(LOG_DIR / f"session_{datetime.now():%Y%m%d_%H%M%S}.log", "a")
+        _log_file.write(line + "\n")
+        _log_file.flush()
+
+
+# ---------------------------------------------------------------------------
 # Shared state
 # ---------------------------------------------------------------------------
 class State:
@@ -113,11 +135,14 @@ class State:
 
     def set(self, new_state, **kw):
         with self.lock:
+            old = self.state
             self.state = new_state
             self.state_since = time.time()
             self.last_progress = self.state_since
             for k, v in kw.items():
                 setattr(self, k, v)
+        extra = ", ".join(f"{k}={v}" for k, v in kw.items() if k in ("name", "pending_name") and v)
+        log("state", f"{old} -> {new_state}" + (f"  ({extra})" if extra else ""))
 
     def log_heard(self, text):
         with self.lock:
@@ -170,6 +195,7 @@ class Speaker(threading.Thread):
     def say(self, text, then=None):
         """Queue text. `then` is a callable run after the line is spoken."""
         S.log_said(text)
+        log("say", text)
         with self.cv:
             self.queue.append((text, then))
             self.cv.notify()
@@ -182,13 +208,15 @@ class Speaker(threading.Thread):
                 text, then = self.queue.pop(0)
             with S.lock:
                 S.speaking = True
+            t0 = time.perf_counter()
             try:
                 for chunk in self.voice.synthesize(text):
                     audio = np.frombuffer(chunk.audio_int16_bytes, dtype=np.int16)
                     sd.play(audio, samplerate=chunk.sample_rate)
                     sd.wait()
             except Exception as e:  # keep the device alive if audio hiccups
-                print("speak error:", e)
+                log("error", f"speak: {e}")
+            log("spoke", f"{time.perf_counter() - t0:.2f}s")
             time.sleep(0.25)  # let the mic settle before listening again
             with S.lock:
                 S.speaking = False
@@ -223,7 +251,7 @@ class Listener(threading.Thread):
         t0 = time.perf_counter()
         segments, _ = self.recognizer.transcribe(samples, beam_size=1)
         text = " ".join(s.text.strip() for s in segments).strip()
-        print(f"  [{len(samples) / SAMPLE_RATE:.1f}s audio -> {time.perf_counter() - t0:.2f}s to transcribe]")
+        log("asr", f"{len(samples) / SAMPLE_RATE:.1f}s audio -> {time.perf_counter() - t0:.2f}s")
         return text
 
     def run(self):
@@ -383,15 +411,16 @@ class Sensors:
         self.i2c = busio.I2C(board.SCL, board.SDA)
         self.prox = adafruit_apds9960.apds9960.APDS9960(self.i2c)
         self.prox.enable_proximity = True
+        log("sensor", "APDS9960 proximity sensor ready")
         self.button = None
         try:
             from i2c_button import I2C_Button
             self.button = I2C_Button(self.i2c)
             self.button.clear()
             self.button.led_bright = 0
-            print("Qwiic button found; a press counts as 'yes'.")
+            log("sensor", "Qwiic button found; a press counts as 'yes'")
         except Exception:
-            print("No Qwiic button found (that's fine).")
+            log("sensor", "no Qwiic button (optional)")
 
     def proximity(self):
         return self.prox.proximity
@@ -560,8 +589,10 @@ def fail_or(retry):
         S.fails += 1
         fails = S.fails
     if fails >= 2:
+        log("decide", f"couldn't use the turn, fail #{fails}: give up")
         act_try_later()
     else:
+        log("decide", f"couldn't use the turn, fail #{fails}: retry")
         retry()
 
 
@@ -572,15 +603,18 @@ def auto_respond(text):
         # We asked "Who are you here for?"
         name = best_resident(text)
         if name:
+            log("decide", f"matched resident '{name}' in '{text}'")
             with S.lock:
                 S.fails = 0
             act_confirm(name)
         else:
+            log("decide", f"no resident matched in '{text}'")
             fail_or(act_again)
     elif st == LISTENING and S.pending_name:
         # We asked "Did you say X?"
         answer = heard_yes_no(text)
         if answer == "yes":
+            log("decide", f"confirmed {S.pending_name}")
             with S.lock:
                 S.fails = 0
             act_wait()
@@ -588,25 +622,35 @@ def auto_respond(text):
             # maybe they said the right name in the same breath: "No, Pam."
             name = best_resident(text)
             if name and name != S.pending_name:
+                log("decide", f"rejected {S.pending_name}, heard '{name}' instead")
                 act_confirm(name)
             else:
+                log("decide", f"rejected {S.pending_name}, no new name")
                 S.pending_name = None
                 fail_or(act_again)
         else:
+            log("decide", f"not a yes/no: '{text}'")
             fail_or(act_yes_or_no)
     elif st == WAITING:
         if time.time() - S.last_progress > 2.0:
+            log("decide", "visitor spoke during the wait")
             act_heard_you()
+        else:
+            log("decide", "visitor spoke during the wait (just answered, ignoring)")
     elif st == OFFER:
         if heard_yes_no(text) == "yes":
+            log("decide", "accepted the message offer")
             act_record()
         else:
+            log("decide", f"did not accept the offer: '{text}'")
             act_bye()
+    else:
+        log("decide", f"ignored (state {st})")
 
 
 def on_utterance(text):
     S.log_heard(text)
-    print(f"heard: {text}")
+    log("heard", text)
     if S.auto_dialogue and not S.speaking:
         auto_respond(text)
 
@@ -616,6 +660,7 @@ def on_message(samples, text):
     path = MESSAGES_DIR / f"message_{datetime.now():%Y%m%d_%H%M%S}.wav"
     sf.write(path, samples, SAMPLE_RATE)
     S.log_heard(f"[message] {text}")
+    log("message", f"saved {path.name} ({len(samples) / SAMPLE_RATE:.1f}s): {text}")
     with S.lock:
         S.messages.append({"file": path.name, "text": text})
     S.set(THINKING)
@@ -626,6 +671,8 @@ def on_message(samples, text):
 # Wizard controller (Flask)
 # ---------------------------------------------------------------------------
 app = Flask(__name__)
+import logging
+logging.getLogger("werkzeug").setLevel(logging.ERROR)  # the page polls every second; keep it out of the log
 
 PAGE = """<!doctype html><html><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -708,6 +755,7 @@ def state():
 def act():
     data = request.get_json(force=True) or {}
     a = data.get("action")
+    log("wizard", " ".join(f"{k}={v}" for k, v in data.items()))
     if a == "say":
         act_say(data.get("text", ""))
     elif a == "confirm":
@@ -745,7 +793,8 @@ def main():
             sys.exit(f"{what} not found at {path}. Run speech-scripts/setup.sh first.")
     S.auto_greet = not args.no_auto_greet
 
-    print("Loading models...", flush=True)
+    log("start", f"model={args.model} prox_threshold={args.prox} auto_greet={S.auto_greet}")
+    log("start", "loading models...")
     speaker = Speaker(VOICE)
     speaker.start()
     Listener(args.model, on_utterance, on_message).start()
@@ -754,7 +803,7 @@ def main():
 
     threading.Thread(target=lambda: app.run(host="0.0.0.0", port=args.port, threaded=True,
                                             use_reloader=False, debug=False), daemon=True).start()
-    print(f"Wizard page: http://0.0.0.0:{args.port}/  (use the Pi's hostname or IP)")
+    log("start", f"wizard page on port {args.port}; log file in {LOG_DIR}")
     speaker.say("Door greeter ready.")
 
     while True:
@@ -773,22 +822,28 @@ def main():
                     elif now - S.clear_since > 2.0 and not S.armed:
                         with S.lock:
                             S.armed = True
+                        log("prox", f"clear for 2 s (reading {prox}), trigger re-armed")
                 elif S.armed and S.auto_greet and not snap["speaking"]:
                     S.clear_since = None
+                    log("prox", f"visitor detected (reading {prox} >= {args.prox})")
                     act_greet()
                 if prox >= args.prox:
                     S.clear_since = None
             if sensors.button_clicked():
+                log("button", "pressed")
                 on_utterance("yes (button)")
             sensors.button_led(st in (LISTENING, OFFER))
 
         if st == WAITING and snap["auto_timers"] and not snap["speaking"]:
             elapsed = now - S.state_since
             if elapsed >= WAIT_TIMEOUT:
+                log("timer", f"{WAIT_TIMEOUT:.0f} s wait is up, offering a message")
                 act_offer()
             elif now - S.last_progress >= PROGRESS_EVERY:
+                log("timer", f"{elapsed:.0f} s into the wait, progress line")
                 act_still()
         elif st == OFFER and snap["auto_timers"] and now - S.state_since >= OFFER_TIMEOUT and not snap["speaking"]:
+            log("timer", f"no answer to the offer in {OFFER_TIMEOUT:.0f} s")
             act_bye()
         elif st == DONE and now - S.state_since >= DONE_HOLD:
             S.set(IDLE, name=None, pending_name=None)
