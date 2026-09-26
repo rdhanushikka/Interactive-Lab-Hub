@@ -357,6 +357,60 @@ For Part 2, you will redesign the interaction with the speech-enabled device usi
 3. Make a new storyboard, diagram and/or script based on these reflections.
 4. (optional) Integrate [input devices](inputs.md) in the system
 
+### Part 2 prep
+
+**1. What could be improved**
+
+From Part E, the name exchange worked and the wait did not. The changes:
+
+- *Timing.* The device goes silent for up to 30 s after "One moment." The visitor started asking questions after 4 s. Add a progress line, "Still waiting for Sam," every 10 s so the wait is never silent.
+- *Wording.* "Please come back later" ends the conversation with nothing for the visitor to do. Replace it with "Want to leave a message?" so there is a next step.
+- *Anticipating misunderstandings.* The visitor pushed back with "But I know he's in there." The device needs a line for disagreement, even if it's just "I'll try once more" followed by a second announcement inside.
+- *Talk during the wait.* The device ignored everything said while waiting. It should at least acknowledge it: "I heard you. Still waiting for Sam."
+
+**2. Beyond speech: showing listening and thinking**
+
+The kit has a yellow LED on the greeter in the storyboard, and the Pi has the MiniPiTFT screen and two Qwiic buttons with red and green LEDs. Plan:
+
+- *Listening:* the LED pulses, and the screen shows a microphone icon. The pulse starts when the proximity sensor fires, before the device speaks, so the visitor knows it noticed them.
+- *Thinking:* the LED goes solid and the screen shows "..." for the 0.3 s before the device replies. Short, but it separates "heard you" from "answering you."
+- *Waiting for the resident:* the screen shows a countdown from 30. That replaces most of the need for spoken progress lines, since the visitor can see something is happening.
+- *Confirming a name:* the screen prints the name it heard in large text while it asks "Did you say Sam?" A visitor who can read the name can catch a mishear before answering.
+- *Buttons as a backup:* the green button means yes and the red means no, for a visitor who would rather not talk to the box, or when the mic mishears "yes" twice.
+
+**3. Revised storyboard**
+
+![Door Greeter storyboard, second iteration](images/greeter-storyboard-v2.png)
+
+Frames 1 through 4 are unchanged. Frame 5 adds the progress signal every 10 s so the wait isn't silent. Frame 6 replaces "come back later" with the offer to leave a message.
+
+Revised script, changes marked with `*`:
+
+```
+[visitor detected by proximity sensor, LED pulses, screen shows mic icon]
+Device:   Who are you here for?
+          [0.5 s of silence ends the visitor's turn]
+Visitor:  Sam.
+          [0.3 s, LED solid, screen shows "Sam"]                        *
+Device:   Did you say Sam?
+          [waits up to 3 s; green button also means yes]                *
+Visitor:  Yes.
+Device:   One moment please.
+          [announces inside; screen counts down from 30]               *
+          [every 10 s:]                                                 *
+Device:   Still waiting for Sam.                                        *
+          [if the visitor speaks during the wait:]                      *
+Device:   I heard you. Still waiting for Sam.                           *
+          [after 30 s with no door:]
+Device:   Sam is unavailable now. Want to leave a message?              *
+          [waits up to 5 s]
+Visitor:  Yes.
+Device:   Go ahead, I'm recording.
+          [records until 1.5 s of silence, the long threshold from Part C, *
+           since people pause while composing a message]
+Device:   Got it. I'll pass that on.
+```
+
 ## Prototype your system
 
 The system should:
