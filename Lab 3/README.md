@@ -318,7 +318,7 @@ Find a partner, and *without sharing the script with your partner* try out the d
 
 I played the device; my partner played a visitor and had not seen the script.
 
-**Recording:** *(link to video)*
+**Recording:** [Video: acting out the Door Greeter dialogue](https://drive.google.com/file/d/16wWgM2ZhMZ7hJdzRUEUKdU1ljXp_-Cry/view?usp=drive_link)
 
 What actually happened, with timestamps from the recording:
 
