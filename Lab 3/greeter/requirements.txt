@@ -1,0 +1,12 @@
+# Hardware packages the greeter needs on top of Lab 3's requirements.txt.
+# Install into the Lab 3 venv:  uv pip install -r greeter/requirements.txt
+Adafruit-Blinka==8.64.0
+adafruit-circuitpython-rgb-display==3.14.1
+adafruit-circuitpython-apds9960==3.1.16
+adafruit-circuitpython-busdevice==5.2.13
+adafruit-circuitpython-register==1.10.4
+Adafruit-PlatformDetect==3.82.0
+Adafruit-PureIO==1.1.11
+lgpio==0.2.2.0
+pillow==11.3.0
+circuitpython-i2c-button
