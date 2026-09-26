@@ -125,13 +125,13 @@ It greets me by name with Piper, streamed straight to the speaker so the first w
 
 The line every engine speaks: *"Good evening, Dhanushikka. Welcome back. It's 4:08 PM and your Pi is ready."*
 
-**Is it the same greeting?** No. The words are identical but the utterance isn't, because each voice changes who seems to be saying it.
+**Is it the same greeting?** No. Same words, different speaker.
 
-- **espeak** makes it sound like the Pi is announcing something, not greeting me. The flat pitch and clipped syllables read as a status line being read aloud. "Welcome back" loses any warmth and comes across as a system state, closer to "login successful" than to a person saying hello. The mispronunciation of my name also reinforces that no one is really speaking; it's a machine sounding out letters.
-- **festival** sounds more like a person, but the seams between stitched fragments make it stumble on "Dhanushikka" and put odd emphasis mid-sentence, so it comes across as someone reading unfamiliar text off a card. The greeting feels recited rather than meant.
-- **Piper** has natural pitch movement, so "Good evening" rises and falls like a real greeting and "your Pi is ready" sounds like an offer rather than a report. Piper's voice is the only one where the greeting seems addressed *to me* rather than emitted near me.
+- **espeak**: flat pitch and clipped syllables make "Welcome back" sound like a status line, closer to "login successful" than to a hello.
+- **festival**: more human, but the seams between stitched fragments make it stumble on my name, like someone reading unfamiliar text off a card.
+- **Piper**: natural pitch movement, so "Good evening" rises and falls like a real greeting and the line feels addressed *to me*.
 
-The concrete change: the same words "Welcome back" mean *a notification* in espeak and *a welcome* in Piper. The voice, not the text, decided which one it was.
+The concrete change: "Welcome back" is a *notification* in espeak and a *welcome* in Piper. The voice, not the text, decided which.
 
 ## B. Speech to Text
 
