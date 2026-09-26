@@ -32,6 +32,15 @@ pi@ixe00:~/Interactive-Lab-Hub $ git commit -m "get lab3 updates"
 pi@ixe00:~/Interactive-Lab-Hub $ git push
 ```
 
+Copy-paste version (commands only):
+```bash
+cd Interactive-Lab-Hub
+git pull upstream Fall2026
+git add .
+git commit -m "get lab3 updates"
+git push
+```
+
 Option 2: On your own GitHub repo, create a pull request to get updates from the class Interactive-Lab-Hub. After you have the latest updates online, go to your Pi, `cd` to your `Interactive-Lab-Hub` and use `git pull`.
 
 ---
@@ -49,10 +58,22 @@ pi@ixe00:~/Interactive-Lab-Hub/Lab 3 $ source .venv/bin/activate
 (.venv) pi@ixe00:~/Interactive-Lab-Hub/Lab 3 $
 ```
 
+Copy-paste version (commands only):
+```bash
+cd Interactive-Lab-Hub/Lab\ 3
+python3 -m venv .venv
+source .venv/bin/activate
+```
+
 Install the Python dependencies:
 
 ```
 (.venv) $ pip install -r requirements.txt
+```
+
+Copy-paste version (commands only):
+```bash
+pip install -r requirements.txt
 ```
 
 This takes a few minutes. If you would like it to take considerably less time, [`uv`](https://docs.astral.sh/uv/) is a drop-in replacement for `pip` that is dramatically faster on the Pi:
@@ -61,11 +82,22 @@ This takes a few minutes. If you would like it to take considerably less time, [
 (.venv) $ pip install uv && uv pip install -r requirements.txt
 ```
 
+Copy-paste version (commands only):
+```bash
+pip install uv && uv pip install -r requirements.txt
+```
+
 Then run the setup script, which installs the classic speech synthesizers, downloads the voice activity detection model, and pre-fetches a neural voice and a speech recognition model so you are not waiting on downloads during lab:
 
 ```
 (.venv):~$ cd speech-scripts
 (.venv) $ ./setup.sh
+```
+
+Copy-paste version (commands only):
+```bash
+cd speech-scripts
+./setup.sh
 ```
 
 Check your audio devices before going further. `arecord -l` lists capture devices and `aplay -l` lists playback devices; if your webcam microphone or Bluetooth speaker does not appear, fix that first — every script below assumes the system defaults are the ones you want.
@@ -86,6 +118,17 @@ Your Pi can speak in several quite different ways, and the differences are audib
 (.venv) $ ./festival_demo.sh
 ```
 
+Copy-paste version (commands only):
+```bash
+cd speech-scripts
+
+sudo apt update
+sudo apt install -y espeak festival festvox-kallpc16k
+
+./espeak_demo.sh
+./festival_demo.sh
+```
+
 You can run these `.sh` files by typing `./filename`, and read one with `cat filename`. You can also play audio files directly with `aplay filename` — try `aplay lookdave.wav`.
 
 These are all decades-old technology and they sound like it. `espeak-ng` is a *formant synthesizer*: it generates speech from an acoustic model of the vocal tract, which is why it sounds robotic but also why the whole thing fits in a couple of megabytes and responds instantly. `festival` is *concatenative*: they stitch together recorded fragments of a real speaker, which sounds more human but breaks audibly at the seams.
@@ -98,10 +141,20 @@ Note that the Piper command line changed in version 1.x — voices are now downl
 (.venv) $ python3 -m piper.download_voices en_US-lessac-medium
 ```
 
+Copy-paste version (commands only):
+```bash
+python3 -m piper.download_voices en_US-lessac-medium
+```
+
 [Piper](https://github.com/OHF-Voice/piper1-gpl) synthesizes speech with a small neural network, runs comfortably on the Pi 5, and sounds markedly better than the above.
 
 ```
 (.venv) $ ./piper_demo.sh
+```
+
+Copy-paste version (commands only):
+```bash
+./piper_demo.sh
 ```
 
 The demo script also shows `--output-raw`, which streams audio to the speaker as it is generated rather than writing a file first. Listen for the difference in how quickly speech begins. In a conversational system this gap is the thing your user experiences as responsiveness.
@@ -119,12 +172,23 @@ We use [faster-whisper](https://github.com/SYSTRAN/faster-whisper), a reimplemen
 (.venv) $ python transcribe.py lookdave.wav
 ```
 
+Copy-paste version (commands only):
+```bash
+python transcribe.py lookdave.wav
+```
+
 The transcript is not the interesting output here — the timings are. Run it again with a larger model and compare:
 
 ```
 (.venv) $ python transcribe.py lookdave.wav --model base.en
 (.venv) $ python transcribe.py lookdave.wav --model small.en
 #  noted that the first run may take longer because the model is downloaded, and that the HF unauthenticated-request warning is expected and not an error.
+```
+
+Copy-paste version (commands only):
+```bash
+python transcribe.py lookdave.wav --model base.en
+python transcribe.py lookdave.wav --model small.en
 ```
 
 Available sizes, smallest first: `tiny.en`, `base.en`, `small.en`, `medium.en`. The `.en` variants are English-only and faster than their multilingual counterparts at the same size.
@@ -144,11 +208,23 @@ We use a **voice activity detector** (VAD) to segment the microphone stream into
 (.venv) $ python listen.py
 ```
 
+Copy-paste version (commands only):
+```bash
+cd speech-scripts
+python listen.py
+```
+
 Speak, pause, and watch it transcribe. Now change the endpointing threshold — the amount of silence the system requires before it decides your turn is over:
 
 ```
 (.venv) $ python listen.py --min-silence 0.2
 (.venv) $ python listen.py --min-silence 1.5
+```
+
+Copy-paste version (commands only):
+```bash
+python listen.py --min-silence 0.2
+python listen.py --min-silence 1.5
 ```
 
 \*\***Try both extremes, and something in between. Describe what each one feels like to talk to. Note specifically: at 0.2s, what kinds of normal speech get cut off? At 1.5s, what does the delay make the system seem like?**\*\*
@@ -161,6 +237,11 @@ There is no correct value. A system that takes drink orders and a system that li
 
 ```
 (.venv) $ python echo_bot.py
+```
+
+Copy-paste version (commands only):
+```bash
+python echo_bot.py
 ```
 
 ## D. Storyboard
