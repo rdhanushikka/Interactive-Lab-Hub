@@ -365,7 +365,6 @@ From Part E, the name exchange worked and the wait did not. The changes:
 
 - *Timing.* The device goes silent for up to 30 s after "One moment." The visitor started asking questions after 4 s. Add a progress line, "Still waiting for Sam," every 10 s so the wait is never silent.
 - *Wording.* "Please come back later" ends the conversation with nothing for the visitor to do. Replace it with "Want to leave a message?" so there is a next step.
-- *Anticipating misunderstandings.* The visitor pushed back with "But I know he's in there." The device needs a line for disagreement, even if it's just "I'll try once more" followed by a second announcement inside.
 - *Talk during the wait.* The device ignored everything said while waiting. It should at least acknowledge it: "I heard you. Still waiting for Sam."
 
 **2. Beyond speech: showing listening and thinking**
