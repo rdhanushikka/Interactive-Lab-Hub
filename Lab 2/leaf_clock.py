@@ -200,6 +200,8 @@ while True:
     # button hints next to the physical buttons on the left edge
     draw.text((2, 20), "< A day 1", font=small, fill=HINT)
     draw.text((2, GROUND_Y + 3), "< B +1 day", font=small, fill=HINT)
+    draw.text((width - 4 - draw.textlength("fall season", font=small), GROUND_Y + 3),
+              "fall season", font=small, fill=(255, 205, 120))
 
     disp.image(image, rotation)
     time.sleep(0.05)
