@@ -153,7 +153,33 @@ Available sizes, smallest first: `tiny.en`, `base.en`, `small.en`, `medium.en`. 
 
 \*\***Record a few seconds of your own speech (`arecord -d 5 -f cd -c 1 -r 16000 test.wav`) and transcribe it with at least two model sizes. Report the real-time factor for each. At what point does the accuracy improvement stop being worth the delay, for a system that has to answer you?**\*\*
 
+### Part B: model size vs. latency
+
+I recorded five seconds of myself saying *"Cinderella had to go home at midnight so she doesn't get caught."* and transcribed it with three model sizes (int8, greedy decoding) on the Pi 5:
+
+| model | transcript | model load | transcription | real-time factor |
+|---|---|---|---|---|
+| tiny.en | correct, word for word | 0.53 s | 1.01 s | 0.20x |
+| base.en | correct, word for word | 0.71 s | 2.13 s | 0.43x |
+| small.en | correct, word for word | 1.21 s | 6.03 s | 1.21x |
+
+**Where does accuracy stop being worth the delay?** For this sentence, immediately: all three transcripts were identical and correct, so `base.en` and `small.en` bought nothing and cost 2x and 6x the wait. `small.en` is the clear cutoff for a system that has to answer you. Its real-time factor is above 1, so it falls further behind the longer you talk, and a six-second silence after a five-second sentence reads as the device being broken. `tiny.en` answers within about a second, which is inside the range of a normal conversational pause. `base.en` is the only upgrade worth considering, and only if `tiny.en` starts making errors on harder input like names, numbers, or noisy rooms.
+
 \*\***Write your own script that verbally asks for a numerical input (a phone number, zipcode, number of pets) and records the answer the respondent provides.**\*\* Numbers are a good stress test — transcription systems make characteristic errors on digit strings, and you will want to know what they are before you design around them.
+
+### Part B: asking for a number
+
+**Script:** [`speech-scripts/ask_number.py`](speech-scripts/ask_number.py)
+
+The device asks a question with Piper, records the answer for a fixed window, transcribes it with faster-whisper, pulls the digits out (converting number words like "six oh seven" to 607), and reads them back for confirmation. It prints both the raw transcript and the extracted digits, because the gap between them is where the characteristic errors show up.
+
+```
+python ask_number.py                                              # phone number
+python ask_number.py --question "What is your zip code?" --seconds 4
+python ask_number.py --question "How many pets do you have?" --seconds 3
+```
+
+**Digit errors observed:** *(fill in after running: which digits or phrasings were misheard)*
 
 ## C. Turn-taking: knowing when someone has stopped talking
 
