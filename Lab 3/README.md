@@ -337,7 +337,6 @@ What actually happened, with timestamps from the recording:
 **How it differed from what I imagined**
 
 - **The name exchange worked as designed.** Ask, answer, confirm, yes, in about 8 seconds with no confusion. The confirmation question didn't feel awkward when spoken, which I'd worried about.
-- **The wording drifted as soon as I said it aloud.** The script says "Who are you here for?" and "Sam?"; I actually said "Who are you here to see?" and "Did you say Sam?" A bare name as a question felt too abrupt to say to a person's face, so I padded it without deciding to. The device won't do that on its own, so the script needs the fuller wording.
 - **The long wait is where the design broke.** The script has the device silent for up to 30 s while the resident comes to the door. My partner lasted about 4 s before asking "How long does this take?", then complained again 6 s later. The device had no line for talk during the wait, so I stayed silent, which is exactly what made the visitor feel ignored. The wait needs a progress signal, something like "Still waiting for Sam" every 10 s or so, or at least a listening light.
 - **I cut the wait short.** I gave up at about 15 s, not 30, because the silence was uncomfortable for me too. 30 s is too long to leave someone standing at a door with nothing happening.
 - **I skipped my own fallback.** The script offers "Want to leave a message?" I said "Please come back later" instead, which ends the interaction rather than offering the visitor something. Under mild pressure I reached for the shortest exit.
