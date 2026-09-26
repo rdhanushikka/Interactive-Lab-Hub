@@ -59,9 +59,12 @@ TURN_SILENCE = 0.5      # Part C: ends a normal turn
 MESSAGE_SILENCE = 1.5   # Part C: long threshold for composing a message
 THINK_PAUSE = 0.3       # beat before the device replies
 PROGRESS_EVERY = 10.0   # "Still waiting" cadence
+HEARD_YOU_COOLDOWN = 5.0  # don't repeat "I heard you" more often than this
 WAIT_TIMEOUT = 30.0     # then offer to take a message
-OFFER_TIMEOUT = 5.0     # how long to wait for an answer to the offer
+OFFER_TIMEOUT = 8.0     # how long to wait for an answer to the offer
 DONE_HOLD = 3.0         # how long the "open door" screen stays before idle
+SPEECH_GUARD = 1.0      # keep the mic closed this long after playback "finishes";
+                        # the USB speaker is still emitting the tail of the audio
 
 # States
 IDLE, LISTENING, THINKING, WAITING, OFFER, RECORDING, DONE = (
@@ -123,6 +126,7 @@ class State:
         self.heard = []             # [(ts, text)]
         self.said = []              # [(ts, text)]
         self.speaking = False
+        self.listening_busy = False  # speech detected or being transcribed right now
         self.last_transcript = ""
         self.prox = 0
         self.armed = True           # proximity trigger re-arms after the visitor leaves
@@ -167,6 +171,7 @@ class State:
                 "heard": self.heard[-10:],
                 "said": self.said[-10:],
                 "speaking": self.speaking,
+                "listening_busy": self.listening_busy,
                 "prox": self.prox,
                 "armed": self.armed,
                 "remaining": remaining,
@@ -217,7 +222,7 @@ class Speaker(threading.Thread):
             except Exception as e:  # keep the device alive if audio hiccups
                 log("error", f"speak: {e}")
             log("spoke", f"{time.perf_counter() - t0:.2f}s")
-            time.sleep(0.25)  # let the mic settle before listening again
+            time.sleep(SPEECH_GUARD)  # the speaker is still finishing; keep the mic closed
             with S.lock:
                 S.speaking = False
             if then:
@@ -237,21 +242,44 @@ def build_vad(min_silence):
 
 
 class Listener(threading.Thread):
-    def __init__(self, model_name, on_utterance, on_message):
+    """Two whisper models: the accurate one for name turns, the fast one for
+    yes/no turns. Whisper pads every input to 30 s, so a one-word answer costs
+    the same as a sentence, and the model size is the only lever on latency."""
+
+    def __init__(self, model_name, fast_model_name, on_utterance, on_message):
         super().__init__(daemon=True)
-        self.recognizer = WhisperModel(model_name, device="cpu", compute_type="int8")
+        self.models = {"accurate": WhisperModel(model_name, device="cpu", compute_type="int8")}
+        self.models["fast"] = (self.models["accurate"] if fast_model_name == model_name
+                               else WhisperModel(fast_model_name, device="cpu", compute_type="int8"))
+        self.names = {"accurate": model_name, "fast": fast_model_name}
         self.vad_turn, self.window = build_vad(TURN_SILENCE)
         self.vad_msg, _ = build_vad(MESSAGE_SILENCE)
         self.on_utterance = on_utterance
         self.on_message = on_message
         # First transcription after load is slow; do it now on a second of silence.
-        self.recognizer.transcribe(np.zeros(SAMPLE_RATE, dtype=np.float32), beam_size=1)
+        for m in set(self.models.values()):
+            m.transcribe(np.zeros(SAMPLE_RATE, dtype=np.float32), beam_size=1)
 
-    def transcribe(self, samples):
+    def pick(self):
+        """Name turns need accuracy; everything else needs speed."""
+        if S.state == LISTENING and S.pending_name is None:
+            return "accurate"
+        if S.state == RECORDING:
+            return "accurate"
+        return "fast"
+
+    def transcribe(self, samples, which=None):
+        which = which or self.pick()
         t0 = time.perf_counter()
-        segments, _ = self.recognizer.transcribe(samples, beam_size=1)
-        text = " ".join(s.text.strip() for s in segments).strip()
-        log("asr", f"{len(samples) / SAMPLE_RATE:.1f}s audio -> {time.perf_counter() - t0:.2f}s")
+        with S.lock:
+            S.listening_busy = True
+        try:
+            segments, _ = self.models[which].transcribe(samples, beam_size=1)
+            text = " ".join(s.text.strip() for s in segments).strip()
+        finally:
+            with S.lock:
+                S.listening_busy = False
+        log("asr", f"{self.names[which]}: {len(samples) / SAMPLE_RATE:.1f}s audio -> {time.perf_counter() - t0:.2f}s")
         return text
 
     def run(self):
@@ -286,6 +314,14 @@ class Listener(threading.Thread):
                     self.vad_turn.accept_waveform(buf[:self.window])
                     self.vad_msg.accept_waveform(buf[:self.window])
                     buf = buf[self.window:]
+                # While someone is mid-sentence, hold off the timers.
+                try:
+                    in_speech = self.vad_turn.is_speech_detected()
+                except AttributeError:
+                    in_speech = False
+                if in_speech != S.listening_busy:
+                    with S.lock:
+                        S.listening_busy = in_speech
 
                 recording = S.state == RECORDING
                 while not self.vad_turn.empty():
@@ -632,11 +668,11 @@ def auto_respond(text):
             log("decide", f"not a yes/no: '{text}'")
             fail_or(act_yes_or_no)
     elif st == WAITING:
-        if time.time() - S.last_progress > 2.0:
+        if time.time() - S.last_progress > HEARD_YOU_COOLDOWN:
             log("decide", "visitor spoke during the wait")
             act_heard_you()
         else:
-            log("decide", "visitor spoke during the wait (just answered, ignoring)")
+            log("decide", "visitor spoke during the wait (answered recently, ignoring)")
     elif st == OFFER:
         if heard_yes_no(text) == "yes":
             log("decide", "accepted the message offer")
@@ -780,7 +816,8 @@ def act():
 def main():
     global speaker
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    p.add_argument("--model", default="base.en")
+    p.add_argument("--model", default="base.en", help="whisper model for name turns")
+    p.add_argument("--fast-model", default="tiny.en", help="whisper model for yes/no turns")
     p.add_argument("--prox", type=int, default=20, help="proximity threshold 0-255")
     p.add_argument("--no-auto-greet", action="store_true")
     p.add_argument("--no-display", action="store_true", help="run without the MiniPiTFT")
@@ -793,11 +830,12 @@ def main():
             sys.exit(f"{what} not found at {path}. Run speech-scripts/setup.sh first.")
     S.auto_greet = not args.no_auto_greet
 
-    log("start", f"model={args.model} prox_threshold={args.prox} auto_greet={S.auto_greet}")
+    log("start", f"model={args.model} fast_model={args.fast_model} prox_threshold={args.prox} auto_greet={S.auto_greet}")
     log("start", "loading models...")
+    sd.default.latency = "low"  # shrink the gap between "playback done" and sound actually ending
     speaker = Speaker(VOICE)
     speaker.start()
-    Listener(args.model, on_utterance, on_message).start()
+    Listener(args.model, args.fast_model, on_utterance, on_message).start()
     display = None if args.no_display else Display()
     sensors = None if args.no_sensors else Sensors()
 
@@ -834,7 +872,10 @@ def main():
                 on_utterance("yes (button)")
             sensors.button_led(st in (LISTENING, OFFER))
 
-        if st == WAITING and snap["auto_timers"] and not snap["speaking"]:
+        # Timers never fire while the device is talking or the visitor is
+        # mid-sentence / being transcribed; otherwise a late "yes" gets cut off.
+        quiet = not snap["speaking"] and not snap["listening_busy"]
+        if st == WAITING and snap["auto_timers"] and quiet:
             elapsed = now - S.state_since
             if elapsed >= WAIT_TIMEOUT:
                 log("timer", f"{WAIT_TIMEOUT:.0f} s wait is up, offering a message")
@@ -842,7 +883,7 @@ def main():
             elif now - S.last_progress >= PROGRESS_EVERY:
                 log("timer", f"{elapsed:.0f} s into the wait, progress line")
                 act_still()
-        elif st == OFFER and snap["auto_timers"] and now - S.state_since >= OFFER_TIMEOUT and not snap["speaking"]:
+        elif st == OFFER and snap["auto_timers"] and quiet and now - S.state_since >= OFFER_TIMEOUT:
             log("timer", f"no answer to the offer in {OFFER_TIMEOUT:.0f} s")
             act_bye()
         elif st == DONE and now - S.state_since >= DONE_HOLD:
