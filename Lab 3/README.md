@@ -179,7 +179,12 @@ python ask_number.py --question "What is your zip code?" --seconds 4
 python ask_number.py --question "How many pets do you have?" --seconds 3
 ```
 
-**Digit errors observed:** *(fill in after running: which digits or phrasings were misheard)*
+**Digit errors observed.** Asked for my phone number, `tiny.en` returned 11 digits instead of 10: an extra `0` was inserted mid-string. The transcript came back as `400-879-937-06`, grouped in a pattern that doesn't match how phone numbers are said, which shows the model was guessing at the structure rather than hearing it. The likely cause is a stretched "oh" or "zero" being decoded as two tokens. Transcription took 1.78 s for 6 s of audio (0.30x).
+
+Two design takeaways for a system that collects numbers:
+
+- **Count the digits.** A phone number has exactly 10, a zip code exactly 5. If the count is wrong, the device should say so and re-ask instead of confirming a wrong number.
+- **Read back and confirm.** The script already does this, but the read-back is what caught the error here. Without it a wrong number would have been silently accepted.
 
 ## C. Turn-taking: knowing when someone has stopped talking
 
