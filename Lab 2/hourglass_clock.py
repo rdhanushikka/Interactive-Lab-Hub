@@ -128,11 +128,12 @@ while True:
 
     # Button hints sit next to the button they refer to: A is the top-left
     # button, B the bottom-left one (screen is in landscape, header at top).
+    # A "<" arrow points off the left edge toward the physical button.
     if paused:
-        draw.text((4, 17), "PAUSED", font=small, fill=color)
-        draw.text((4, BOTY + 2), "B to resume", font=small, fill=GLASS)
+        draw.text((2, 17), "< PAUSED", font=small, fill=color)
+        draw.text((2, BOTY + 2), "< B to resume", font=small, fill=GLASS)
     else:
-        draw.text((4, 17), "A to pause", font=small, fill=GLASS)
+        draw.text((2, 17), "< A to pause", font=small, fill=GLASS)
     if PERIOD < 86400.0:
         # e.g. a 60s period means one real minute stands in for a whole day
         note = "[%gmin = 1 day]" % (PERIOD / 60.0)
