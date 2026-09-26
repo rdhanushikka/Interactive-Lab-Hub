@@ -1,12 +1,16 @@
 #!/usr/bin/env python3
-"""Door Greeter: a Wizard-of-Oz speech device for Lab 3 Part 2.
+"""Door Greeter: the speech device for Lab 3 Part 2.
 
 The Pi plays the device. It draws a door on the MiniPiTFT, notices a visitor
 with the APDS9960 proximity sensor, listens through the USB mic (Silero VAD +
-faster-whisper), and speaks through the USB speaker (Piper). A hidden wizard
-opens a web page on their phone, watches the live transcript, and taps which
-scripted line the device says next. Timed behaviors (progress lines every
-10 s, the 30 s fallback) run on their own so the wizard only decides content.
+faster-whisper), and speaks through the USB speaker (Piper).
+
+The scripted dialogue runs on its own: greet, match the name to a resident,
+confirm it, wait for the door with progress lines every 10 s, offer to take a
+message at 30 s. If it can't use what it heard twice in a row it says "try
+again later" and resets. A web page on the wizard's phone shows the live
+transcript and lets them override any step, or take over entirely by
+switching auto dialogue off.
 
 Run on the Pi, with the Lab 3 venv active and piscreen.service stopped:
 
@@ -103,6 +107,8 @@ class State:
         self.clear_since = None
         self.auto_greet = True
         self.auto_timers = True
+        self.auto_dialogue = True   # device answers on its own; wizard can override
+        self.fails = 0              # consecutive turns the device couldn't use
         self.messages = []          # saved message files
 
     def set(self, new_state, **kw):
@@ -141,6 +147,8 @@ class State:
                 "remaining": remaining,
                 "auto_greet": self.auto_greet,
                 "auto_timers": self.auto_timers,
+                "auto_dialogue": self.auto_dialogue,
+                "fails": self.fails,
                 "messages": self.messages,
                 "residents": RESIDENTS,
             }
@@ -407,9 +415,35 @@ def think_then(fn):
     threading.Timer(THINK_PAUSE, fn).start()
 
 
+YES_WORDS = {"yes", "yeah", "yep", "yup", "correct", "right", "sure", "ya", "yes."}
+NO_WORDS = {"no", "nope", "nah", "wrong", "not"}
+
+
+def heard_yes_no(text):
+    words = {w.strip(".,!?").lower() for w in text.split()}
+    if words & YES_WORDS:
+        return "yes"
+    if words & NO_WORDS:
+        return "no"
+    return None
+
+
 def act_greet():
-    S.set(THINKING, name=None, pending_name=None, armed=False)
+    S.set(THINKING, name=None, pending_name=None, armed=False, fails=0)
     speaker.say("Who are you here for?", then=lambda: S.set(LISTENING))
+
+
+def act_try_later():
+    S.set(THINKING, pending_name=None)
+    speaker.say("Sorry, I couldn't understand. Please try again later.",
+                then=lambda: S.set(IDLE, name=None, pending_name=None))
+
+
+def act_yes_or_no():
+    name = S.pending_name
+    def go():
+        speaker.say(f"Please say yes or no. Did you say {name}?", then=lambda: S.set(LISTENING))
+    think_then(go)
 
 
 def act_confirm(name=None):
@@ -492,12 +526,65 @@ ACTIONS = {
     "greet": act_greet, "confirm": act_confirm, "again": act_again, "list": act_list,
     "wait": act_wait, "still": act_still, "heard_you": act_heard_you, "offer": act_offer,
     "record": act_record, "open": act_open, "bye": act_bye, "reset": act_reset,
+    "try_later": act_try_later,
 }
+
+
+def fail_or(retry):
+    """Count a turn the device couldn't use; retry once, then give up."""
+    with S.lock:
+        S.fails += 1
+        fails = S.fails
+    if fails >= 2:
+        act_try_later()
+    else:
+        retry()
+
+
+def auto_respond(text):
+    """The predictable part of the dialogue, run by the device itself."""
+    st = S.state
+    if st == LISTENING and S.pending_name is None:
+        # We asked "Who are you here for?"
+        name = best_resident(text)
+        if name:
+            with S.lock:
+                S.fails = 0
+            act_confirm(name)
+        else:
+            fail_or(act_again)
+    elif st == LISTENING and S.pending_name:
+        # We asked "Did you say X?"
+        answer = heard_yes_no(text)
+        if answer == "yes":
+            with S.lock:
+                S.fails = 0
+            act_wait()
+        elif answer == "no":
+            # maybe they said the right name in the same breath: "No, Pam."
+            name = best_resident(text)
+            if name and name != S.pending_name:
+                act_confirm(name)
+            else:
+                S.pending_name = None
+                fail_or(act_again)
+        else:
+            fail_or(act_yes_or_no)
+    elif st == WAITING:
+        if time.time() - S.last_progress > 2.0:
+            act_heard_you()
+    elif st == OFFER:
+        if heard_yes_no(text) == "yes":
+            act_record()
+        else:
+            act_bye()
 
 
 def on_utterance(text):
     S.log_heard(text)
     print(f"heard: {text}")
+    if S.auto_dialogue and not S.speaking:
+        auto_respond(text)
 
 
 def on_message(samples, text):
@@ -551,10 +638,12 @@ label{font-size:13px;color:#aaa}
 <button class="warn" onclick="act('record')">Record message</button>
 <button onclick="act('open')">Door opened</button>
 <button class="dim" onclick="act('bye')">Goodbye</button>
-<button class="dim" onclick="act('reset')">Reset</button>
+<button class="dim" onclick="act('try_later')">Try again later</button>
+<button class="dim" style="grid-column:1/3" onclick="act('reset')">Reset</button>
 </div>
 <input type="text" id="free" placeholder="Say anything..." onkeydown="if(event.key==='Enter'){act('say',{text:this.value});this.value=''}">
-<p><label><input type="checkbox" id="ag" onchange="act('auto_greet',{on:this.checked})"> auto-greet on proximity</label>
+<p><label><input type="checkbox" id="ad" onchange="act('auto_dialogue',{on:this.checked})"> <b>auto dialogue</b> (device answers by itself)</label><br>
+<label><input type="checkbox" id="ag" onchange="act('auto_greet',{on:this.checked})"> auto-greet on proximity</label>
 &nbsp; <label><input type="checkbox" id="at" onchange="act('auto_timers',{on:this.checked})"> auto progress / 30 s fallback</label>
 &nbsp; <span id="prox" style="color:#888"></span></p>
 <div class="log" id="said"></div>
@@ -572,7 +661,7 @@ async function poll(){
  document.getElementById('heard').innerHTML=s.heard.map(h=>'<div class="heard"><span class="t">'+h[0]+'</span>'+h[1]+'</div>').join('')||'<div style="color:#666">nothing heard yet</div>';
  document.getElementById('said').innerHTML=s.said.map(h=>'<div class="said"><span class="t">'+h[0]+'</span>'+h[1]+'</div>').join('');
  document.getElementById('prox').textContent='prox '+s.prox+(s.armed?' (armed)':'');
- document.getElementById('ag').checked=s.auto_greet; document.getElementById('at').checked=s.auto_timers;
+ document.getElementById('ag').checked=s.auto_greet; document.getElementById('at').checked=s.auto_timers; document.getElementById('ad').checked=s.auto_dialogue;
  document.getElementById('msgs').innerHTML=s.messages.map(m=>'&#9679; '+m.file+': '+m.text).join('<br>');
  if(!filled){const sel=document.getElementById('res');s.residents.forEach(r=>{const o=document.createElement('option');o.value=r;o.textContent=r;sel.appendChild(o)});filled=true}
  const h=document.getElementById('heard');h.scrollTop=h.scrollHeight;
@@ -605,6 +694,9 @@ def act():
     elif a == "auto_timers":
         with S.lock:
             S.auto_timers = bool(data.get("on"))
+    elif a == "auto_dialogue":
+        with S.lock:
+            S.auto_dialogue = bool(data.get("on"))
     elif a in ACTIONS:
         ACTIONS[a]()
     return jsonify(ok=True)
@@ -663,7 +755,7 @@ def main():
                 if prox >= args.prox:
                     S.clear_since = None
             if sensors.button_clicked():
-                on_utterance("[button pressed: yes]")
+                on_utterance("yes (button)")
             sensors.button_led(st in (LISTENING, OFFER))
 
         if st == WAITING and snap["auto_timers"] and not snap["speaking"]:
