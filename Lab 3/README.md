@@ -421,6 +421,41 @@ The system should:
 
 *Include videos or screencaptures of both the system and the controller.*
 
+### The Door Greeter prototype
+
+**Code:** [`greeter/greeter.py`](greeter/greeter.py)
+
+**Video, running on its own (no wizard):** [Door Greeter demo](https://drive.google.com/file/d/16EGUnJAaSLGv_aFsrLvRPEIjjeD344RX/view?usp=sharing)
+
+**Video, the wizard controller:** *(link)*
+
+**Hardware.** Raspberry Pi 5, MiniPiTFT screen, APDS9960 proximity sensor on the Qwiic port, USB microphone, USB speaker. The two buttons on the MiniPiTFT stand in for the door being opened. The Pi's green activity LED is the status light.
+
+**How it works.** The screen is the door. The proximity sensor beside it starts the conversation when someone comes within about 10 cm. From there the device runs the script from Part 2 prep on its own:
+
+1. "Who are you here for?" It listens until 0.5 s of silence, transcribes with `base.en`, and matches the words against the resident list, allowing near-misses like "Sammy" for Sam.
+2. If a name matches: "Did you say Sam?" A yes starts the wait. A no with another name, like "No, Pam", confirms that name instead. Anything else gets "Please say yes or no" once.
+3. If nothing matches, it says who it heard: "There's no Samantha here. Who are you here for?" A second miss ends with "Sorry, there's no Samantha here either. Please try again later."
+4. The wait: "One moment please. Someone is here for Sam." The door on screen shows a countdown from 30. Every 10 s it says "Still waiting for Sam," and if the visitor speaks it answers "I heard you. Still waiting for Sam."
+5. At 30 s: "Sam is unavailable now. Want to leave a message?" A yes records until 2 s of silence (20 s cap), saves the audio, plays it back, and says "I'll pass that on."
+6. Pressing either display button at any point means the door opened: "Door opening," the door swings open on screen, and 5 s later "Door closing," after which the sensor is armed again.
+
+Two misses in a row at any step end the conversation. Every event is logged with timestamps to `greeter/logs/`.
+
+**Listening and thinking, without speech.** The status LED pulses while listening, is solid while thinking, blinks slowly during the wait, and blinks fast while recording. On screen, the caption above the door changes ("Listening...", "Sam?", "Waiting for Sam", "Recording"), the countdown shows during the wait, and what the device said and what it heard appear small on either side of the door.
+
+**Screen states:**
+
+![Door Greeter screen states](images/greeter-screen-states.png)
+
+**The controller.** A web page served from the Pi, opened on a phone. It shows the live transcript, the current state, and the proximity reading, with a button for every scripted line. By default the device runs the dialogue itself and the wizard only watches; unticking "auto dialogue" hands every decision to the wizard. A free-text box says anything off script.
+
+**Things that had to be solved to make it work.**
+
+- *The device heard itself.* The mic picked up the speaker, so the device transcribed its own lines, failed to match them, and retried. Time-based muting didn't fix it because the audio pipeline delays mic audio by up to a second. The fix stamps every audio chunk with its capture time from the audio driver's clock and drops anything captured while the device was speaking, plus 0.8 s for the speaker's tail.
+- *Whisper's fixed cost.* Whisper processes a 30 s window regardless of input, so "yes" costs the same 1.6 s as a sentence. `tiny.en` halves that but misheard names and digits, so `base.en` stayed.
+- *Timers racing the transcriber.* The message offer timed out at 5 s while a "yes" spoken at 3 s was still being transcribed. Timers now hold while speech is detected or being transcribed.
+
 ## Test the system
 
 Try to get at least two people to interact with your system. (Ideally, you would inform them that there is a wizard *after* the interaction, but we recognize that can be hard.)
