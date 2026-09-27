@@ -431,14 +431,20 @@ The system should:
 
 **Hardware.** Raspberry Pi 5, MiniPiTFT screen, APDS9960 proximity sensor on the Qwiic port, USB microphone, USB speaker. The two buttons on the MiniPiTFT stand in for the door being opened. The Pi's green activity LED is the status light.
 
-**How it works.** The screen is the door. The proximity sensor beside it starts the conversation when someone comes within about 10 cm. From there the device runs the script from Part 2 prep on its own:
+**How it works.** The screen is the door. The proximity sensor beside it starts the conversation when someone comes within about 10 cm. From there the device runs the script from Part 2 prep on its own. This is the run in the video, with the time in the video for each step:
 
-1. "Who are you here for?" It listens until 0.5 s of silence, transcribes with `base.en`, and matches the words against the resident list, allowing near-misses like "Sammy" for Sam.
-2. If a name matches: "Did you say Sam?" A yes starts the wait. A no with another name, like "No, Pam", confirms that name instead. Anything else gets "Please say yes or no" once.
-3. If nothing matches, it says who it heard: "There's no Samantha here. Who are you here for?" A second miss ends with "Sorry, there's no Samantha here either. Please try again later."
-4. The wait: "One moment please. Someone is here for Sam." The door on screen shows a countdown from 30. Every 10 s it says "Still waiting for Sam," and if the visitor speaks it answers "I heard you. Still waiting for Sam."
-5. At 30 s: "Sam is unavailable now. Want to leave a message?" A yes records until 2 s of silence (20 s cap), saves the audio, plays it back, and says "I'll pass that on."
-6. Pressing either display button at any point means the door opened: "Door opening," the door swings open on screen, and 5 s later "Door closing," after which the sensor is armed again.
+1. *0:06* The sensor fires. "Who are you here for?" The device listens until 0.5 s of silence, transcribes with `base.en`, and matches the words against the resident list, allowing near-misses like "Nicol" for Nicole.
+2. *0:08* "Nicole." *0:14* "Did you say Nicole?" *0:18* "Yes."
+3. *0:21* "One moment please. Someone is here for Nicole." The door on screen shows a countdown from 30 and the LED blinks slowly.
+4. *0:27* The visitor asks "How long?" *0:31* "I heard you. Still waiting for Nicole." Then every 10 s, at *0:42* and *0:52*: "Still waiting for Nicole."
+5. *0:57* 30 s are up. "Nicole is unavailable now. Want to leave a message?" *1:02* "Yes." *1:05* "Go ahead, I'm recording."
+6. *1:08* "Hey Nicole, we're running late. Please open the door." Recording ends after 2 s of silence (20 s cap). *1:13* "Got it. Here's your message," the recording plays back, and *1:20* "I'll pass that on." The device resets.
+
+Branches the video doesn't show:
+
+- A "no" with another name, like "No, Pam," confirms that name instead. Any other answer to the confirmation gets "Please say yes or no. Did you say Nicole?" once.
+- If nothing matches a resident, it says who it heard: "There's no Samantha here. Who are you here for?" A second miss ends with "Sorry, there's no Samantha here either. Please try again later."
+- Pressing either display button at any point means the resident opened the door: "Door opening," the door swings open on screen, and 5 s later "Door closing," after which the sensor is armed again.
 
 Two misses in a row at any step end the conversation. Every event is logged with timestamps to `greeter/logs/`.
 
