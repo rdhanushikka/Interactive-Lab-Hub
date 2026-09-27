@@ -444,57 +444,49 @@ class Display:
         d.rectangle((0, 0, self.w, self.h), fill=(0, 0, 0))
         state = snap["state"]
 
-        # --- door, right side ---
-        fx0, fy0, fx1, fy1 = 158, 14, 228, 126
-        opening = state == DONE
-        d.rectangle((fx0 - 3, fy0 - 3, fx1 + 3, fy1), outline=(200, 200, 200), width=2)
-        if opening:
-            # door swung inward: draw as a narrow slab plus dark opening
-            d.rectangle((fx0, fy0, fx1, fy1), fill=(15, 15, 25))
-            d.polygon([(fx0, fy0), (fx0 + 22, fy0 + 10), (fx0 + 22, fy1 - 6), (fx0, fy1)],
+        # The whole screen is the door. Wall on either side, frame, door slab,
+        # a caption above it. The pulsing light is a physical LED, not on screen.
+        wall = (28, 30, 38)
+        d.rectangle((0, 0, self.w, self.h), fill=wall)
+        d.rectangle((0, self.h - 8, self.w, self.h), fill=(45, 40, 36))  # floor
+        fx0, fy0, fx1, fy1 = 72, 22, 168, 128
+        d.rectangle((fx0 - 5, fy0 - 5, fx1 + 5, fy1), fill=(215, 215, 220))  # frame
+        if state == DONE:
+            # door swung inward: narrow slab plus a lit room behind it
+            d.rectangle((fx0, fy0, fx1, fy1), fill=(255, 240, 200))
+            d.polygon([(fx0, fy0), (fx0 + 30, fy0 + 12), (fx0 + 30, fy1 - 8), (fx0, fy1)],
                       fill=(120, 75, 40), outline=(230, 200, 160))
         else:
             d.rectangle((fx0, fy0, fx1, fy1), fill=(120, 75, 40), outline=(230, 200, 160))
-            d.rectangle((fx0 + 10, fy0 + 10, fx1 - 10, fy0 + 48), outline=(90, 55, 30), width=2)
-            d.rectangle((fx0 + 10, fy0 + 60, fx1 - 10, fy1 - 10), outline=(90, 55, 30), width=2)
-            d.ellipse((fx1 - 18, 68, fx1 - 10, 76), fill=(240, 220, 120))
+            d.rectangle((fx0 + 12, fy0 + 12, fx1 - 12, fy0 + 52), outline=(90, 55, 30), width=2)
+            d.rectangle((fx0 + 12, fy0 + 62, fx1 - 12, fy1 - 10), outline=(90, 55, 30), width=2)
+            d.ellipse((fx1 - 22, 72, fx1 - 12, 82), fill=(240, 220, 120))
         if state == WAITING and snap["remaining"] is not None:
             txt = str(snap["remaining"])
             tw = d.textlength(txt, font=self.mono)
-            d.text(((fx0 + fx1) / 2 - tw / 2, 50), txt, font=self.mono, fill=(255, 255, 255))
+            d.rectangle((fx0 + 14, 56, fx1 - 14, 92), fill=(60, 40, 25))
+            d.text(((fx0 + fx1) / 2 - tw / 2, 58), txt, font=self.mono, fill=(255, 255, 255))
+        if state == RECORDING:
+            d.ellipse((fx0 + 16, fy0 + 18, fx0 + 26, fy0 + 28), fill=(255, 50, 50))
 
-        # --- device box with LED, left of the door ---
-        bx0, by0, bx1, by1 = 132, 40, 150, 78
-        d.rectangle((bx0, by0, bx1, by1), fill=(40, 40, 40), outline=(160, 160, 160))
-        color = LED_COLORS[state]
-        if state == LISTENING:
-            k = 0.55 + 0.45 * (0.5 + 0.5 * math.sin(now * 5))
-            color = tuple(int(c * k) for c in color)
-        d.ellipse((bx0 + 4, by0 + 5, bx1 - 4, by0 + 15), fill=color)
-        for y in (by0 + 22, by0 + 27, by0 + 32):  # speaker grille
-            d.line((bx0 + 4, y, bx1 - 4, y), fill=(120, 120, 120))
-
-        # --- text, left side ---
+        # caption above the door
         label = STATE_LABELS[state]
         if state == WAITING and snap["name"]:
             label = f"Waiting for {snap['name']}"
-        d.text((4, 2), label, font=self.big, fill=(255, 255, 255))
-        if state == THINKING:
-            dots = "." * (1 + int(now * 3) % 3)
-            d.text((4, 22), dots, font=self.big, fill=(255, 200, 0))
-        if snap["pending_name"] and state == LISTENING:
-            d.text((4, 24), snap["pending_name"] + "?", font=self.big, fill=(255, 200, 0))
-        y = 48
+        elif state == LISTENING and snap["pending_name"]:
+            label = f"{snap['pending_name']}?"
+        elif state == THINKING:
+            label = "Thinking" + "." * (1 + int(now * 3) % 3)
+        tw = d.textlength(label, font=self.big)
+        d.text((self.w / 2 - tw / 2, 2), label, font=self.big, fill=(255, 255, 255))
+
+        # small text either side of the door: what we said, what we heard
         if snap["said"]:
-            for line in self.wrap("Pi: " + snap["said"][-1][1], self.small, 124):
-                d.text((4, y), line, font=self.small, fill=(150, 200, 255)); y += 12
-        y = max(y + 4, 90)
+            for i, line in enumerate(self.wrap(snap["said"][-1][1], self.small, 62)[:4]):
+                d.text((4, 30 + i * 12), line, font=self.small, fill=(150, 200, 255))
         if snap["heard"]:
-            for line in self.wrap("You: " + snap["heard"][-1][1], self.small, 124):
-                d.text((4, y), line, font=self.small, fill=(255, 230, 150)); y += 12
-        if state == RECORDING:
-            d.ellipse((4, 120, 12, 128), fill=(255, 50, 50))
-            d.text((16, 118), "recording message", font=self.small, fill=(255, 120, 120))
+            for i, line in enumerate(self.wrap(snap["heard"][-1][1], self.small, 62)[:4]):
+                d.text((fx1 + 10, 30 + i * 12), line, font=self.small, fill=(255, 230, 150))
         self.disp.image(self.image, 90)
 
 
@@ -543,10 +535,93 @@ class Sensors:
 
 
 # ---------------------------------------------------------------------------
+# Indicator light: a physical LED that shows listening / thinking / waiting.
+# Uses the Qwiic button's LED if one is connected (it pulses in hardware);
+# otherwise the Pi's own green ACT LED, which can only blink.
+# ---------------------------------------------------------------------------
+OFF, PULSE, SOLID, BLINK_SLOW, BLINK_FAST = "off", "pulse", "solid", "blink_slow", "blink_fast"
+LIGHT_FOR_STATE = {
+    IDLE: OFF, LISTENING: PULSE, THINKING: SOLID, WAITING: BLINK_SLOW,
+    OFFER: PULSE, RECORDING: BLINK_FAST, DONE: SOLID,
+}
+
+
+class Indicator:
+    def __init__(self, button=None):
+        self.button = button
+        self.mode = None
+        self.act = None
+        self.act_on = None
+        if not button:
+            try:
+                with open("/sys/class/leds/ACT/trigger", "w") as f:
+                    f.write("none")
+                self.act = open("/sys/class/leds/ACT/brightness", "w")
+                log("light", "using the Pi's green ACT LED (blink only)")
+            except Exception as e:
+                log("light", f"no LED available ({e.__class__.__name__}); "
+                             "for the ACT LED run: sudo chmod a+w /sys/class/leds/ACT/{trigger,brightness}")
+        else:
+            log("light", "using the Qwiic button LED")
+
+    def set(self, mode):
+        if mode == self.mode:
+            return
+        self.mode = mode
+        if self.button:
+            try:
+                b = self.button
+                if mode == OFF:
+                    b.led_bright = 0
+                elif mode == SOLID:
+                    b.led_cycle_ms = 0; b.led_off_ms = 0; b.led_bright = 255
+                elif mode == PULSE:
+                    b.led_cycle_ms = 1200; b.led_off_ms = 100; b.led_bright = 255
+                elif mode == BLINK_SLOW:
+                    b.led_cycle_ms = 100; b.led_off_ms = 1500; b.led_bright = 255
+                elif mode == BLINK_FAST:
+                    b.led_cycle_ms = 100; b.led_off_ms = 250; b.led_bright = 255
+            except Exception as e:
+                log("error", f"button LED: {e}")
+
+    def tick(self, now):
+        """Software blink for the ACT LED; called from the main loop."""
+        if not self.act:
+            return
+        if self.mode == OFF:
+            on = False
+        elif self.mode == SOLID:
+            on = True
+        elif self.mode == PULSE:
+            on = (now % 0.8) < 0.4
+        elif self.mode == BLINK_SLOW:
+            on = (now % 2.0) < 0.15
+        else:  # BLINK_FAST
+            on = (now % 0.4) < 0.2
+        if on != self.act_on:
+            self.act_on = on
+            try:
+                self.act.write("1" if on else "0")
+                self.act.flush()
+            except Exception:
+                pass
+
+    def restore(self):
+        self.set(OFF)
+        if self.act:
+            try:
+                with open("/sys/class/leds/ACT/trigger", "w") as f:
+                    f.write("mmc0")  # back to disk activity
+            except Exception:
+                pass
+
+
+# ---------------------------------------------------------------------------
 # Dialogue actions (what the wizard can trigger)
 # ---------------------------------------------------------------------------
 speaker = None   # set in main
 listener = None  # set in main
+light = None     # set in main
 
 
 def best_resident(text):
@@ -913,7 +988,7 @@ def act():
 # Main loop: screen, proximity, timers
 # ---------------------------------------------------------------------------
 def main():
-    global speaker, listener
+    global speaker, listener, light
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("--model", default="base.en", help="whisper model for name turns")
     p.add_argument("--fast-model", default="base.en",
@@ -939,6 +1014,7 @@ def main():
     speaker.start()
     display = None if args.no_display else Display()
     sensors = None if args.no_sensors else Sensors()
+    light = Indicator(sensors.button if sensors else None)
 
     threading.Thread(target=lambda: app.run(host="0.0.0.0", port=args.port, threaded=True,
                                             use_reloader=False, debug=False), daemon=True).start()
@@ -971,7 +1047,9 @@ def main():
             if sensors.button_clicked():
                 log("button", "pressed")
                 on_utterance("yes (button)")
-            sensors.button_led(st in (LISTENING, OFFER))
+
+        light.set(LIGHT_FOR_STATE[st])
+        light.tick(now)
 
         # Timers never fire while the device is talking or the visitor is
         # mid-sentence / being transcribed; otherwise a late "yes" gets cut off.
@@ -1004,3 +1082,8 @@ if __name__ == "__main__":
         main()
     except KeyboardInterrupt:
         print("\nStopped.")
+    finally:
+        try:
+            light.restore()
+        except Exception:
+            pass
