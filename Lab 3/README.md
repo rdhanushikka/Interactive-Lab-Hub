@@ -427,7 +427,9 @@ The system should:
 
 **Video, running on its own (no wizard):** [Door Greeter demo](https://drive.google.com/file/d/16EGUnJAaSLGv_aFsrLvRPEIjjeD344RX/view?usp=sharing)
 
-**Video, the wizard controller:** *(link)*
+**The wizard controller, mid-run** (11 s into the wait for Nicole; the transcript on top, every scripted line as a button, and what the device has said at the bottom):
+
+![Door Greeter wizard controller](images/greeter-controller.png)
 
 **Hardware.** Raspberry Pi 5, MiniPiTFT screen, APDS9960 proximity sensor on the Qwiic port, USB microphone, USB speaker. The two buttons on the MiniPiTFT stand in for the door being opened. The Pi's green activity LED is the status light.
 
