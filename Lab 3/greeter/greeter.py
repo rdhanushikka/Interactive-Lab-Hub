@@ -64,23 +64,14 @@ HEARD_YOU_COOLDOWN = 5.0  # don't repeat "I heard you" more often than this
 WAIT_TIMEOUT = 30.0     # then offer to take a message
 OFFER_TIMEOUT = 8.0     # how long to wait for an answer to the offer
 MAX_MESSAGE = 20.0      # cap on a recorded message, seconds
-DONE_HOLD = 3.0         # how long the "open door" screen stays before idle
+DONE_HOLD = 5.0         # door stays open this long, then "door closing" and re-arm
 SPEECH_GUARD = 0.8      # keep the mic muted this long after playback "finishes";
                         # the USB speaker is still emitting the tail of the audio
 
 # States
-IDLE, LISTENING, THINKING, WAITING, OFFER, RECORDING, DONE = (
-    "idle", "listening", "thinking", "waiting", "offer", "recording", "done")
+IDLE, LISTENING, THINKING, WAITING, OFFER, RECORDING, DONE, CLOSING = (
+    "idle", "listening", "thinking", "waiting", "offer", "recording", "done", "closing")
 
-LED_COLORS = {
-    IDLE: (60, 60, 60),
-    LISTENING: (255, 200, 0),
-    THINKING: (255, 200, 0),
-    WAITING: (60, 140, 255),
-    OFFER: (255, 200, 0),
-    RECORDING: (255, 50, 50),
-    DONE: (60, 220, 90),
-}
 STATE_LABELS = {
     IDLE: "Door Greeter",
     LISTENING: "Listening...",
@@ -89,6 +80,7 @@ STATE_LABELS = {
     OFFER: "Message?",
     RECORDING: "Recording",
     DONE: "Door opening",
+    CLOSING: "Door closing",
 }
 
 
@@ -417,6 +409,14 @@ class Display:
                                   width=135, height=240, x_offset=53, y_offset=40)
         backlight = digitalio.DigitalInOut(board.D22)
         backlight.switch_to_output(value=True)
+        # The display's two buttons (top = A on GPIO 23, bottom = B on GPIO 24).
+        # Either one means "the resident opened the door".
+        self.buttons = {}
+        for name, pin in (("A", board.D23), ("B", board.D24)):
+            b = digitalio.DigitalInOut(pin)
+            b.switch_to_input(pull=digitalio.Pull.UP)
+            self.buttons[name] = b
+        self._was_down = {"A": False, "B": False}
         self.w, self.h = self.disp.height, self.disp.width  # landscape 240x135
         self.image = Image.new("RGB", (self.w, self.h))
         self.draw = ImageDraw.Draw(self.image)
@@ -425,6 +425,16 @@ class Display:
         self.med = ImageFont.truetype(font, 13)
         self.small = ImageFont.truetype(font, 10)
         self.mono = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 28)
+
+    def pressed(self):
+        """Names of buttons that went down since the last call (they read LOW when pressed)."""
+        hits = []
+        for name, b in self.buttons.items():
+            down = not b.value
+            if down and not self._was_down[name]:
+                hits.append(name)
+            self._was_down[name] = down
+        return hits
 
     def wrap(self, text, font, max_w):
         words, lines, cur = text.split(), [], ""
@@ -542,7 +552,7 @@ class Sensors:
 OFF, PULSE, SOLID, BLINK_SLOW, BLINK_FAST = "off", "pulse", "solid", "blink_slow", "blink_fast"
 LIGHT_FOR_STATE = {
     IDLE: OFF, LISTENING: PULSE, THINKING: SOLID, WAITING: BLINK_SLOW,
-    OFFER: PULSE, RECORDING: BLINK_FAST, DONE: SOLID,
+    OFFER: PULSE, RECORDING: BLINK_FAST, DONE: SOLID, CLOSING: OFF,
 }
 
 
@@ -759,8 +769,15 @@ def act_record():
 
 
 def act_open():
-    S.set(DONE)
-    speaker.say("Here they come.")
+    """The resident opened the door: end the conversation, show it open."""
+    S.set(DONE, pending_name=None)
+    speaker.say("Door opening.")
+
+
+def act_close():
+    S.set(CLOSING)
+    speaker.say("Door closing.",
+                then=lambda: S.set(IDLE, name=None, pending_name=None, armed=True))
 
 
 def act_bye():
@@ -917,7 +934,7 @@ label{font-size:13px;color:#aaa}
 <button class="alt" onclick="act('heard_you')">I heard you</button>
 <button class="warn" onclick="act('offer')">Offer message</button>
 <button class="warn" onclick="act('record')">Record message</button>
-<button onclick="act('open')">Door opened</button>
+<button onclick="act('open')">Door opening</button>
 <button class="dim" onclick="act('bye')">Goodbye</button>
 <button class="dim" onclick="act('try_later')">Try again later</button>
 <button class="dim" style="grid-column:1/3" onclick="act('reset')">Reset</button>
@@ -931,7 +948,7 @@ label{font-size:13px;color:#aaa}
 <div id="msgs" style="font-size:13px;color:#aaa"></div>
 <script>
 async function act(a, extra){await fetch('/act',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(Object.assign({action:a},extra||{}))});poll()}
-const colors={idle:'#555',listening:'#fc0',thinking:'#fc0',waiting:'#4af',offer:'#fc0',recording:'#f44',done:'#4d6'};
+const colors={idle:'#555',listening:'#fc0',thinking:'#fc0',waiting:'#4af',offer:'#fc0',recording:'#f44',done:'#4d6',closing:'#777'};
 let filled=false;
 async function poll(){
  const s=await (await fetch('/state')).json();
@@ -1069,8 +1086,17 @@ def main():
             log("timer", f"message hit the {MAX_MESSAGE:.0f} s cap, saving what we have")
             listener.flush_message()
             S.set(THINKING)  # so this fires once; on_message moves us on from here
-        elif st == DONE and now - S.state_since >= DONE_HOLD:
-            S.set(IDLE, name=None, pending_name=None)
+        elif st == DONE and now - S.state_since >= DONE_HOLD and not snap["speaking"]:
+            log("timer", f"door open for {DONE_HOLD:.0f} s, closing; sensor armed again after")
+            act_close()
+
+        if display and st not in (IDLE, DONE, CLOSING):
+            hit = display.pressed()
+            if hit:
+                log("button", f"display button {hit[0]} pressed: door opened")
+                act_open()
+        elif display:
+            display.pressed()  # keep edge tracking current, ignore presses while idle
 
         if display:
             display.render(snap, now)
