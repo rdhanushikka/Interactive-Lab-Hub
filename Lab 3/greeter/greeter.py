@@ -57,12 +57,13 @@ RESIDENTS = ["Sam", "Pam", "Nicole"]
 
 SAMPLE_RATE = 16000
 TURN_SILENCE = 0.5      # Part C: ends a normal turn
-MESSAGE_SILENCE = 1.5   # Part C: long threshold for composing a message
+MESSAGE_SILENCE = 2.0   # long threshold for composing a message; people pause mid-thought
 THINK_PAUSE = 0.3       # beat before the device replies
 PROGRESS_EVERY = 10.0   # "Still waiting" cadence
 HEARD_YOU_COOLDOWN = 5.0  # don't repeat "I heard you" more often than this
 WAIT_TIMEOUT = 30.0     # then offer to take a message
 OFFER_TIMEOUT = 8.0     # how long to wait for an answer to the offer
+MAX_MESSAGE = 20.0      # cap on a recorded message, seconds
 DONE_HOLD = 3.0         # how long the "open door" screen stays before idle
 SPEECH_GUARD = 0.8      # keep the mic muted this long after playback "finishes";
                         # the USB speaker is still emitting the tail of the audio
@@ -123,7 +124,8 @@ class State:
         self.name = None            # resident being asked for
         self.pending_name = None    # name we asked "Did you say X?" about
         self.state_since = time.time()
-        self.last_progress = 0.0
+        self.last_progress = 0.0    # when the last timed "still waiting" went out
+        self.last_ack = 0.0         # when we last acknowledged the visitor during a wait
         self.heard = []             # [(ts, text)]
         self.said = []              # [(ts, text)]
         self.speaking = False
@@ -144,6 +146,7 @@ class State:
             self.state = new_state
             self.state_since = time.time()
             self.last_progress = self.state_since
+            self.last_ack = 0.0
             for k, v in kw.items():
                 setattr(self, k, v)
         extra = ", ".join(f"{k}={v}" for k, v in kw.items() if k in ("name", "pending_name") and v)
@@ -204,7 +207,14 @@ class Speaker(threading.Thread):
         S.log_said(text)
         log("say", text)
         with self.cv:
-            self.queue.append((text, then))
+            self.queue.append(("say", text, then))
+            self.cv.notify()
+
+    def play(self, samples, rate, then=None):
+        """Queue raw audio (e.g. a recorded message) through the same gated path."""
+        log("play", f"{len(samples) / rate:.1f}s of audio")
+        with self.cv:
+            self.queue.append(("play", (samples, rate), then))
             self.cv.notify()
 
     def run(self):
@@ -212,15 +222,20 @@ class Speaker(threading.Thread):
             with self.cv:
                 while not self.queue:
                     self.cv.wait()
-                text, then = self.queue.pop(0)
+                kind, payload, then = self.queue.pop(0)
             with S.lock:
                 S.speaking = True
             self.listener.mute(True)
             t0 = time.perf_counter()
             try:
-                for chunk in self.voice.synthesize(text):
-                    audio = np.frombuffer(chunk.audio_int16_bytes, dtype=np.int16)
-                    sd.play(audio, samplerate=chunk.sample_rate)
+                if kind == "say":
+                    for chunk in self.voice.synthesize(payload):
+                        audio = np.frombuffer(chunk.audio_int16_bytes, dtype=np.int16)
+                        sd.play(audio, samplerate=chunk.sample_rate)
+                        sd.wait()
+                else:
+                    samples, rate = payload
+                    sd.play(samples, samplerate=rate)
                     sd.wait()
             except Exception as e:  # keep the device alive if audio hiccups
                 log("error", f"speak: {e}")
@@ -264,6 +279,7 @@ class Listener(threading.Thread):
         self.stream = None
         self.mute_from = 0.0
         self.mute_until = 0.0
+        self.flush_requested = False
         # First transcription after load is slow; do it now on a second of silence.
         for m in set(self.models.values()):
             m.transcribe(np.zeros(SAMPLE_RATE, dtype=np.float32), beam_size=1)
@@ -307,6 +323,11 @@ class Listener(threading.Thread):
             self.mute_until = float("inf")
         else:
             self.mute_until = now + SPEECH_GUARD
+        log("gate", f"{'closed' if on else 'reopens'} at audio-clock {now:.2f}"
+                    + ("" if on else f", chunks stamped before {self.mute_until:.2f} are dropped"))
+
+    def flush_message(self):
+        self.flush_requested = True
 
     def _callback(self, indata, frames, time_info, status):
         t_adc = time_info.inputBufferAdcTime
@@ -324,19 +345,30 @@ class Listener(threading.Thread):
                 dev = sd.query_devices(self.stream.device)["name"]
             except Exception:
                 dev = "?"
-            log("mic", f"{dev}, reported input latency {self.stream.latency:.3f}s")
+            log("mic", f"{dev}, reported input latency {self.stream.latency:.3f}s, "
+                       f"audio-clock now {self.stream.time:.2f}")
+            drop_t0 = drop_t1 = None
             while True:
                 t0, t1, chunk = self.q.get()
                 if t1 > self.mute_from and t0 < self.mute_until:
-                    dropped = True  # captured while we were (or may still be) talking
+                    # captured while we were (or may still be) talking
+                    if not dropped:
+                        drop_t0 = t0
+                    drop_t1 = t1
+                    dropped = True
                     continue
                 if dropped:
                     # First clean chunk after a speech window: forget any partial
                     # utterance the detectors were building from our own voice.
+                    log("gate", f"dropped audio stamped {drop_t0:.2f}-{drop_t1:.2f} "
+                                f"({drop_t1 - drop_t0:.1f}s); listening again from {t0:.2f}")
                     self.vad_turn.reset()
                     self.vad_msg.reset()
                     buf = np.empty(0, dtype=np.float32)
                     dropped = False
+                if self.flush_requested:
+                    self.flush_requested = False
+                    self.vad_msg.flush()
                 buf = np.concatenate([buf, chunk])
                 while len(buf) > self.window:
                     self.vad_turn.accept_waveform(buf[:self.window])
@@ -355,10 +387,13 @@ class Listener(threading.Thread):
                 while not self.vad_turn.empty():
                     utt = np.array(self.vad_turn.front.samples, dtype=np.float32)
                     self.vad_turn.pop()
+                    log("vad", f"utterance ended, {len(utt) / SAMPLE_RATE:.1f}s of speech")
                     if not recording:
                         text = self.transcribe(utt)
                         if text:
                             self.on_utterance(text)
+                        else:
+                            log("asr", "(empty transcript)")
                 while not self.vad_msg.empty():
                     utt = np.array(self.vad_msg.front.samples, dtype=np.float32)
                     self.vad_msg.pop()
@@ -511,7 +546,8 @@ class Sensors:
 # ---------------------------------------------------------------------------
 # Dialogue actions (what the wizard can trigger)
 # ---------------------------------------------------------------------------
-speaker = None  # set in main
+speaker = None   # set in main
+listener = None  # set in main
 
 
 def best_resident(text):
@@ -600,6 +636,7 @@ def act_still():
     speaker.say(f"Still waiting for {name}.")
     with S.lock:
         S.last_progress = time.time()
+        S.last_ack = S.last_progress
 
 
 def act_heard_you():
@@ -607,6 +644,7 @@ def act_heard_you():
     speaker.say(f"I heard you. Still waiting for {name}.")
     with S.lock:
         S.last_progress = time.time()
+        S.last_ack = S.last_progress
 
 
 def act_offer():
@@ -617,7 +655,10 @@ def act_offer():
 
 def act_record():
     S.set(THINKING)
-    speaker.say("Go ahead, I'm recording.", then=lambda: S.set(RECORDING))
+    def start():
+        S.set(RECORDING)
+        log("record", f"recording; ends after {MESSAGE_SILENCE:.1f}s of silence or {MAX_MESSAGE:.0f}s")
+    speaker.say("Go ahead, I'm recording.", then=start)
 
 
 def act_open():
@@ -696,11 +737,11 @@ def auto_respond(text):
             log("decide", f"not a yes/no: '{text}'")
             fail_or(act_yes_or_no)
     elif st == WAITING:
-        if time.time() - S.last_progress > HEARD_YOU_COOLDOWN:
+        if time.time() - S.last_ack > HEARD_YOU_COOLDOWN:
             log("decide", "visitor spoke during the wait")
             act_heard_you()
         else:
-            log("decide", "visitor spoke during the wait (answered recently, ignoring)")
+            log("decide", "visitor spoke during the wait (acknowledged recently, ignoring)")
     elif st == OFFER:
         if heard_yes_no(text) == "yes":
             log("decide", "accepted the message offer")
@@ -728,7 +769,9 @@ def on_message(samples, text):
     with S.lock:
         S.messages.append({"file": path.name, "text": text})
     S.set(THINKING)
-    speaker.say("Got it. I'll pass that on.", then=lambda: S.set(IDLE))
+    speaker.say("Got it. Here's your message.")
+    speaker.play(samples, SAMPLE_RATE)
+    speaker.say("I'll pass that on.", then=lambda: S.set(IDLE, name=None, pending_name=None))
 
 
 # ---------------------------------------------------------------------------
@@ -842,7 +885,7 @@ def act():
 # Main loop: screen, proximity, timers
 # ---------------------------------------------------------------------------
 def main():
-    global speaker
+    global speaker, listener
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("--model", default="base.en", help="whisper model for name turns")
     p.add_argument("--fast-model", default="tiny.en", help="whisper model for yes/no turns")
@@ -915,6 +958,10 @@ def main():
         elif st == OFFER and snap["auto_timers"] and quiet and now - S.state_since >= OFFER_TIMEOUT:
             log("timer", f"no answer to the offer in {OFFER_TIMEOUT:.0f} s")
             act_bye()
+        elif st == RECORDING and now - S.state_since >= MAX_MESSAGE:
+            log("timer", f"message hit the {MAX_MESSAGE:.0f} s cap, saving what we have")
+            listener.flush_message()
+            S.set(THINKING)  # so this fires once; on_message moves us on from here
         elif st == DONE and now - S.state_since >= DONE_HOLD:
             S.set(IDLE, name=None, pending_name=None)
 
