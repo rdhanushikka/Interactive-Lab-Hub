@@ -285,10 +285,9 @@ class Listener(threading.Thread):
             m.transcribe(np.zeros(SAMPLE_RATE, dtype=np.float32), beam_size=1)
 
     def pick(self):
-        """Name turns need accuracy; everything else needs speed."""
+        """Name turns need accuracy; everything else can use the fast model
+        if one was given (by default both are base.en)."""
         if S.state == LISTENING and S.pending_name is None:
-            return "accurate"
-        if S.state == RECORDING:
             return "accurate"
         return "fast"
 
@@ -398,7 +397,7 @@ class Listener(threading.Thread):
                     utt = np.array(self.vad_msg.front.samples, dtype=np.float32)
                     self.vad_msg.pop()
                     if recording:
-                        self.on_message(utt, self.transcribe(utt))
+                        self.on_message(utt)  # raw audio only; no transcription needed
 
 
 # ---------------------------------------------------------------------------
@@ -760,14 +759,15 @@ def on_utterance(text):
         auto_respond(text)
 
 
-def on_message(samples, text):
+def on_message(samples):
     MESSAGES_DIR.mkdir(exist_ok=True)
     path = MESSAGES_DIR / f"message_{datetime.now():%Y%m%d_%H%M%S}.wav"
     sf.write(path, samples, SAMPLE_RATE)
-    S.log_heard(f"[message] {text}")
-    log("message", f"saved {path.name} ({len(samples) / SAMPLE_RATE:.1f}s): {text}")
+    secs = len(samples) / SAMPLE_RATE
+    S.log_heard(f"[message recorded, {secs:.1f}s]")
+    log("message", f"saved {path.name} ({secs:.1f}s)")
     with S.lock:
-        S.messages.append({"file": path.name, "text": text})
+        S.messages.append({"file": path.name, "text": f"{secs:.1f}s"})
     S.set(THINKING)
     speaker.say("Got it. Here's your message.")
     speaker.play(samples, SAMPLE_RATE)
@@ -888,7 +888,8 @@ def main():
     global speaker, listener
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("--model", default="base.en", help="whisper model for name turns")
-    p.add_argument("--fast-model", default="tiny.en", help="whisper model for yes/no turns")
+    p.add_argument("--fast-model", default="base.en",
+                   help="whisper model for yes/no turns (tiny.en is faster but mishears)")
     p.add_argument("--prox", type=int, default=20, help="proximity threshold 0-255")
     p.add_argument("--no-auto-greet", action="store_true")
     p.add_argument("--no-display", action="store_true", help="run without the MiniPiTFT")
