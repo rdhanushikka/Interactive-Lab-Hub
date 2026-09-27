@@ -29,6 +29,7 @@ Options:
 
 import argparse
 import math
+import subprocess
 import sys
 import threading
 import time
@@ -63,7 +64,7 @@ HEARD_YOU_COOLDOWN = 5.0  # don't repeat "I heard you" more often than this
 WAIT_TIMEOUT = 30.0     # then offer to take a message
 OFFER_TIMEOUT = 8.0     # how long to wait for an answer to the offer
 DONE_HOLD = 3.0         # how long the "open door" screen stays before idle
-SPEECH_GUARD = 1.0      # keep the mic closed this long after playback "finishes";
+SPEECH_GUARD = 0.8      # keep the mic muted this long after playback "finishes";
                         # the USB speaker is still emitting the tail of the audio
 
 # States
@@ -190,6 +191,18 @@ S = State()
 # ---------------------------------------------------------------------------
 # Speaker (Piper -> default output), runs in its own thread off a queue
 # ---------------------------------------------------------------------------
+def mic_mute(on: bool):
+    """Mute the capture device in PipeWire while we talk. Muting happens at
+    capture time, before any buffering, so the muted stretch is silent no
+    matter how late it reaches us. Time-based guards alone weren't enough:
+    the speaker's tail plus the mic pipeline latency is well over a second."""
+    try:
+        subprocess.run(["wpctl", "set-mute", "@DEFAULT_AUDIO_SOURCE@", "1" if on else "0"],
+                       check=False, timeout=2, capture_output=True)
+    except Exception as e:
+        log("error", f"mic mute: {e}")
+
+
 class Speaker(threading.Thread):
     def __init__(self, voice_path):
         super().__init__(daemon=True)
@@ -213,6 +226,7 @@ class Speaker(threading.Thread):
                 text, then = self.queue.pop(0)
             with S.lock:
                 S.speaking = True
+            mic_mute(True)
             t0 = time.perf_counter()
             try:
                 for chunk in self.voice.synthesize(text):
@@ -222,7 +236,8 @@ class Speaker(threading.Thread):
             except Exception as e:  # keep the device alive if audio hiccups
                 log("error", f"speak: {e}")
             log("spoke", f"{time.perf_counter() - t0:.2f}s")
-            time.sleep(SPEECH_GUARD)  # the speaker is still finishing; keep the mic closed
+            time.sleep(SPEECH_GUARD)  # the speaker is still finishing; keep the mic muted
+            mic_mute(False)
             with S.lock:
                 S.speaking = False
             if then:
@@ -833,6 +848,7 @@ def main():
     log("start", f"model={args.model} fast_model={args.fast_model} prox_threshold={args.prox} auto_greet={S.auto_greet}")
     log("start", "loading models...")
     sd.default.latency = "low"  # shrink the gap between "playback done" and sound actually ending
+    mic_mute(False)             # in case a previous run died while muted
     speaker = Speaker(VOICE)
     speaker.start()
     Listener(args.model, args.fast_model, on_utterance, on_message).start()
@@ -899,3 +915,5 @@ if __name__ == "__main__":
         main()
     except KeyboardInterrupt:
         print("\nStopped.")
+    finally:
+        mic_mute(False)  # never leave the mic muted for the next program
