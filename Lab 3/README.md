@@ -433,6 +433,8 @@ The system should:
 
 **Hardware.** Raspberry Pi 5, MiniPiTFT screen, APDS9960 proximity sensor on the Qwiic port, USB microphone, USB speaker. The two buttons on the MiniPiTFT stand in for the door being opened. The Pi's green activity LED is the status light.
 
+<img src="images/greeter-hardware.jpeg" alt="Pi 5 with the door on the MiniPiTFT, the APDS9960 proximity sensor on its Qwiic cable, and the green status LED lit" height="400" />
+
 **How it works.** The screen is the door. The proximity sensor beside it starts the conversation when someone comes within about 10 cm. From there the device runs the script from Part 2 prep on its own. This is the run in the video, with the time in the video for each step:
 
 1. *0:06* The sensor fires. "Who are you here for?" The device listens until 0.5 s of silence, transcribes with `base.en`, and matches the words against the resident list, allowing near-misses like "Nicol" for Nicole.
