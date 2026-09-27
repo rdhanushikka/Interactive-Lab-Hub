@@ -29,7 +29,7 @@ Options:
 
 import argparse
 import math
-import subprocess
+import queue
 import sys
 import threading
 import time
@@ -191,22 +191,11 @@ S = State()
 # ---------------------------------------------------------------------------
 # Speaker (Piper -> default output), runs in its own thread off a queue
 # ---------------------------------------------------------------------------
-def mic_mute(on: bool):
-    """Mute the capture device in PipeWire while we talk. Muting happens at
-    capture time, before any buffering, so the muted stretch is silent no
-    matter how late it reaches us. Time-based guards alone weren't enough:
-    the speaker's tail plus the mic pipeline latency is well over a second."""
-    try:
-        subprocess.run(["wpctl", "set-mute", "@DEFAULT_AUDIO_SOURCE@", "1" if on else "0"],
-                       check=False, timeout=2, capture_output=True)
-    except Exception as e:
-        log("error", f"mic mute: {e}")
-
-
 class Speaker(threading.Thread):
-    def __init__(self, voice_path):
+    def __init__(self, voice_path, listener):
         super().__init__(daemon=True)
         self.voice = PiperVoice.load(str(voice_path))
+        self.listener = listener  # told when to ignore the mic
         self.queue = []
         self.cv = threading.Condition()
 
@@ -226,7 +215,7 @@ class Speaker(threading.Thread):
                 text, then = self.queue.pop(0)
             with S.lock:
                 S.speaking = True
-            mic_mute(True)
+            self.listener.mute(True)
             t0 = time.perf_counter()
             try:
                 for chunk in self.voice.synthesize(text):
@@ -236,8 +225,8 @@ class Speaker(threading.Thread):
             except Exception as e:  # keep the device alive if audio hiccups
                 log("error", f"speak: {e}")
             log("spoke", f"{time.perf_counter() - t0:.2f}s")
-            time.sleep(SPEECH_GUARD)  # the speaker is still finishing; keep the mic muted
-            mic_mute(False)
+            self.listener.mute(False)  # ignore the mic for SPEECH_GUARD more, in the audio clock
+            time.sleep(SPEECH_GUARD)   # and don't act on anything until the tail has played
             with S.lock:
                 S.speaking = False
             if then:
@@ -271,6 +260,10 @@ class Listener(threading.Thread):
         self.vad_msg, _ = build_vad(MESSAGE_SILENCE)
         self.on_utterance = on_utterance
         self.on_message = on_message
+        self.q = queue.Queue()
+        self.stream = None
+        self.mute_from = 0.0
+        self.mute_until = 0.0
         # First transcription after load is slow; do it now on a second of silence.
         for m in set(self.models.values()):
             m.transcribe(np.zeros(SAMPLE_RATE, dtype=np.float32), beam_size=1)
@@ -297,34 +290,54 @@ class Listener(threading.Thread):
         log("asr", f"{self.names[which]}: {len(samples) / SAMPLE_RATE:.1f}s audio -> {time.perf_counter() - t0:.2f}s")
         return text
 
+    # --- echo gating, in the audio clock -----------------------------------
+    # The mic pipeline delivers audio a long and variable time after it was
+    # captured, so "ignore the mic while speaking" fails if done in wall-clock
+    # time. Instead every chunk carries its capture time from the audio
+    # driver, and the speaker marks the window during which its sound could
+    # be in the air, in that same clock. Chunks captured inside the window are
+    # dropped no matter when they arrive.
+    def stream_time(self):
+        return self.stream.time if self.stream else 0.0
+
+    def mute(self, on):
+        now = self.stream_time()
+        if on:
+            self.mute_from = now
+            self.mute_until = float("inf")
+        else:
+            self.mute_until = now + SPEECH_GUARD
+
+    def _callback(self, indata, frames, time_info, status):
+        t_adc = time_info.inputBufferAdcTime
+        if not t_adc or t_adc != t_adc:  # 0 or NaN: driver didn't stamp it
+            t_adc = time_info.currentTime - (self.stream.latency or 0.0)
+        self.q.put((t_adc, t_adc + frames / SAMPLE_RATE, indata[:, 0].copy()))
+
     def run(self):
         buf = np.empty(0, dtype=np.float32)
-        per_read = int(0.1 * SAMPLE_RATE)
-        was_speaking = False
-        with sd.InputStream(channels=1, dtype="float32", samplerate=SAMPLE_RATE) as stream:
+        dropped = False
+        self.stream = sd.InputStream(channels=1, dtype="float32", samplerate=SAMPLE_RATE,
+                                     blocksize=int(0.1 * SAMPLE_RATE), callback=self._callback)
+        with self.stream:
+            try:
+                dev = sd.query_devices(self.stream.device)["name"]
+            except Exception:
+                dev = "?"
+            log("mic", f"{dev}, reported input latency {self.stream.latency:.3f}s")
             while True:
-                if S.speaking:
-                    # Throw away everything the mic captures while we talk,
-                    # including audio already queued in the stream buffer.
-                    n = stream.read_available
-                    if n:
-                        stream.read(n)
-                    was_speaking = True
-                    time.sleep(0.05)
+                t0, t1, chunk = self.q.get()
+                if t1 > self.mute_from and t0 < self.mute_until:
+                    dropped = True  # captured while we were (or may still be) talking
                     continue
-                if was_speaking:
-                    # Speech just ended: drop the tail, reset the detectors.
-                    n = stream.read_available
-                    if n:
-                        stream.read(n)
+                if dropped:
+                    # First clean chunk after a speech window: forget any partial
+                    # utterance the detectors were building from our own voice.
                     self.vad_turn.reset()
                     self.vad_msg.reset()
                     buf = np.empty(0, dtype=np.float32)
-                    was_speaking = False
-                chunk, _ = stream.read(per_read)
-                if S.speaking:
-                    continue  # started talking mid-read; drop this chunk too
-                buf = np.concatenate([buf, chunk.reshape(-1)])
+                    dropped = False
+                buf = np.concatenate([buf, chunk])
                 while len(buf) > self.window:
                     self.vad_turn.accept_waveform(buf[:self.window])
                     self.vad_msg.accept_waveform(buf[:self.window])
@@ -848,10 +861,10 @@ def main():
     log("start", f"model={args.model} fast_model={args.fast_model} prox_threshold={args.prox} auto_greet={S.auto_greet}")
     log("start", "loading models...")
     sd.default.latency = "low"  # shrink the gap between "playback done" and sound actually ending
-    mic_mute(False)             # in case a previous run died while muted
-    speaker = Speaker(VOICE)
+    listener = Listener(args.model, args.fast_model, on_utterance, on_message)
+    speaker = Speaker(VOICE, listener)
+    listener.start()
     speaker.start()
-    Listener(args.model, args.fast_model, on_utterance, on_message).start()
     display = None if args.no_display else Display()
     sensors = None if args.no_sensors else Sensors()
 
@@ -915,5 +928,3 @@ if __name__ == "__main__":
         main()
     except KeyboardInterrupt:
         print("\nStopped.")
-    finally:
-        mic_mute(False)  # never leave the mic muted for the next program
