@@ -561,6 +561,21 @@ def best_resident(text):
     return None
 
 
+FILLER = {"i", "im", "i'm", "am", "here", "for", "to", "see", "the", "a", "an", "um", "uh",
+          "looking", "visit", "visiting", "meet", "is", "it", "its", "it's", "my", "friend",
+          "hi", "hello", "hey", "please", "and", "with", "want", "need", "can", "in", "at"}
+
+
+def guess_name(text):
+    """The word the visitor most likely meant as a name, so we can say
+    'there's no Samantha here' instead of pretending we didn't understand."""
+    words = [w.strip(".,!?'\"") for w in text.split()]
+    for w in words:
+        if w and w.lower() not in FILLER and w.isalpha():
+            return w.capitalize()
+    return None
+
+
 def think_then(fn):
     """Show 'thinking' for THINK_PAUSE, then run fn."""
     S.set(THINKING)
@@ -608,10 +623,18 @@ def act_confirm(name=None):
     think_then(go)
 
 
-def act_again():
+def act_again(no_such=None):
+    line = (f"There's no {no_such} here. Who are you here for?" if no_such
+            else "Sorry, who are you here for?")
     def go():
-        speaker.say("Sorry, who are you here for?", then=lambda: S.set(LISTENING))
+        speaker.say(line, then=lambda: S.set(LISTENING))
     think_then(go)
+
+
+def act_no_such(name):
+    S.set(THINKING, pending_name=None)
+    speaker.say(f"Sorry, there's no {name} here either. Please try again later.",
+                then=lambda: S.set(IDLE, name=None, pending_name=None))
 
 
 def act_list():
@@ -687,14 +710,14 @@ ACTIONS = {
 }
 
 
-def fail_or(retry):
+def fail_or(retry, give_up=None):
     """Count a turn the device couldn't use; retry once, then give up."""
     with S.lock:
         S.fails += 1
         fails = S.fails
     if fails >= 2:
         log("decide", f"couldn't use the turn, fail #{fails}: give up")
-        act_try_later()
+        (give_up or act_try_later)()
     else:
         log("decide", f"couldn't use the turn, fail #{fails}: retry")
         retry()
@@ -712,8 +735,13 @@ def auto_respond(text):
                 S.fails = 0
             act_confirm(name)
         else:
-            log("decide", f"no resident matched in '{text}'")
-            fail_or(act_again)
+            heard_name = guess_name(text)
+            log("decide", f"no resident matched in '{text}'"
+                          + (f" (they seem to want '{heard_name}')" if heard_name else ""))
+            if heard_name:
+                fail_or(lambda: act_again(no_such=heard_name), lambda: act_no_such(heard_name))
+            else:
+                fail_or(act_again)
     elif st == LISTENING and S.pending_name:
         # We asked "Did you say X?"
         answer = heard_yes_no(text)
