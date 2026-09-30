@@ -30,6 +30,7 @@ Options:
 import argparse
 import math
 import queue
+import subprocess
 import sys
 import threading
 import time
@@ -455,7 +456,8 @@ class Display:
         state = snap["state"]
 
         # The whole screen is the door. Wall on either side, frame, door slab,
-        # a caption above it. The pulsing light is a physical LED, not on screen.
+        # a caption above it. A dot in the corner mirrors the physical LED:
+        # red when the device is not listening, green when it is.
         wall = (28, 30, 38)
         d.rectangle((0, 0, self.w, self.h), fill=wall)
         d.rectangle((0, self.h - 8, self.w, self.h), fill=(45, 40, 36))  # floor
@@ -478,6 +480,11 @@ class Display:
             d.text(((fx0 + fx1) / 2 - tw / 2, 58), txt, font=self.mono, fill=(255, 255, 255))
         if state == RECORDING:
             d.ellipse((fx0 + 16, fy0 + 18, fx0 + 26, fy0 + 28), fill=(255, 50, 50))
+
+        # indicator dot, in step with the onboard LED
+        color, pattern = LIGHT_FOR_STATE[state]
+        d.ellipse((5, 5, 15, 15), outline=LIGHT_RGB[color],
+                  fill=LIGHT_RGB[color] if pattern_on(pattern, now) else wall)
 
         # caption above the door
         label = STATE_LABELS[state]
@@ -545,85 +552,126 @@ class Sensors:
 
 
 # ---------------------------------------------------------------------------
-# Indicator light: a physical LED that shows listening / thinking / waiting.
-# Uses the Qwiic button's LED if one is connected (it pulses in hardware);
-# otherwise the Pi's own green ACT LED, which can only blink.
+# Indicator light: the Pi 5's two onboard status LEDs. Red means the device is
+# NOT listening to you (idle, thinking, speaking, waiting for the door). Green
+# means it is (pulsing while it listens, blinking fast while it records).
+# The Qwiic button's LED, if one is connected, mirrors the green.
 # ---------------------------------------------------------------------------
 OFF, PULSE, SOLID, BLINK_SLOW, BLINK_FAST = "off", "pulse", "solid", "blink_slow", "blink_fast"
+RED, GREEN = "red", "green"
 LIGHT_FOR_STATE = {
-    IDLE: OFF, LISTENING: PULSE, THINKING: SOLID, WAITING: BLINK_SLOW,
-    OFFER: PULSE, RECORDING: BLINK_FAST, DONE: SOLID, CLOSING: OFF,
+    IDLE: (RED, SOLID), LISTENING: (GREEN, PULSE), THINKING: (RED, SOLID),
+    WAITING: (RED, BLINK_SLOW), OFFER: (GREEN, PULSE), RECORDING: (GREEN, BLINK_FAST),
+    DONE: (RED, SOLID), CLOSING: (RED, SOLID),
 }
+LIGHT_RGB = {RED: (255, 40, 40), GREEN: (40, 220, 90)}
+
+
+def pattern_on(pattern, now):
+    """Whether a light with this pattern is lit at time `now`."""
+    if pattern == OFF:
+        return False
+    if pattern == SOLID:
+        return True
+    if pattern == PULSE:
+        return (now % 0.8) < 0.4
+    if pattern == BLINK_SLOW:
+        return (now % 2.0) < 0.15
+    return (now % 0.4) < 0.2  # BLINK_FAST
 
 
 class Indicator:
+    LED_DIR = Path("/sys/class/leds")
+    LED_NAMES = {RED: "PWR", GREEN: "ACT"}
+    DEFAULT_TRIGGER = {"PWR": "default-on", "ACT": "mmc0"}
+
     def __init__(self, button=None):
         self.button = button
         self.mode = None
-        self.act = None
-        self.act_on = None
-        if not button:
-            try:
-                with open("/sys/class/leds/ACT/trigger", "w") as f:
-                    f.write("none")
-                self.act = open("/sys/class/leds/ACT/brightness", "w")
-                log("light", "using the Pi's green ACT LED (blink only)")
-            except Exception as e:
-                log("light", f"no LED available ({e.__class__.__name__}); "
-                             "for the ACT LED run: sudo chmod a+w /sys/class/leds/ACT/{trigger,brightness}")
+        self.leds = {}      # color -> open brightness file
+        self.lit = {}       # color -> what we last wrote
+        for color, name in self.LED_NAMES.items():
+            f = self._open_led(name)
+            if f:
+                self.leds[color] = f
+        if self.leds:
+            log("light", "onboard LEDs: " + ", ".join(
+                f"{c}={self.LED_NAMES[c]}" for c in self.leds))
         else:
-            log("light", "using the Qwiic button LED")
+            log("light", "no onboard LED available; if this is not a Pi 5 or sudo asked "
+                         "for a password, run: sudo chmod a+w /sys/class/leds/*/{trigger,brightness}")
+        if button:
+            log("light", "Qwiic button LED mirrors the green light")
+
+    def _open_led(self, name):
+        d = self.LED_DIR / name
+        if not d.is_dir():
+            return None
+        for attempt in (0, 1):
+            try:
+                with open(d / "trigger", "w") as f:
+                    f.write("none")
+                return open(d / "brightness", "w")
+            except PermissionError:
+                if attempt:
+                    return None
+                # The pi user has passwordless sudo on Raspberry Pi OS.
+                subprocess.run(["sudo", "-n", "chmod", "a+w",
+                                str(d / "trigger"), str(d / "brightness")],
+                               capture_output=True)
+            except OSError:
+                return None
+        return None
 
     def set(self, mode):
+        """mode is (color, pattern)."""
         if mode == self.mode:
             return
         self.mode = mode
+        color, pattern = mode
         if self.button:
             try:
                 b = self.button
-                if mode == OFF:
+                if color != GREEN or pattern == OFF:
                     b.led_bright = 0
-                elif mode == SOLID:
+                elif pattern == SOLID:
                     b.led_cycle_ms = 0; b.led_off_ms = 0; b.led_bright = 255
-                elif mode == PULSE:
+                elif pattern == PULSE:
                     b.led_cycle_ms = 1200; b.led_off_ms = 100; b.led_bright = 255
-                elif mode == BLINK_SLOW:
+                elif pattern == BLINK_SLOW:
                     b.led_cycle_ms = 100; b.led_off_ms = 1500; b.led_bright = 255
-                elif mode == BLINK_FAST:
+                elif pattern == BLINK_FAST:
                     b.led_cycle_ms = 100; b.led_off_ms = 250; b.led_bright = 255
             except Exception as e:
                 log("error", f"button LED: {e}")
 
     def tick(self, now):
-        """Software blink for the ACT LED; called from the main loop."""
-        if not self.act:
+        """Drive the onboard LEDs; called from the main loop."""
+        if not self.leds or self.mode is None:
             return
-        if self.mode == OFF:
-            on = False
-        elif self.mode == SOLID:
-            on = True
-        elif self.mode == PULSE:
-            on = (now % 0.8) < 0.4
-        elif self.mode == BLINK_SLOW:
-            on = (now % 2.0) < 0.15
-        else:  # BLINK_FAST
-            on = (now % 0.4) < 0.2
-        if on != self.act_on:
-            self.act_on = on
-            try:
-                self.act.write("1" if on else "0")
-                self.act.flush()
-            except Exception:
-                pass
+        color, pattern = self.mode
+        on = pattern_on(pattern, now)
+        for c, f in self.leds.items():
+            want = on if c == color else False
+            if self.lit.get(c) != want:
+                self.lit[c] = want
+                try:
+                    f.write("1" if want else "0")
+                    f.flush()
+                except Exception:
+                    pass
 
     def restore(self):
-        self.set(OFF)
-        if self.act:
+        """Hand the LEDs back to the OS: red power light on, green on disk activity."""
+        for color, f in self.leds.items():
             try:
-                with open("/sys/class/leds/ACT/trigger", "w") as f:
-                    f.write("mmc0")  # back to disk activity
+                f.close()
+                name = self.LED_NAMES[color]
+                with open(self.LED_DIR / name / "trigger", "w") as t:
+                    t.write(self.DEFAULT_TRIGGER[name])
             except Exception:
                 pass
+        self.leds = {}
 
 
 # ---------------------------------------------------------------------------
