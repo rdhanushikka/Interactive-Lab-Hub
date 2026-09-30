@@ -470,19 +470,73 @@ Two misses in a row at any step end the conversation. Every event is logged with
 
 Try to get at least two people to interact with your system. (Ideally, you would inform them that there is a wizard *after* the interaction, but we recognize that can be hard.)
 
+### Test notes
+
+**Tester 1 (@cgy4).** They could not tell when the greeter was listening. Their suggestion: give an
+indication of what the lights mean around the time the device says "Who are you here for?".
+The screen is too small for anyone to read from where a visitor stands.
+
+**Tester 2 (@as4422).** Same point about the screen: it is too small for anyone to read from where a
+visitor stands.
+
 Answer the following:
 
 ### What worked well about the system and what didn't?
-\*\**your answer here*\*\*
+
+What worked: the scripted dialogue ran on its own for both testers. The device noticed the
+visitor, asked who they were there for, and got through the conversation without me having
+to step in through the controller most of the time.
+
+What did not, from the test notes above: neither tester could tell when the greeter was
+listening. The red and green lights carry that information, but nobody had told them what the
+colors meant, and the screen is too small to read from where a visitor stands. Tester 1's
+suggestion is the fix I would try first: have the device explain the lights right around the
+time it says "Who are you here for?".
 
 ### What worked well about the controller and what didn't?
-\*\**your answer here*\*\*
+
+I did not really use the controller during the tests. The scripted dialogue ran on its own,
+so the phone page mostly sat there showing the live transcript. It was helpful in the initial
+stages of testing, and as a fallback when the tester was not audible because of the noise in
+the classroom and I needed to step in for the step the device had missed.
 
 ### What lessons can you take away from the WoZ interactions for designing a more autonomous version of the system?
-\*\**your answer here*\*\*
+
+- *The device has to teach its own signals.* I knew red meant "not listening" and green meant
+  "listening," and neither tester did. A status light only works once the visitor has been
+  told what it means, so the first thing an autonomous version should say is something like
+  "When the light is green, I'm listening. Who are you here for?" The explanation costs two
+  seconds and removes the most common confusion.
+- *Signals have to be visible from where the visitor stands.* The screen is fine for me at the
+  desk and useless for a visitor a few feet away. Anything the visitor needs, listening state,
+  the name it heard, the countdown, has to be big, bright, or spoken, not printed in small text.
+- *Watching a good run is different from testing.* The scripted dialogue ran on its own for
+  both testers, which felt like success, but the feedback was about what the device never
+  told them. The parts that need the most design are the ones the transcript does not show.
 
 ### How could you use your system to create a dataset of interaction? What other sensing modalities would make sense to capture?
-\*\**your answer here*\*\*
+
+The greeter already logs every event with a timestamp to `greeter/logs/`: when the sensor
+fired, each thing the device said, each transcript with when the visitor started and stopped
+talking, which resident matched, when the wizard overrode a step, and the message recordings.
+Kept across many visits, that is a dataset of door conversations: how long people take to
+answer, how often a name is misheard and which names, how many people say something during
+the wait, how many accept the message offer, and how often the wizard had to step in. The
+wizard overrides are the most useful column, because each one marks a moment the autonomous
+script was wrong.
+
+Other sensing that would make sense to capture:
+
+- *Raw audio around each turn*, not just the transcript, so misheard names can be re-run
+  through better models later and background noise level can be measured per visit.
+- *The proximity reading over time*, to see whether people step closer when they cannot hear
+  or step back when the device talks, and when they give up and walk away.
+- *The webcam*, for whether the visitor is looking at the device or the door, and whether
+  there is one person or several.
+- *Door state*, from a real switch on the door rather than a button, so the dataset records
+  how long residents take to answer and which visits never get answered.
+- *Button presses*, to learn how many visitors prefer pressing to talking once both are
+  offered.
 
 <details>
   <summary><strong>Submission Cleanup Reminder (Click to Expand)</strong></summary>
