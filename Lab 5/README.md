@@ -220,7 +220,7 @@ Both features worked at 11 to 12 frames per second over VNC. The pinch sets the 
 
 **How pose tracking could fit the water device.** Three places, in order of how much I'd trust them:
 
-1. *The reach itself.* YOLO watches the bottle; MediaPipe could watch the hand. A hand entering the nightstand region and closing is a reach even if the bottle never leaves the frame, which catches the sip-without-lifting case the bottle-only version misses. In the dark this fails the same way YOLO does, so it's a second witness, not a replacement.
+1. *The reach itself.* YOLO watches the bottle; MediaPipe could watch the hand. A hand entering the nightstand region and closing is a reach even if the bottle never leaves the frame, which catches the sip-without-lifting case the bottle-only version misses. In the dark this fails the same way YOLO does, so it's a second reading, not a replacement.
 2. *A silent hand-off.* A pinch held toward the camera for two seconds could mean "night starts now," for anyone who doesn't turn the light off at bedtime. It keeps the no-words rule. The risk is a pinch that wasn't meant, so it would need the LED to confirm by going out.
 3. *Posture, not identity.* Body pose could tell sitting up from lying down, which would let the morning line say "you sat up at 3:15" alongside the reaches. Face tracking is the one to avoid: the device doesn't need to know whose face it is, only that a hand went to the bottle, and the write-up should be able to say it never looked at a face.
 
@@ -334,12 +334,12 @@ Use storyboards and/or [Verplank diagrams](https://ccrma.stanford.edu/courses/25
 2. **While asleep.** Every five seconds YOLO looks for a bottle or cup. If the box jumps, or disappears and comes back, that's a reach. Each one is logged with the time. If it's too dark to see, the device logs "dark" rather than guessing.
 3. **When awake.** The screen shows one line: "You reached for the water twice, at 1:20 and 4:50," with a bar across the night and a tick for each reach. Or, on a quiet night: "The bottle never moved." Optionally the Lab 3 voice reads it out.
 
-**Verplank, in short.** *Idea:* the water bottle as a witness to the night. *Metaphor:* a night nurse who notes when you stirred. *Model:* the person believes the device counts reaches, not sips, and is told so. *Display:* a bar for the night, ticks for reaches, grey where it couldn't see. *Error:* a reach the camera missed in the dark is reported as "couldn't see," not as "didn't happen." *Scenario:* bottle down, light off, sleep, read one line in the morning. *Task:* nothing during the night; the device's whole job is to not need you.
+**Verplank, in short.** *Idea:* count how often the bottle is reached for overnight. *Metaphor:* a tally mark each time the bottle moves. *Model:* the person is told the device counts reaches, not sips. *Display:* a bar for the night, ticks for reaches, grey where it couldn't see. *Error:* a reach the camera missed in the dark is reported as "couldn't see," not as "didn't happen." *Scenario:* bottle down, light off, sleep, read one line in the morning. *Task:* nothing during the night; there is no input between lights-off and morning.
 
 **Bellotti's five questions:**
 
 - *Address.* How does the device know I'm talking to it? It doesn't need to. The only input is the light going off, which you'd do anyway. Nothing else it sees is treated as a command.
-- *Attention.* How do I know it's listening? The green LED is on while it's waiting, and goes off when the night begins. Off means "I've got it," which is the right polarity for a bedroom.
+- *Attention.* How do I know it's listening? The green LED is on until the room has been dark for 30 s, then goes off. Off rather than on, so it adds no light to a dark bedroom.
 - *Action.* How does it know what I want? The question is fixed: how often did you reach for water. There's no menu, so there's nothing to get wrong at midnight.
 - *Alignment.* How do I know what it did? The morning line includes the times, so you can check them against your own memory, and it says how long it couldn't see.
 - *Accident.* How do I undo a mistake? There's nothing to undo overnight. If the camera called a reach that wasn't one, the snapshot it saved shows what it saw, and the morning line can be ignored. The cost of an error is one wrong sentence.
@@ -425,7 +425,7 @@ You reached for the water 2 times, at 1:20 and 4:50. The camera couldn't see for
 The bottle never moved between 11:15 and 7:00.
 ```
 
-Those two lines are from two fake nights used to test it. Qwen is optional (`--qwen`): it's handed the finished sentence and asked to make it warmer without adding facts, so the numbers can't drift. `--screen` draws the night on the MiniPiTFT as a bar with a tick per reach and the dark stretches noted, and `--speak` reads the line aloud with the Lab 3 voice.
+Those two lines are from two fake nights used to test it. Qwen is optional (`--qwen`): it's handed the finished sentence and asked to rephrase it without adding facts, so the numbers can't drift. `--screen` draws the night on the MiniPiTFT as a bar with a tick per reach and the dark stretches noted, and `--speak` reads the line aloud with the Lab 3 voice.
 
 Honesty on a quiet night is built in: no reaches means "the bottle never moved," and the model is never asked to invent an unusual moment.
 
