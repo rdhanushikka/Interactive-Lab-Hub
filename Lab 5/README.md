@@ -309,7 +309,8 @@ Use storyboards and/or [Verplank diagrams](https://ccrma.stanford.edu/courses/25
 
    - *Ani Hadagali:* liked that there's no new bedtime ritual. You already turn the light off, so the device just rides on that. She said that's the part she'd keep no matter what else changes, and asked whether it still works for someone who reads with the lamp on until late.
    - *Gabriela Yauli:* pointed out that the LED turning off instead of on is the right call for a bedroom, and that it's easy to miss in the drawing because the camera is small. Suggested making the LED the thing the eye lands on in panel 3.
-   - The morning line got the most comments. People liked that it's one sentence with the times in it, so you can check it against what you remember. One question that came up more than once: what do you do with "2 reaches"? A few people suggested showing it over a week rather than one night, so a bad night stands out.
+   - *Gabriela Yauli*, on the morning line: "2 reaches, 1:20 and 4:50" is a fact, but the storyboard doesn't show what the person does with it. Panel 6 has them looking at the screen with no reaction. Reaching for water twice might mean a dry room, caffeine late, or just two wake-ups. She said the design gets stronger if the morning line connects to something the person can act on, or if the count is read over several nights so a change stands out. As drawn, one night's number is an observation with no next step.
+   - The morning line otherwise got the most comments. People liked that it's one sentence with the times in it, so you can check it against what you remember.
 2. [Update your Lab Hub](prep.md#get-the-latest-content) to get the latest content for Part 2.
 3. Decide where the device will spend the night and who else lives there. Get their OK before the first run.
 4. Revise your storyboard with the feedback and with what you learned in Part E about where the pipeline breaks.
