@@ -247,6 +247,13 @@ Qwen (18.4 s):
 One person came in from the right, moved close to the camera, and left after about half a minute. ...
 ```
 
+**Our run:** 61 seconds of walking in and out of frame produced 30 log lines ([watch_log.txt](watch_log.txt)). Qwen's answer to the default question:
+
+```
+Qwen (35.2 s):
+There were 10 people total in the room throughout the 61-second observation. They were mostly standing near the center or close to it, with some moving around the periphery (left, right, or far). No significant change occurred; the number of people remained constant at 10 for the entire duration.
+```
+
 ---
 
 # Lab 5 Part 2: Overnight Sensation
