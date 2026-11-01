@@ -85,7 +85,7 @@ Checked the export on the sample image. It found 4 people and the bus in about 1
 
 Installed Ollama and pulled the two Qwen models, `qwen3.5:0.8b` (text and images) and `qwen3:0.6b` (text only).
 
-*(screenshot of `ollama list`)*
+![ollama list on the Pi](images/ollama-list.png)
 
 ## Part B. 
 ### See: recognize people in real time with YOLO
@@ -207,9 +207,12 @@ A 0.8B model is slow and sometimes wrong. It will invent events that are not in 
 
 \*\*\***Ask Qwen three questions to answer. Paste the questions, the answers and how long each took. Try one of them with `qwen3:0.6b` and compare.**\*\*\*
 
-<details>
-  Q&A here
-</details>
+| Question | Model | Answer | Time |
+|---|---|---|---|
+| Tell me a bit about the history of Roosevelt Island. | qwen3.5:0.8b | Roosevelt Island was originally built as a private residence by John Quincy Adams, who named it after his wife's maiden name. It became an important political landmark for the United States and served as a meeting place for various influential figures during the 19th century. Today, it is a historic site where visitors can see the original house and explore its rich history. | 38.4 s |
+| Tell me a bit about the history of Roosevelt Island. | qwen3:0.6b | Roosevelt Island is a remote island in the Pacific Ocean, located in the central Pacific. It was once a vital part of the United States' Pacific Northwest, and it played a significant role in the development of the region. The island was established in the 19th century as a military base for the U.S. Navy, and it became a symbol of the nation's presence in the Pacific. Today, it remains a peaceful and important part of the region, with a rich history and cultural significance. | 16.3 s |
+| What is in this photo? (`bus.jpg`) | qwen3.5:0.8b | This photo shows a blue and white public bus with the route number 10, parked on a city street. Several people are walking around the bus, including one man in a beige coat standing near the front door of the vehicle. The setting appears to be an urban environment during daytime. | 135.1 s |
+| Someone was at the door at 3 am. Is that unusual? (`--json`) | qwen3.5:0.8b | `{"headline": "Unusual: Someone at door at 3 AM", "unusual": true}` | 9.4 s |
 
 
 ## Part E. 
