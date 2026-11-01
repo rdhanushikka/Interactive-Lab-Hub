@@ -13,8 +13,8 @@ import adafruit_mpr121
 import pi_servo_hat
 
 SERVO_CH = 0
-HOME = 165         # resting angle (near the top of the range)
-TURNED = HOME - 90 # after a pad-8 touch: turns the other way, down to 75
+HOME = 105         # resting angle
+TURNED = HOME - 90 # after a pad-8 touch: turns the other way, down to 15
 PAD_TURN = 8
 PAD_BACK = 3
 STEP_DELAY = 0.01  # seconds per degree; bigger is slower and gentler

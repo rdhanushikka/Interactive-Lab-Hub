@@ -17,9 +17,9 @@
 ---
 
 ## Lab Overview
-Team: <canvas group name>  
-Members: Full Name (netid, github-handle), ...  
-Project name: <name>
+Team: *(canvas group name)*  
+Members: Dhanushikka Ravichandiran (*netid*, rdhanushikka)  
+Project name: Touch Lazy Susan
 
 
 For lab this week, we focus on both sensing and actuation, bringing new modes of input and output into your devices, while also prototyping the physical structure and overall look of the device. You will consider how the physical form supports sensing and actuation, and how these elements come together to shape the interaction and aesthetics of the device.
@@ -146,6 +146,17 @@ Twizzler 6 touched!
 
 ---
 
+
+### Part A: what we did
+
+The MPR121 is on the Qwiic bus. Two of its pads drive the final prototype: **pad 8** turns the tray and **pad 3** turns it back. Each pad is wired with an alligator clip to *(what the pads are attached to, e.g. two strips of copper tape on the table edge)*.
+
+*(photo of the pads)*
+
+`cap_test.py` confirmed the touches register before any servo code was added. A touch is read as a rising edge, so holding a pad counts once; the script tracks the previous reading per pad and only acts when a pad goes from untouched to touched.
+
+---
+
 ### Part B
 ### More sensors
 
@@ -224,6 +235,13 @@ You can go to the [SparkFun GitHub Page](https://github.com/sparkfun/Qwiic_Proxi
 
 ---
 
+
+### Part B: what we did
+
+*(which of the other sensors were tried and what they read; the proximity sensor was already in use from Lab 3)*
+
+---
+
 ### Part C
 ### Servo Actuation
 
@@ -249,6 +267,18 @@ python pi_servo_hat_test.py
 ```
 For more details and advanced usage, see the [official SparkFun Servo pHAT documentation](https://learn.sparkfun.com/tutorials/pi-servo-phat-v2-hookup-guide/all#resources-and-going-further).
 A servo motor is a rotary actuator that allows for precise control of angular position. The position is set by the width of an electrical pulse (PWM). You can read [this Adafruit guide](https://learn.adafruit.com/adafruit-arduino-lesson-14-servo-motors/servo-motors) to learn more about how servos work.
+
+---
+
+
+### Part C: what we did
+
+The servo is on **channel 0** of the Servo pHAT, with the pHAT powered by its own USB-C cable. `servo_test.py` sweeps 0 to 180 and back and confirmed the range before the tray was attached.
+
+Two servo details that shaped the final code:
+
+- **Move one degree at a time.** Jumping 90 degrees in one command snaps the tray and anything on it. The script sweeps in 1 degree steps with 10 ms between them, about a second for the full turn.
+- **The servo driver falls asleep.** When the speaker plays, its current draw dips the 5 V line enough to reset the PCA9685 chip on the pHAT into sleep mode, and the next move command does nothing. The fix is to call `restart()` on the hat and rewrite the current angle before every move.
 
 ---
 
@@ -295,6 +325,38 @@ Build a cardboard or other low-fidelity physical prototype of your design.
 
 ---
 
+
+### Part D: what we did
+
+**The ritual:** passing dishes around a shared table. Someone always has to reach, or ask, or stand up. A lazy susan solves the reach but still needs a hand on it, and a hand on a loaded tray is how glasses get knocked over.
+
+**The idea:** a lazy susan that turns itself. A touch pad at each seat turns the tray a quarter turn toward you. Before it moves, it says "Rotating" so nobody is mid-grab when the tray starts.
+
+**Five sketches:**
+
+*(image: `images/lazy-susan-sketches.jpeg`)*
+
+1. *(sketch 1: pads on the tray rim, servo under the center)*
+2. *(sketch 2: pads on the table edge at each seat, servo under the tray)*
+3. *(sketch 3: ...)*
+4. *(sketch 4: ...)*
+5. *(sketch 5: ...)*
+
+**Questions the sketches raise:**
+
+- Can a 9 g servo turn a loaded tray, and does it need a bearing underneath so the servo only has to overcome friction, not carry weight?
+- Where do the pads go so a touch is deliberate rather than accidental? On the tray, a hand reaching for food will trigger it; on the table edge, it has to be a choice.
+- How fast should it turn? Fast enough to feel responsive, slow enough that a full glass stays upright.
+- Does a spoken warning help, or is it annoying after the third time?
+
+**Chosen design and why:** *(which sketch, and the reason)*. Pads off the tray, on the table side, so the trigger is separate from the food. Servo under the center with the tray resting on *(a bearing / a smooth surface)*.
+
+**Rough prototype:**
+
+*(photos of the cardboard build)*
+
+---
+
 ## Part 2
 
 Following exploration and reflection from Part 1, complete the "looks like," "works like" and "acts like" prototypes for your design, reiterated below.
@@ -330,6 +392,41 @@ Iterate on the sensing, movement, and physical form, and document what you disco
 See encoder_accel_servo_dashboard.py in the Lab 4 folder for an optional example of chaining together three devices.
 
 **`Lab 4/encoder_accel_servo_dashboard.py`**
+
+
+### Part E: what we did
+
+**Code:** [`lazy_susan.py`](lazy_susan.py)
+
+**Video:** *(link)*
+
+**How it works:**
+
+```
+touch pad 8  ->  "Rotating" (Piper voice)  ->  1 s pause  ->  servo sweeps 105° -> 15°, 1°/10 ms
+touch pad 3  ->  "Rotating"                ->  1 s pause  ->  servo sweeps back to 105°
+```
+
+- The capacitive sensor is polled every 50 ms. A pad only triggers on a new touch, and a pad that would move the tray to where it already is does nothing.
+- The announcement uses the Piper voice from Lab 3, loaded once at startup. Launching Piper fresh for each line took about three seconds, which made the warning arrive after the move it was warning about.
+- The one-second gap between "Rotating" and the move is the turn-taking lesson from Lab 3 applied to a motor: the device announces, then waits, then acts.
+- The servo hat is restarted before every move, for the power-dip reason in Part C.
+
+**Interaction diagram:**
+
+*(sketch, or keep the text diagram above)*
+
+**Reflection:**
+
+*(fill in: what you learned about connecting sensing, movement, and form; what was fun, surprising, or hard)*
+
+Things that came up while building:
+
+- The first version turned the wrong way for the table layout, so the resting angle moved from the bottom of the servo's range to the top and the turn direction flipped. Which way a servo turns is a physical decision that only shows up once the tray is on it.
+- Speech and servos share the 5 V supply, and that interaction was invisible until the servo stopped responding after the voice line. Sensing, actuation, and output compete for power as well as for attention.
+- A 90 degree jump in one command is a different interaction from a one second sweep. The sweep reads as "the tray is turning"; the jump reads as "something broke".
+
+---
 
 #### Example Application: Windmill Coaster
 
@@ -489,6 +586,15 @@ Document all the prototypes and iterations you have designed and worked on! Agai
 * "Looks like": shows how the device should look, feel, sit, weigh, etc.
 * "Works like": shows what the device can do
 * "Acts like": shows how a person would interact with the device
+
+---
+
+
+### Part F: what we did
+
+- **Looks like:** *(photos of the final build on a table with dishes)*
+- **Works like:** the video above, plus [`lazy_susan.py`](lazy_susan.py)
+- **Acts like:** sit down, touch the pad at your seat, hear "Rotating", the dish you wanted arrives in front of you a second later
 
 ---
 
