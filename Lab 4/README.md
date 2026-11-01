@@ -17,7 +17,7 @@
 ---
 
 ## Lab Overview
-Team: *(canvas group name)*  
+Team: solo  
 Members: Dhanushikka Ravichandiran (*netid*, rdhanushikka)  
 Project name: Touch Lazy Susan
 
@@ -147,7 +147,7 @@ Twizzler 6 touched!
 ---
 
 
-### Part A: what we did
+### Part A: what I did
 
 The MPR121 is on the Qwiic bus. Two of its pads drive the final prototype: **pad 8** turns the tray and **pad 3** turns it back. Each pad is wired with an alligator clip to *(what the pads are attached to, e.g. two strips of copper tape on the table edge)*.
 
@@ -236,7 +236,7 @@ You can go to the [SparkFun GitHub Page](https://github.com/sparkfun/Qwiic_Proxi
 ---
 
 
-### Part B: what we did
+### Part B: what I did
 
 *(which of the other sensors were tried and what they read; the proximity sensor was already in use from Lab 3)*
 
@@ -271,7 +271,7 @@ A servo motor is a rotary actuator that allows for precise control of angular po
 ---
 
 
-### Part C: what we did
+### Part C: what I did
 
 The servo is on **channel 0** of the Servo pHAT, with the pHAT powered by its own USB-C cable. `servo_test.py` sweeps 0 to 180 and back and confirmed the range before the tray was attached.
 
@@ -326,7 +326,7 @@ Build a cardboard or other low-fidelity physical prototype of your design.
 ---
 
 
-### Part D: what we did
+### Part D: what I did
 
 **The ritual:** passing dishes around a shared table. Someone always has to reach, or ask, or stand up. A lazy susan solves the reach but still needs a hand on it, and a hand on a loaded tray is how glasses get knocked over.
 
@@ -394,7 +394,7 @@ See encoder_accel_servo_dashboard.py in the Lab 4 folder for an optional example
 **`Lab 4/encoder_accel_servo_dashboard.py`**
 
 
-### Part E: what we did
+### Part E: what I did
 
 **Code:** [`lazy_susan.py`](lazy_susan.py)
 
@@ -590,7 +590,7 @@ Document all the prototypes and iterations you have designed and worked on! Agai
 ---
 
 
-### Part F: what we did
+### Part F: what I did
 
 - **Looks like:** *(photos of the final build on a table with dishes)*
 - **Works like:** the video above, plus [`lazy_susan.py`](lazy_susan.py)
