@@ -161,6 +161,15 @@ Then press q to quit and run it again with a flag. Each one changes a single thi
 
 \*\*\***Include a short video or screenshots of your experiments with the person detection. Write down three situations where it did not see you, or saw a person who was not there, and what you think the cause was.**\*\*\*
 
+**Video:** [Person detection over VNC, `yolo_person.py`](images/yolo-person-demo.mov) (person at 0.91 confidence)
+
+**Bus test from Part A:**
+
+![YOLO bus test](images/yolo-bus.jpg)
+
+*(three situations where it missed you or saw someone who wasn't there, and the likely cause)*
+
+
 
 
 ## Part C. 
