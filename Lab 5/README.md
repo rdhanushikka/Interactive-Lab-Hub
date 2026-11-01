@@ -167,7 +167,19 @@ Then press q to quit and run it again with a flag. Each one changes a single thi
 
 ![YOLO bus test](images/yolo-bus.jpg)
 
-*(three situations where it missed you or saw someone who wasn't there, and the likely cause)*
+**Where it didn't work:**
+
+1. **Missed a person who was right there.** Centered, well lit, looking at the camera, and no box at all. The frame cuts off at the chest, so the model only has a head and shoulders to work with, and the bright window behind flattens the contrast. With the bar raised to `--conf 0.7` that was enough to drop below it. A detector trained on whole people is unsure about half of one.
+
+   ![YOLO missed a backlit, cropped person](images/yolo-miss-backlit.jpg)
+
+2. **Saw a person who wasn't there.** With the bar lowered to `--conf 0.2`, a backpack on an office chair got a person box at 0.22. A dark, rounded shape at seated-torso height on a chair is what a person from behind looks like to the model. The 0.72 box on the left is a real person, cut off at the edge of the frame, which is the same partial-body problem as above but on the other side of the threshold.
+
+   ![YOLO called a backpack a person](images/yolo-false-backpack.jpg)
+
+3. *(third situation)*
+
+The two failures pull in opposite directions. Raising the threshold loses real people at the edge of the frame or in bad light; lowering it invents people out of furniture. For an overnight system that means the threshold is a design choice about which mistake is cheaper, not a number to tune once.
 
 
 
