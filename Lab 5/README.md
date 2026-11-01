@@ -328,7 +328,7 @@ Use storyboards and/or [Verplank diagrams](https://ccrma.stanford.edu/courses/25
 
 **Storyboard, three panels:**
 
-*(sketch: `images/water-storyboard.jpeg`)*
+![Water by the bed storyboard](images/water-storyboard.png)
 
 1. **Before bed.** The bottle goes on the nightstand, in front of the camera. The person turns off the light. That's the hand-off: no words, no button. Half a minute of dark and the device's green LED goes out, which is its acknowledgement.
 2. **While asleep.** Every five seconds YOLO looks for a bottle or cup. If the box jumps, or disappears and comes back, that's a reach. Each one is logged with the time. If it's too dark to see, the device logs "dark" rather than guessing.
