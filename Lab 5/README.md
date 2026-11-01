@@ -304,6 +304,12 @@ Use storyboards and/or [Verplank diagrams](https://ccrma.stanford.edu/courses/25
 
 1. Look at and give feedback on the Part F storyboards.
    **Put the feedback for your ideas here.**
+
+   **Feedback on the storyboard:**
+
+   - *Ani Hadagali:* liked that there's no new bedtime ritual. You already turn the light off, so the device just rides on that. She said that's the part she'd keep no matter what else changes, and asked whether it still works for someone who reads with the lamp on until late.
+   - *Gabriela Yauli:* pointed out that the LED turning off instead of on is the right call for a bedroom, and that it's easy to miss in the drawing because the camera is small. Suggested making the LED the thing the eye lands on in panel 3.
+   - The morning line got the most comments. People liked that it's one sentence with the times in it, so you can check it against what you remember. One question that came up more than once: what do you do with "2 reaches"? A few people suggested showing it over a week rather than one night, so a bad night stands out.
 2. [Update your Lab Hub](prep.md#get-the-latest-content) to get the latest content for Part 2.
 3. Decide where the device will spend the night and who else lives there. Get their OK before the first run.
 4. Revise your storyboard with the feedback and with what you learned in Part E about where the pipeline breaks.
