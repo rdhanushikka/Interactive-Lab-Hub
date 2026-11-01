@@ -210,6 +210,20 @@ Consider how you might use this position based approach to create an interaction
 
 \*\*\***Include a screenshot or short video of the hand pose demo, and write how you might use face, hand or body pose tracking in your observant system.**\*\*\*
 
+**Video:** [Hand pose demo over VNC, `hand_pose.py`](images/hand-pose-demo.mov)
+
+| pinch: thumb to index closed, volume 0 % | open hand, volume 27 % |
+|---|---|
+| ![pinch](images/hand-pose-pinch.jpg) | ![open hand](images/hand-pose-open.jpg) |
+
+Both features worked at 11 to 12 frames per second over VNC. The pinch sets the volume from the thumb-to-index distance, so the bar follows the hand continuously; the open hand reads as a Quiet Coyote and drops it to zero. A hand is 21 landmarks and the "event" is a rule over two of them, which is the same shape as the interpreter in Part E: pixels in, a word out.
+
+**How pose tracking could fit the water device.** Three places, in order of how much I'd trust them:
+
+1. *The reach itself.* YOLO watches the bottle; MediaPipe could watch the hand. A hand entering the nightstand region and closing is a reach even if the bottle never leaves the frame, which catches the sip-without-lifting case the bottle-only version misses. In the dark this fails the same way YOLO does, so it's a second witness, not a replacement.
+2. *A silent hand-off.* A pinch held toward the camera for two seconds could mean "night starts now," for anyone who doesn't turn the light off at bedtime. It keeps the no-words rule. The risk is a pinch that wasn't meant, so it would need the LED to confirm by going out.
+3. *Posture, not identity.* Body pose could tell sitting up from lying down, which would let the morning line say "you sat up at 3:15" alongside the reaches. Face tracking is the one to avoid: the device doesn't need to know whose face it is, only that a hand went to the bottle, and the write-up should be able to say it never looked at a face.
+
 
 ## Part D. 
 ### Reason: run Qwen on the Pi with Ollama
