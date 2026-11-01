@@ -308,6 +308,31 @@ Use storyboards and/or [Verplank diagrams](https://ccrma.stanford.edu/courses/25
 
 \*\*\***Insert ideas, sketches, Verplank diagrams and storyboards for your night-time interaction here.**\*\*\*
 
+### Part F: Water by the bed
+
+**The idea.** A camera on the nightstand watches the water bottle. Overnight it logs whether the bottle is there and when it gets picked up. In the morning the device says how many times you reached for water and when. It measures something a sleep tracker can't, it never has to look at a face, and when nothing happened it says so.
+
+**Storyboard, three panels:**
+
+*(sketch: `images/water-storyboard.jpeg`)*
+
+1. **Before bed.** The bottle goes on the nightstand, in front of the camera. The person turns off the light. That's the hand-off: no words, no button. Half a minute of dark and the device's green LED goes out, which is its acknowledgement.
+2. **While asleep.** Every five seconds YOLO looks for a bottle or cup. If the box jumps, or disappears and comes back, that's a reach. Each one is logged with the time. If it's too dark to see, the device logs "dark" rather than guessing.
+3. **When awake.** The screen shows one line: "You reached for the water twice, at 1:20 and 4:50," with a bar across the night and a tick for each reach. Or, on a quiet night: "The bottle never moved." Optionally the Lab 3 voice reads it out.
+
+**Verplank, in short.** *Idea:* the water bottle as a witness to the night. *Metaphor:* a night nurse who notes when you stirred. *Model:* the person believes the device counts reaches, not sips, and is told so. *Display:* a bar for the night, ticks for reaches, grey where it couldn't see. *Error:* a reach the camera missed in the dark is reported as "couldn't see," not as "didn't happen." *Scenario:* bottle down, light off, sleep, read one line in the morning. *Task:* nothing during the night; the device's whole job is to not need you.
+
+**Bellotti's five questions:**
+
+- *Address.* How does the device know I'm talking to it? It doesn't need to. The only input is the light going off, which you'd do anyway. Nothing else it sees is treated as a command.
+- *Attention.* How do I know it's listening? The green LED is on while it's waiting, and goes off when the night begins. Off means "I've got it," which is the right polarity for a bedroom.
+- *Action.* How does it know what I want? The question is fixed: how often did you reach for water. There's no menu, so there's nothing to get wrong at midnight.
+- *Alignment.* How do I know what it did? The morning line includes the times, so you can check them against your own memory, and it says how long it couldn't see.
+- *Accident.* How do I undo a mistake? There's nothing to undo overnight. If the camera called a reach that wasn't one, the snapshot it saved shows what it saw, and the morning line can be ignored. The cost of an error is one wrong sentence.
+
+**Where it will break, from Part B.** Darkness is the main one. A bottle in a dark room is a bottle the model can't see, so the device has to tell "gone" from "dark" apart, which it does from the frame's brightness. A reach in full dark won't be seen unless the lamp comes on. The other is a second bottle-shaped thing on the nightstand, a phone stood up or a lamp base, getting the box instead. The nightstand should hold the bottle and not much else.
+
+
 ## Prep for Part 2
 
 1. Look at and give feedback on the Part F storyboards.
@@ -318,12 +343,26 @@ Use storyboards and/or [Verplank diagrams](https://ccrma.stanford.edu/courses/25
 
 \*\*\***Post your revised storyboard here.**\*\*\*
 
+*(revised storyboard after class feedback)*
+
+
 ## Part G. 
 ### Design the interaction before
 
 The hand-off: the person tells the device what to watch tonight, and the device acknowledges it. Keep it to a thirty-second ritual. A button or a touch (Lab 4), a spoken sentence (Lab 3), a wave or a Quiet Coyote at the camera (Part C). The acknowledgement can be a line on the display, a tone, or an LED that dims rather than lights up. At its simplest, the hand-off just sets the question that the morning will answer.
 
 \*\*\***Describe the interaction before.**\*\*\*
+
+### Part G: before bed
+
+Put the bottle on the nightstand and turn off the light. That's it.
+
+The device has been running since the evening with its green LED on, meaning "waiting for the night." When the frame's average brightness stays below a threshold for thirty seconds, it writes `night_start` to the log and turns the LED off. From that moment the morning report counts. The acknowledgement is a light going out rather than coming on, because a bedroom at bedtime doesn't want a new light in it.
+
+There is no spoken line and no button on purpose. The earlier draft had the person say "goodnight" to the device; that was dropped because it adds a step to a ritual that already exists. The light switch is the ritual.
+
+Threshold and timing are flags on `water_night.py` (`--dark`, `--night-after`), set once by reading the brightness in the actual room with the lamp on and off.
+
 
 ## Part H. 
 ### Incorporate the observant system
@@ -339,6 +378,17 @@ Fake a night first: run it for thirty seconds while you walk around, stop it, an
 
 \*\*\***Screenshots or videos of the running system.**\*\*\*
 
+### Part H: the night shift
+
+**Code:** [`water_night.py`](water_night.py)
+
+Every five seconds it grabs a frame, measures brightness, and runs YOLO on three classes only: bottle, wine glass, cup. The largest box wins. The interpreter is a small state machine with five readings: `present`, `moved` (the box center jumped more than 50 px), `gone` (no box in a lit frame), `back`, and `dark` (no box, but the frame is too dark to trust that). Only changes are written to `night_log.jsonl`, with a snapshot in `snaps/` on every move, gone, or back. A heartbeat line every ten minutes tells a quiet night from a crashed one. It runs in `tmux` so it survives the ssh session closing.
+
+The decision that matters most is treating `dark` as its own reading. Without it, every dark minute would read as "the bottle is gone," and the morning would report a hundred reaches.
+
+*(screenshot of the night shift running, and the night log from a real night: `night_log.jsonl`)*
+
+
 ## Part I. 
 ### Design the interaction after
 
@@ -349,6 +399,24 @@ The reveal. The night produced a log; the morning turns it into something a half
 ```
 
 Make it yours: show the report on the Mini PiTFT, read it aloud with Piper from Lab 3, plot the night as a timeline, or ask for JSON (`--json`, Part D) and move a servo. Whatever you pick, make sure it is honest about a night in which nothing happened.
+
+### Part I: the morning
+
+**Code:** [`water_morning.py`](water_morning.py)
+
+The counting is done in code, not by the language model. The script reads the log, takes everything after `night_start`, and turns `moved` and `gone` events into reaches, merging anything within 90 seconds into one, since a single pick-up produces gone, back, and a shuffle. It also adds up the minutes the camera couldn't see. Then it writes the sentence itself:
+
+```
+You reached for the water 2 times, at 1:20 and 4:50. The camera couldn't see for 330 minutes of that.
+The bottle never moved between 11:15 and 7:00.
+```
+
+Those two lines are from two fake nights used to test it. Qwen is optional (`--qwen`): it's handed the finished sentence and asked to make it warmer without adding facts, so the numbers can't drift. `--screen` draws the night on the MiniPiTFT as a bar with a tick per reach and the dark stretches noted, and `--speak` reads the line aloud with the Lab 3 voice.
+
+Honesty on a quiet night is built in: no reaches means "the bottle never moved," and the model is never asked to invent an unusual moment.
+
+*(photo of the morning screen after a real night)*
+
 
 ## Final documentation
 
