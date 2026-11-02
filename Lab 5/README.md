@@ -367,7 +367,21 @@ Every five seconds it grabs a frame, measures brightness, and runs YOLO on three
 
 The decision that matters most is treating `dark` as its own reading. Without it, every dark minute would read as "the bottle is gone," and the morning would report a hundred reaches.
 
-*(screenshot of the night shift running, and the night log from a real night: `night_log.jsonl`)*
+**First real night, 1 to 2 November, on a MacBook's built-in camera.** The Pi with the webcam was elsewhere, so the night shift ran on a laptop with the lid open. Log: [`logs/night_2026-11-01_first_run.jsonl`](logs/night_2026-11-01_first_run.jsonl), 9.5 hours, 647 lines.
+
+It ran all night without crashing, and the morning report was wrong: 93 reaches. Two things the log and the snapshots showed.
+
+1. *The lights never went off.* Brightness stayed between 85 and 156 all night (the floor lamp and hallway light were on), so `night_start` never fired and the report counted from 11:57 pm. The silent hand-off depends on the room actually going dark, and this room didn't. `water_morning.py --night-start HH:MM` was added for exactly this case.
+
+2. *A cup next to the bottle.* The first version took the largest drinkware box in each frame. A white cup at the right of the table was detected at about the same confidence as the bottle (0.34 vs 0.35), so the "bottle" position flipped between the two all night and every flip was logged as a move. The 148 gone/back pairs were the bottle dropping below the confidence threshold for one look and coming back.
+
+| the bottle picked up, 12:16 am | the scene most of the night |
+|---|---|
+| ![reach at 12:16](images/night1-reach-0016.jpg) | ![living room, lamp on, cup to the right](images/night1-living-room.jpg) |
+
+**What changed in the interpreter after that night.** It now locks onto one bottle and follows it by position, only accepting detections of the same class within 120 px of where it last was. The confidence threshold dropped from 0.3 to 0.15, which is safe once position filtering ignores stray boxes, and means the bottle rarely drops out. A change has to hold for 3 looks in a row before it's logged, and an absence for 6, so one-look flicker never becomes an event. Looks are every 2 s instead of 5. The tracker is a class with no camera in it, so the whole night could be replayed as a test: 17,000 simulated looks with the cup flickering and the bottle dropping out 10 % of the time produced zero false events, and two 12 s pick-ups produced exactly two gone/back pairs. A sip shorter than about 12 s, with the bottle put back in the same spot, is still missed; that's the stated limit.
+
+*(screenshot and log from the second night, with the fixed interpreter)*
 
 
 ## Part I. 
@@ -394,7 +408,7 @@ The bottle never moved between 11:15 and 7:00.
 
 Those two lines are from two fake nights used to test it. Qwen is optional (`--qwen`): it's handed the finished sentence and asked to rephrase it without adding facts, so the numbers can't drift. `--screen` draws the night on the MiniPiTFT as a bar with a tick per reach and the dark stretches noted, and `--speak` reads the line aloud with the Lab 3 voice.
 
-Honesty on a quiet night is built in: no reaches means "the bottle never moved," and the model is never asked to invent an unusual moment.
+A quiet night prints "the bottle never moved," and the model is never asked to invent an unusual moment. If the count comes out implausibly high, the report says so and points at the snapshots instead of listing ninety times. `--night-start HH:MM` sets the start by hand when the lights never went off.
 
 *(photo of the morning screen after a real night)*
 

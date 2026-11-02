@@ -1,0 +1,647 @@
+{"t": "2026-11-01T23:57:10", "alive": true, "light": 156.1, "state": "gone"}
+{"t": "2026-11-01T23:57:31", "stopped": true}
+{"t": "2026-11-01T23:57:35", "alive": true, "light": 134.5, "state": "gone"}
+{"t": "2026-11-01T23:58:07", "reading": "back", "light": 127.1, "what": "bottle", "x": 377, "y": 414, "conf": 0.84}
+{"t": "2026-11-02T00:07:36", "alive": true, "light": 128.9, "state": "present"}
+{"t": "2026-11-02T00:16:40", "reading": "gone", "light": 136.0}
+{"t": "2026-11-02T00:16:45", "reading": "back", "light": 127.7, "what": "bottle", "x": 339, "y": 393, "conf": 0.86}
+{"t": "2026-11-02T00:17:37", "alive": true, "light": 127.4, "state": "present"}
+{"t": "2026-11-02T00:18:18", "reading": "moved", "light": 137.5, "what": "bottle", "x": 271, "y": 368, "conf": 0.68}
+{"t": "2026-11-02T00:18:24", "reading": "moved", "light": 132.4, "what": "bottle", "x": 336, "y": 323, "conf": 0.78}
+{"t": "2026-11-02T00:18:29", "reading": "moved", "light": 155.8, "what": "bottle", "x": 219, "y": 440, "conf": 0.66}
+{"t": "2026-11-02T00:18:34", "reading": "moved", "light": 133.6, "what": "bottle", "x": 328, "y": 434, "conf": 0.67}
+{"t": "2026-11-02T00:18:39", "reading": "moved", "light": 142.2, "what": "bottle", "x": 330, "y": 369, "conf": 0.63}
+{"t": "2026-11-02T00:18:41", "stopped": true}
+{"t": "2026-11-02T00:18:49", "reading": "present", "light": 137.2, "what": "bottle", "x": 330, "y": 368, "conf": 0.5}
+{"t": "2026-11-02T00:18:49", "alive": true, "light": 137.2, "state": "present"}
+{"t": "2026-11-02T00:20:17", "reading": "moved", "light": 138.6, "what": "cup", "x": 485, "y": 467, "conf": 0.56}
+{"t": "2026-11-02T00:20:22", "reading": "moved", "light": 138.7, "what": "bottle", "x": 328, "y": 367, "conf": 0.44}
+{"t": "2026-11-02T00:24:40", "reading": "moved", "light": 140.4, "what": "cup", "x": 484, "y": 466, "conf": 0.54}
+{"t": "2026-11-02T00:24:45", "reading": "moved", "light": 140.6, "what": "bottle", "x": 328, "y": 367, "conf": 0.39}
+{"t": "2026-11-02T00:26:03", "reading": "moved", "light": 141.7, "what": "cup", "x": 484, "y": 467, "conf": 0.5}
+{"t": "2026-11-02T00:26:08", "reading": "moved", "light": 139.2, "what": "bottle", "x": 328, "y": 368, "conf": 0.36}
+{"t": "2026-11-02T00:28:49", "alive": true, "light": 141.7, "state": "present"}
+{"t": "2026-11-02T00:38:50", "alive": true, "light": 134.0, "state": "present"}
+{"t": "2026-11-02T00:48:51", "alive": true, "light": 133.9, "state": "present"}
+{"t": "2026-11-02T00:58:52", "alive": true, "light": 133.1, "state": "present"}
+{"t": "2026-11-02T01:08:53", "alive": true, "light": 133.3, "state": "present"}
+{"t": "2026-11-02T01:18:54", "alive": true, "light": 132.9, "state": "present"}
+{"t": "2026-11-02T01:28:55", "alive": true, "light": 87.0, "state": "present"}
+{"t": "2026-11-02T01:29:16", "reading": "moved", "light": 87.5, "what": "cup", "x": 475, "y": 465, "conf": 0.3}
+{"t": "2026-11-02T01:29:21", "reading": "gone", "light": 87.6}
+{"t": "2026-11-02T01:29:26", "reading": "back", "light": 88.5, "what": "bottle", "x": 332, "y": 370, "conf": 0.31}
+{"t": "2026-11-02T01:29:32", "reading": "moved", "light": 88.4, "what": "cup", "x": 475, "y": 466, "conf": 0.31}
+{"t": "2026-11-02T01:30:18", "reading": "moved", "light": 88.2, "what": "bottle", "x": 332, "y": 370, "conf": 0.32}
+{"t": "2026-11-02T01:30:29", "reading": "moved", "light": 88.0, "what": "cup", "x": 475, "y": 465, "conf": 0.41}
+{"t": "2026-11-02T01:30:34", "reading": "gone", "light": 88.0}
+{"t": "2026-11-02T01:30:39", "reading": "back", "light": 87.9, "what": "bottle", "x": 332, "y": 370, "conf": 0.34}
+{"t": "2026-11-02T01:31:31", "reading": "moved", "light": 87.1, "what": "cup", "x": 475, "y": 465, "conf": 0.35}
+{"t": "2026-11-02T01:31:36", "reading": "moved", "light": 87.1, "what": "bottle", "x": 332, "y": 370, "conf": 0.3}
+{"t": "2026-11-02T01:31:46", "reading": "moved", "light": 87.1, "what": "cup", "x": 475, "y": 465, "conf": 0.4}
+{"t": "2026-11-02T01:31:52", "reading": "moved", "light": 87.0, "what": "bottle", "x": 332, "y": 370, "conf": 0.35}
+{"t": "2026-11-02T01:33:20", "reading": "moved", "light": 87.6, "what": "cup", "x": 476, "y": 465, "conf": 0.38}
+{"t": "2026-11-02T01:33:40", "reading": "moved", "light": 87.4, "what": "bottle", "x": 332, "y": 369, "conf": 0.31}
+{"t": "2026-11-02T01:33:46", "reading": "moved", "light": 87.5, "what": "cup", "x": 475, "y": 466, "conf": 0.33}
+{"t": "2026-11-02T01:33:56", "reading": "moved", "light": 87.4, "what": "bottle", "x": 332, "y": 370, "conf": 0.31}
+{"t": "2026-11-02T01:34:01", "reading": "moved", "light": 87.4, "what": "cup", "x": 475, "y": 465, "conf": 0.35}
+{"t": "2026-11-02T01:34:12", "reading": "moved", "light": 87.3, "what": "bottle", "x": 332, "y": 370, "conf": 0.3}
+{"t": "2026-11-02T01:34:17", "reading": "moved", "light": 87.3, "what": "cup", "x": 475, "y": 465, "conf": 0.32}
+{"t": "2026-11-02T01:34:22", "reading": "moved", "light": 87.2, "what": "bottle", "x": 332, "y": 370, "conf": 0.33}
+{"t": "2026-11-02T01:34:43", "reading": "moved", "light": 87.2, "what": "cup", "x": 475, "y": 465, "conf": 0.35}
+{"t": "2026-11-02T01:34:48", "reading": "gone", "light": 87.2}
+{"t": "2026-11-02T01:34:53", "reading": "back", "light": 87.2, "what": "bottle", "x": 332, "y": 370, "conf": 0.35}
+{"t": "2026-11-02T01:37:34", "reading": "moved", "light": 87.6, "what": "cup", "x": 476, "y": 465, "conf": 0.41}
+{"t": "2026-11-02T01:37:44", "reading": "moved", "light": 87.4, "what": "bottle", "x": 332, "y": 370, "conf": 0.36}
+{"t": "2026-11-02T01:37:49", "reading": "moved", "light": 87.5, "what": "cup", "x": 475, "y": 465, "conf": 0.37}
+{"t": "2026-11-02T01:38:10", "reading": "moved", "light": 87.4, "what": "bottle", "x": 332, "y": 370, "conf": 0.31}
+{"t": "2026-11-02T01:38:21", "reading": "gone", "light": 87.3}
+{"t": "2026-11-02T01:38:26", "reading": "back", "light": 87.3, "what": "cup", "x": 475, "y": 466, "conf": 0.31}
+{"t": "2026-11-02T01:38:31", "reading": "gone", "light": 87.3}
+{"t": "2026-11-02T01:38:36", "reading": "back", "light": 87.3, "what": "cup", "x": 475, "y": 465, "conf": 0.32}
+{"t": "2026-11-02T01:38:41", "reading": "moved", "light": 87.2, "what": "bottle", "x": 332, "y": 370, "conf": 0.3}
+{"t": "2026-11-02T01:38:57", "alive": true, "light": 87.2, "state": "present"}
+{"t": "2026-11-02T01:41:17", "reading": "moved", "light": 87.5, "what": "cup", "x": 475, "y": 465, "conf": 0.38}
+{"t": "2026-11-02T01:41:27", "reading": "moved", "light": 87.6, "what": "bottle", "x": 332, "y": 370, "conf": 0.31}
+{"t": "2026-11-02T01:41:38", "reading": "moved", "light": 87.4, "what": "cup", "x": 475, "y": 465, "conf": 0.36}
+{"t": "2026-11-02T01:41:53", "reading": "moved", "light": 87.4, "what": "bottle", "x": 332, "y": 370, "conf": 0.32}
+{"t": "2026-11-02T01:42:03", "reading": "moved", "light": 87.3, "what": "cup", "x": 475, "y": 466, "conf": 0.32}
+{"t": "2026-11-02T01:42:14", "reading": "moved", "light": 87.3, "what": "bottle", "x": 332, "y": 370, "conf": 0.36}
+{"t": "2026-11-02T01:42:19", "reading": "moved", "light": 87.3, "what": "cup", "x": 476, "y": 465, "conf": 0.37}
+{"t": "2026-11-02T01:42:24", "reading": "moved", "light": 87.3, "what": "bottle", "x": 332, "y": 370, "conf": 0.33}
+{"t": "2026-11-02T01:42:45", "reading": "gone", "light": 87.2}
+{"t": "2026-11-02T01:42:50", "reading": "back", "light": 87.2, "what": "bottle", "x": 332, "y": 370, "conf": 0.34}
+{"t": "2026-11-02T01:42:55", "reading": "gone", "light": 87.2}
+{"t": "2026-11-02T01:43:00", "reading": "back", "light": 87.1, "what": "cup", "x": 475, "y": 466, "conf": 0.32}
+{"t": "2026-11-02T01:43:06", "reading": "moved", "light": 87.2, "what": "bottle", "x": 332, "y": 370, "conf": 0.38}
+{"t": "2026-11-02T01:43:21", "reading": "moved", "light": 87.9, "what": "cup", "x": 475, "y": 465, "conf": 0.37}
+{"t": "2026-11-02T01:43:26", "reading": "moved", "light": 87.1, "what": "bottle", "x": 332, "y": 370, "conf": 0.35}
+{"t": "2026-11-02T01:45:31", "reading": "moved", "light": 87.5, "what": "cup", "x": 476, "y": 465, "conf": 0.34}
+{"t": "2026-11-02T01:46:07", "reading": "moved", "light": 87.3, "what": "bottle", "x": 332, "y": 370, "conf": 0.3}
+{"t": "2026-11-02T01:46:12", "reading": "moved", "light": 87.3, "what": "cup", "x": 474, "y": 466, "conf": 0.3}
+{"t": "2026-11-02T01:46:18", "reading": "moved", "light": 87.3, "what": "bottle", "x": 332, "y": 370, "conf": 0.34}
+{"t": "2026-11-02T01:46:28", "reading": "gone", "light": 87.2}
+{"t": "2026-11-02T01:46:33", "reading": "back", "light": 87.2, "what": "bottle", "x": 332, "y": 370, "conf": 0.32}
+{"t": "2026-11-02T01:46:43", "reading": "moved", "light": 87.2, "what": "cup", "x": 475, "y": 466, "conf": 0.33}
+{"t": "2026-11-02T01:46:54", "reading": "moved", "light": 87.0, "what": "bottle", "x": 332, "y": 370, "conf": 0.37}
+{"t": "2026-11-02T01:48:58", "alive": true, "light": 86.9, "state": "present"}
+{"t": "2026-11-02T01:49:24", "reading": "moved", "light": 87.5, "what": "cup", "x": 475, "y": 465, "conf": 0.4}
+{"t": "2026-11-02T01:49:29", "reading": "moved", "light": 87.5, "what": "bottle", "x": 332, "y": 370, "conf": 0.33}
+{"t": "2026-11-02T01:49:35", "reading": "moved", "light": 87.5, "what": "cup", "x": 475, "y": 466, "conf": 0.3}
+{"t": "2026-11-02T01:49:45", "reading": "gone", "light": 87.4}
+{"t": "2026-11-02T01:49:50", "reading": "back", "light": 87.4, "what": "bottle", "x": 332, "y": 370, "conf": 0.34}
+{"t": "2026-11-02T01:49:55", "reading": "moved", "light": 87.4, "what": "cup", "x": 475, "y": 466, "conf": 0.31}
+{"t": "2026-11-02T01:50:11", "reading": "moved", "light": 88.3, "what": "bottle", "x": 332, "y": 369, "conf": 0.33}
+{"t": "2026-11-02T01:50:16", "reading": "moved", "light": 87.8, "what": "cup", "x": 475, "y": 465, "conf": 0.37}
+{"t": "2026-11-02T01:50:26", "reading": "moved", "light": 87.1, "what": "bottle", "x": 332, "y": 370, "conf": 0.35}
+{"t": "2026-11-02T01:50:47", "reading": "gone", "light": 87.1}
+{"t": "2026-11-02T01:50:52", "reading": "back", "light": 87.0, "what": "bottle", "x": 332, "y": 370, "conf": 0.39}
+{"t": "2026-11-02T01:50:58", "reading": "gone", "light": 87.0}
+{"t": "2026-11-02T01:51:03", "reading": "back", "light": 87.0, "what": "bottle", "x": 332, "y": 370, "conf": 0.32}
+{"t": "2026-11-02T01:53:18", "reading": "moved", "light": 87.5, "what": "cup", "x": 476, "y": 465, "conf": 0.39}
+{"t": "2026-11-02T01:53:33", "reading": "moved", "light": 87.4, "what": "bottle", "x": 332, "y": 370, "conf": 0.31}
+{"t": "2026-11-02T01:53:44", "reading": "moved", "light": 87.7, "what": "cup", "x": 475, "y": 465, "conf": 0.38}
+{"t": "2026-11-02T01:53:49", "reading": "moved", "light": 87.5, "what": "bottle", "x": 332, "y": 370, "conf": 0.31}
+{"t": "2026-11-02T01:54:10", "reading": "moved", "light": 87.6, "what": "cup", "x": 476, "y": 465, "conf": 0.35}
+{"t": "2026-11-02T01:54:15", "reading": "gone", "light": 87.4}
+{"t": "2026-11-02T01:54:20", "reading": "back", "light": 87.3, "what": "cup", "x": 475, "y": 465, "conf": 0.34}
+{"t": "2026-11-02T01:54:25", "reading": "moved", "light": 87.2, "what": "bottle", "x": 332, "y": 370, "conf": 0.32}
+{"t": "2026-11-02T01:54:30", "reading": "moved", "light": 87.2, "what": "cup", "x": 475, "y": 465, "conf": 0.32}
+{"t": "2026-11-02T01:54:41", "reading": "moved", "light": 87.2, "what": "bottle", "x": 332, "y": 370, "conf": 0.32}
+{"t": "2026-11-02T01:54:46", "reading": "gone", "light": 87.3}
+{"t": "2026-11-02T01:54:51", "reading": "back", "light": 87.2, "what": "bottle", "x": 332, "y": 370, "conf": 0.33}
+{"t": "2026-11-02T01:55:07", "reading": "moved", "light": 87.1, "what": "cup", "x": 475, "y": 466, "conf": 0.34}
+{"t": "2026-11-02T01:55:12", "reading": "moved", "light": 87.2, "what": "bottle", "x": 332, "y": 370, "conf": 0.38}
+{"t": "2026-11-02T01:57:27", "reading": "moved", "light": 87.6, "what": "cup", "x": 475, "y": 466, "conf": 0.31}
+{"t": "2026-11-02T01:57:37", "reading": "gone", "light": 88.4}
+{"t": "2026-11-02T01:57:42", "reading": "back", "light": 88.2, "what": "cup", "x": 475, "y": 466, "conf": 0.33}
+{"t": "2026-11-02T01:57:47", "reading": "moved", "light": 88.2, "what": "bottle", "x": 332, "y": 370, "conf": 0.32}
+{"t": "2026-11-02T01:57:53", "reading": "moved", "light": 88.1, "what": "cup", "x": 475, "y": 465, "conf": 0.35}
+{"t": "2026-11-02T01:57:58", "reading": "moved", "light": 88.0, "what": "bottle", "x": 332, "y": 370, "conf": 0.31}
+{"t": "2026-11-02T01:58:08", "reading": "moved", "light": 88.7, "what": "cup", "x": 475, "y": 465, "conf": 0.32}
+{"t": "2026-11-02T01:58:19", "reading": "moved", "light": 87.3, "what": "bottle", "x": 332, "y": 370, "conf": 0.31}
+{"t": "2026-11-02T01:58:39", "reading": "moved", "light": 87.2, "what": "cup", "x": 475, "y": 465, "conf": 0.3}
+{"t": "2026-11-02T01:58:45", "reading": "moved", "light": 87.2, "what": "bottle", "x": 332, "y": 370, "conf": 0.33}
+{"t": "2026-11-02T01:59:00", "alive": true, "light": 87.1, "state": "present"}
+{"t": "2026-11-02T02:01:20", "reading": "moved", "light": 87.5, "what": "cup", "x": 475, "y": 465, "conf": 0.33}
+{"t": "2026-11-02T02:01:31", "reading": "moved", "light": 87.5, "what": "bottle", "x": 332, "y": 370, "conf": 0.3}
+{"t": "2026-11-02T02:01:51", "reading": "moved", "light": 87.4, "what": "cup", "x": 475, "y": 466, "conf": 0.31}
+{"t": "2026-11-02T02:01:56", "reading": "moved", "light": 87.3, "what": "bottle", "x": 332, "y": 370, "conf": 0.3}
+{"t": "2026-11-02T02:02:02", "reading": "gone", "light": 87.3}
+{"t": "2026-11-02T02:02:07", "reading": "back", "light": 87.3, "what": "cup", "x": 476, "y": 465, "conf": 0.37}
+{"t": "2026-11-02T02:02:12", "reading": "moved", "light": 87.3, "what": "bottle", "x": 332, "y": 370, "conf": 0.32}
+{"t": "2026-11-02T02:02:28", "reading": "moved", "light": 87.2, "what": "cup", "x": 475, "y": 465, "conf": 0.38}
+{"t": "2026-11-02T02:02:38", "reading": "moved", "light": 87.2, "what": "bottle", "x": 332, "y": 370, "conf": 0.36}
+{"t": "2026-11-02T02:02:59", "reading": "moved", "light": 87.1, "what": "cup", "x": 475, "y": 466, "conf": 0.32}
+{"t": "2026-11-02T02:03:04", "reading": "gone", "light": 87.1}
+{"t": "2026-11-02T02:03:09", "reading": "back", "light": 87.1, "what": "bottle", "x": 332, "y": 370, "conf": 0.35}
+{"t": "2026-11-02T02:05:45", "reading": "gone", "light": 87.4}
+{"t": "2026-11-02T02:05:50", "reading": "back", "light": 87.4, "what": "cup", "x": 475, "y": 465, "conf": 0.4}
+{"t": "2026-11-02T02:06:00", "reading": "moved", "light": 87.3, "what": "bottle", "x": 332, "y": 370, "conf": 0.3}
+{"t": "2026-11-02T02:06:11", "reading": "moved", "light": 87.2, "what": "cup", "x": 475, "y": 466, "conf": 0.33}
+{"t": "2026-11-02T02:06:16", "reading": "gone", "light": 87.2}
+{"t": "2026-11-02T02:06:21", "reading": "back", "light": 87.2, "what": "bottle", "x": 332, "y": 370, "conf": 0.3}
+{"t": "2026-11-02T02:06:26", "reading": "moved", "light": 87.2, "what": "cup", "x": 475, "y": 465, "conf": 0.31}
+{"t": "2026-11-02T02:06:31", "reading": "moved", "light": 88.4, "what": "bottle", "x": 332, "y": 370, "conf": 0.35}
+{"t": "2026-11-02T02:07:28", "reading": "moved", "light": 87.0, "what": "cup", "x": 475, "y": 465, "conf": 0.35}
+{"t": "2026-11-02T02:07:34", "reading": "moved", "light": 87.1, "what": "bottle", "x": 332, "y": 370, "conf": 0.37}
+{"t": "2026-11-02T02:09:02", "alive": true, "light": 87.0, "state": "present"}
+{"t": "2026-11-02T02:09:22", "reading": "moved", "light": 87.5, "what": "cup", "x": 475, "y": 465, "conf": 0.43}
+{"t": "2026-11-02T02:09:38", "reading": "moved", "light": 87.5, "what": "bottle", "x": 332, "y": 370, "conf": 0.31}
+{"t": "2026-11-02T02:09:43", "reading": "moved", "light": 87.4, "what": "cup", "x": 475, "y": 466, "conf": 0.32}
+{"t": "2026-11-02T02:09:54", "reading": "moved", "light": 87.5, "what": "bottle", "x": 332, "y": 370, "conf": 0.33}
+{"t": "2026-11-02T02:11:01", "reading": "moved", "light": 87.1, "what": "cup", "x": 474, "y": 466, "conf": 0.32}
+{"t": "2026-11-02T02:11:06", "reading": "moved", "light": 87.2, "what": "bottle", "x": 332, "y": 370, "conf": 0.39}
+{"t": "2026-11-02T02:12:03", "reading": "moved", "light": 87.0, "what": "cup", "x": 474, "y": 465, "conf": 0.31}
+{"t": "2026-11-02T02:12:08", "reading": "moved", "light": 86.9, "what": "bottle", "x": 332, "y": 370, "conf": 0.32}
+{"t": "2026-11-02T02:13:26", "reading": "moved", "light": 87.6, "what": "cup", "x": 475, "y": 466, "conf": 0.34}
+{"t": "2026-11-02T02:13:42", "reading": "moved", "light": 87.5, "what": "bottle", "x": 332, "y": 370, "conf": 0.33}
+{"t": "2026-11-02T02:14:02", "reading": "moved", "light": 87.4, "what": "cup", "x": 475, "y": 465, "conf": 0.37}
+{"t": "2026-11-02T02:14:08", "reading": "moved", "light": 87.3, "what": "bottle", "x": 332, "y": 370, "conf": 0.3}
+{"t": "2026-11-02T02:14:13", "reading": "moved", "light": 87.3, "what": "cup", "x": 475, "y": 465, "conf": 0.44}
+{"t": "2026-11-02T02:14:23", "reading": "moved", "light": 87.3, "what": "bottle", "x": 332, "y": 370, "conf": 0.31}
+{"t": "2026-11-02T02:14:34", "reading": "moved", "light": 87.2, "what": "cup", "x": 475, "y": 466, "conf": 0.3}
+{"t": "2026-11-02T02:14:39", "reading": "moved", "light": 87.2, "what": "bottle", "x": 332, "y": 370, "conf": 0.31}
+{"t": "2026-11-02T02:15:31", "reading": "gone", "light": 87.1}
+{"t": "2026-11-02T02:15:36", "reading": "back", "light": 87.1, "what": "bottle", "x": 332, "y": 370, "conf": 0.39}
+{"t": "2026-11-02T02:17:25", "reading": "moved", "light": 87.6, "what": "cup", "x": 475, "y": 465, "conf": 0.36}
+{"t": "2026-11-02T02:17:40", "reading": "moved", "light": 87.5, "what": "bottle", "x": 332, "y": 370, "conf": 0.35}
+{"t": "2026-11-02T02:17:51", "reading": "moved", "light": 87.4, "what": "cup", "x": 475, "y": 465, "conf": 0.33}
+{"t": "2026-11-02T02:17:56", "reading": "moved", "light": 87.4, "what": "bottle", "x": 332, "y": 370, "conf": 0.34}
+{"t": "2026-11-02T02:18:12", "reading": "moved", "light": 87.3, "what": "cup", "x": 475, "y": 466, "conf": 0.36}
+{"t": "2026-11-02T02:18:17", "reading": "moved", "light": 87.4, "what": "bottle", "x": 332, "y": 370, "conf": 0.37}
+{"t": "2026-11-02T02:18:43", "reading": "gone", "light": 87.2}
+{"t": "2026-11-02T02:18:48", "reading": "back", "light": 87.2, "what": "bottle", "x": 332, "y": 370, "conf": 0.44}
+{"t": "2026-11-02T02:19:03", "alive": true, "light": 87.2, "state": "present"}
+{"t": "2026-11-02T02:21:28", "reading": "moved", "light": 87.6, "what": "cup", "x": 475, "y": 465, "conf": 0.4}
+{"t": "2026-11-02T02:21:34", "reading": "moved", "light": 87.6, "what": "bottle", "x": 332, "y": 370, "conf": 0.41}
+{"t": "2026-11-02T02:21:39", "reading": "moved", "light": 87.5, "what": "cup", "x": 475, "y": 465, "conf": 0.43}
+{"t": "2026-11-02T02:21:44", "reading": "gone", "light": 87.4}
+{"t": "2026-11-02T02:21:49", "reading": "back", "light": 87.4, "what": "cup", "x": 474, "y": 466, "conf": 0.34}
+{"t": "2026-11-02T02:21:54", "reading": "moved", "light": 87.4, "what": "bottle", "x": 332, "y": 369, "conf": 0.33}
+{"t": "2026-11-02T02:22:00", "reading": "gone", "light": 87.4}
+{"t": "2026-11-02T02:22:05", "reading": "back", "light": 87.3, "what": "cup", "x": 475, "y": 465, "conf": 0.38}
+{"t": "2026-11-02T02:22:20", "reading": "moved", "light": 87.2, "what": "bottle", "x": 332, "y": 370, "conf": 0.32}
+{"t": "2026-11-02T02:22:26", "reading": "moved", "light": 87.3, "what": "cup", "x": 475, "y": 465, "conf": 0.31}
+{"t": "2026-11-02T02:22:36", "reading": "moved", "light": 87.2, "what": "bottle", "x": 332, "y": 370, "conf": 0.33}
+{"t": "2026-11-02T02:22:57", "reading": "gone", "light": 87.2}
+{"t": "2026-11-02T02:23:02", "reading": "back", "light": 87.1, "what": "bottle", "x": 332, "y": 370, "conf": 0.32}
+{"t": "2026-11-02T02:23:38", "reading": "moved", "light": 87.0, "what": "cup", "x": 475, "y": 466, "conf": 0.32}
+{"t": "2026-11-02T02:23:43", "reading": "moved", "light": 87.1, "what": "bottle", "x": 332, "y": 370, "conf": 0.34}
+{"t": "2026-11-02T02:25:32", "reading": "moved", "light": 88.0, "what": "cup", "x": 475, "y": 465, "conf": 0.32}
+{"t": "2026-11-02T02:25:38", "reading": "moved", "light": 87.9, "what": "bottle", "x": 332, "y": 370, "conf": 0.3}
+{"t": "2026-11-02T02:25:43", "reading": "moved", "light": 87.9, "what": "cup", "x": 475, "y": 465, "conf": 0.33}
+{"t": "2026-11-02T02:25:58", "reading": "gone", "light": 87.8}
+{"t": "2026-11-02T02:26:04", "reading": "back", "light": 87.8, "what": "bottle", "x": 332, "y": 370, "conf": 0.31}
+{"t": "2026-11-02T02:26:14", "reading": "moved", "light": 87.8, "what": "cup", "x": 475, "y": 466, "conf": 0.35}
+{"t": "2026-11-02T02:26:19", "reading": "moved", "light": 87.7, "what": "bottle", "x": 332, "y": 370, "conf": 0.33}
+{"t": "2026-11-02T02:26:45", "reading": "moved", "light": 87.6, "what": "cup", "x": 475, "y": 466, "conf": 0.3}
+{"t": "2026-11-02T02:26:50", "reading": "moved", "light": 87.6, "what": "bottle", "x": 332, "y": 370, "conf": 0.32}
+{"t": "2026-11-02T02:26:55", "reading": "gone", "light": 87.6}
+{"t": "2026-11-02T02:27:01", "reading": "back", "light": 87.6, "what": "bottle", "x": 332, "y": 370, "conf": 0.34}
+{"t": "2026-11-02T02:27:06", "reading": "moved", "light": 87.6, "what": "cup", "x": 475, "y": 466, "conf": 0.34}
+{"t": "2026-11-02T02:27:11", "reading": "moved", "light": 87.5, "what": "bottle", "x": 332, "y": 370, "conf": 0.34}
+{"t": "2026-11-02T02:29:05", "alive": true, "light": 87.4, "state": "present"}
+{"t": "2026-11-02T02:29:21", "reading": "moved", "light": 88.0, "what": "cup", "x": 475, "y": 466, "conf": 0.31}
+{"t": "2026-11-02T02:29:31", "reading": "moved", "light": 88.0, "what": "bottle", "x": 332, "y": 370, "conf": 0.31}
+{"t": "2026-11-02T02:29:46", "reading": "moved", "light": 87.9, "what": "cup", "x": 475, "y": 466, "conf": 0.32}
+{"t": "2026-11-02T02:29:52", "reading": "moved", "light": 87.9, "what": "bottle", "x": 332, "y": 370, "conf": 0.32}
+{"t": "2026-11-02T02:29:57", "reading": "moved", "light": 87.8, "what": "cup", "x": 475, "y": 465, "conf": 0.31}
+{"t": "2026-11-02T02:30:02", "reading": "gone", "light": 87.8}
+{"t": "2026-11-02T02:30:07", "reading": "back", "light": 87.7, "what": "bottle", "x": 332, "y": 370, "conf": 0.32}
+{"t": "2026-11-02T02:30:28", "reading": "moved", "light": 87.7, "what": "cup", "x": 475, "y": 465, "conf": 0.32}
+{"t": "2026-11-02T02:30:33", "reading": "moved", "light": 87.6, "what": "bottle", "x": 332, "y": 370, "conf": 0.37}
+{"t": "2026-11-02T02:30:44", "reading": "moved", "light": 87.6, "what": "cup", "x": 475, "y": 466, "conf": 0.34}
+{"t": "2026-11-02T02:30:49", "reading": "moved", "light": 87.6, "what": "bottle", "x": 332, "y": 370, "conf": 0.3}
+{"t": "2026-11-02T02:33:24", "reading": "moved", "light": 88.0, "what": "cup", "x": 475, "y": 465, "conf": 0.37}
+{"t": "2026-11-02T02:33:30", "reading": "gone", "light": 88.4}
+{"t": "2026-11-02T02:33:35", "reading": "back", "light": 88.1, "what": "bottle", "x": 332, "y": 370, "conf": 0.38}
+{"t": "2026-11-02T02:33:50", "reading": "moved", "light": 87.9, "what": "cup", "x": 475, "y": 466, "conf": 0.32}
+{"t": "2026-11-02T02:34:06", "reading": "moved", "light": 87.8, "what": "bottle", "x": 332, "y": 370, "conf": 0.32}
+{"t": "2026-11-02T02:34:22", "reading": "moved", "light": 87.7, "what": "cup", "x": 475, "y": 465, "conf": 0.32}
+{"t": "2026-11-02T02:34:27", "reading": "moved", "light": 87.7, "what": "bottle", "x": 332, "y": 370, "conf": 0.36}
+{"t": "2026-11-02T02:34:32", "reading": "gone", "light": 87.7}
+{"t": "2026-11-02T02:34:37", "reading": "back", "light": 87.6, "what": "cup", "x": 475, "y": 466, "conf": 0.32}
+{"t": "2026-11-02T02:34:48", "reading": "moved", "light": 87.6, "what": "bottle", "x": 332, "y": 369, "conf": 0.34}
+{"t": "2026-11-02T02:35:08", "reading": "gone", "light": 87.5}
+{"t": "2026-11-02T02:35:13", "reading": "back", "light": 87.5, "what": "bottle", "x": 332, "y": 370, "conf": 0.34}
+{"t": "2026-11-02T02:37:33", "reading": "moved", "light": 88.0, "what": "cup", "x": 476, "y": 465, "conf": 0.4}
+{"t": "2026-11-02T02:37:44", "reading": "moved", "light": 87.9, "what": "bottle", "x": 332, "y": 370, "conf": 0.33}
+{"t": "2026-11-02T02:37:49", "reading": "gone", "light": 87.9}
+{"t": "2026-11-02T02:37:54", "reading": "back", "light": 87.9, "what": "cup", "x": 475, "y": 465, "conf": 0.39}
+{"t": "2026-11-02T02:38:10", "reading": "moved", "light": 87.8, "what": "bottle", "x": 332, "y": 370, "conf": 0.33}
+{"t": "2026-11-02T02:38:20", "reading": "moved", "light": 87.7, "what": "cup", "x": 475, "y": 465, "conf": 0.31}
+{"t": "2026-11-02T02:38:25", "reading": "moved", "light": 87.7, "what": "bottle", "x": 332, "y": 370, "conf": 0.31}
+{"t": "2026-11-02T02:38:36", "reading": "gone", "light": 87.6}
+{"t": "2026-11-02T02:38:41", "reading": "back", "light": 87.6, "what": "bottle", "x": 332, "y": 370, "conf": 0.32}
+{"t": "2026-11-02T02:39:01", "reading": "gone", "light": 87.5}
+{"t": "2026-11-02T02:39:07", "reading": "back", "light": 87.6, "what": "bottle", "x": 332, "y": 370, "conf": 0.34}
+{"t": "2026-11-02T02:39:07", "alive": true, "light": 87.6, "state": "present"}
+{"t": "2026-11-02T02:41:21", "reading": "moved", "light": 88.0, "what": "cup", "x": 475, "y": 465, "conf": 0.4}
+{"t": "2026-11-02T02:41:53", "reading": "moved", "light": 87.9, "what": "bottle", "x": 332, "y": 369, "conf": 0.31}
+{"t": "2026-11-02T02:42:29", "reading": "moved", "light": 87.6, "what": "cup", "x": 475, "y": 466, "conf": 0.3}
+{"t": "2026-11-02T02:42:34", "reading": "moved", "light": 87.6, "what": "bottle", "x": 332, "y": 370, "conf": 0.31}
+{"t": "2026-11-02T02:43:10", "reading": "moved", "light": 87.6, "what": "cup", "x": 474, "y": 466, "conf": 0.35}
+{"t": "2026-11-02T02:43:16", "reading": "moved", "light": 87.5, "what": "bottle", "x": 332, "y": 370, "conf": 0.39}
+{"t": "2026-11-02T02:45:25", "reading": "moved", "light": 87.9, "what": "cup", "x": 475, "y": 465, "conf": 0.42}
+{"t": "2026-11-02T02:45:51", "reading": "moved", "light": 87.8, "what": "bottle", "x": 332, "y": 370, "conf": 0.32}
+{"t": "2026-11-02T02:45:56", "reading": "moved", "light": 87.8, "what": "cup", "x": 475, "y": 465, "conf": 0.39}
+{"t": "2026-11-02T02:46:01", "reading": "moved", "light": 87.7, "what": "bottle", "x": 332, "y": 370, "conf": 0.31}
+{"t": "2026-11-02T02:46:06", "reading": "moved", "light": 87.8, "what": "cup", "x": 476, "y": 465, "conf": 0.38}
+{"t": "2026-11-02T02:46:17", "reading": "moved", "light": 87.7, "what": "bottle", "x": 332, "y": 370, "conf": 0.34}
+{"t": "2026-11-02T02:46:22", "reading": "moved", "light": 87.6, "what": "cup", "x": 475, "y": 466, "conf": 0.32}
+{"t": "2026-11-02T02:46:27", "reading": "moved", "light": 87.7, "what": "bottle", "x": 332, "y": 370, "conf": 0.31}
+{"t": "2026-11-02T02:46:48", "reading": "moved", "light": 87.6, "what": "cup", "x": 476, "y": 465, "conf": 0.39}
+{"t": "2026-11-02T02:46:53", "reading": "moved", "light": 87.5, "what": "bottle", "x": 332, "y": 370, "conf": 0.33}
+{"t": "2026-11-02T02:49:08", "alive": true, "light": 87.3, "state": "present"}
+{"t": "2026-11-02T02:49:34", "reading": "moved", "light": 88.0, "what": "cup", "x": 475, "y": 465, "conf": 0.36}
+{"t": "2026-11-02T02:49:39", "reading": "moved", "light": 87.9, "what": "bottle", "x": 332, "y": 370, "conf": 0.31}
+{"t": "2026-11-02T02:49:44", "reading": "moved", "light": 87.8, "what": "cup", "x": 475, "y": 465, "conf": 0.34}
+{"t": "2026-11-02T02:50:00", "reading": "moved", "light": 87.7, "what": "bottle", "x": 332, "y": 370, "conf": 0.32}
+{"t": "2026-11-02T02:50:05", "reading": "moved", "light": 87.8, "what": "cup", "x": 476, "y": 465, "conf": 0.4}
+{"t": "2026-11-02T02:50:10", "reading": "moved", "light": 87.8, "what": "bottle", "x": 332, "y": 370, "conf": 0.33}
+{"t": "2026-11-02T02:52:46", "reading": "gone", "light": 87.2}
+{"t": "2026-11-02T02:52:51", "reading": "back", "light": 87.4, "what": "bottle", "x": 332, "y": 370, "conf": 0.46}
+{"t": "2026-11-02T02:53:27", "reading": "moved", "light": 88.0, "what": "cup", "x": 475, "y": 465, "conf": 0.37}
+{"t": "2026-11-02T02:53:32", "reading": "moved", "light": 88.0, "what": "bottle", "x": 332, "y": 370, "conf": 0.3}
+{"t": "2026-11-02T02:53:38", "reading": "moved", "light": 88.0, "what": "cup", "x": 475, "y": 466, "conf": 0.34}
+{"t": "2026-11-02T02:53:48", "reading": "moved", "light": 87.8, "what": "bottle", "x": 332, "y": 370, "conf": 0.33}
+{"t": "2026-11-02T02:53:58", "reading": "moved", "light": 87.8, "what": "cup", "x": 476, "y": 465, "conf": 0.42}
+{"t": "2026-11-02T02:54:09", "reading": "moved", "light": 87.7, "what": "bottle", "x": 332, "y": 369, "conf": 0.31}
+{"t": "2026-11-02T02:54:35", "reading": "moved", "light": 87.6, "what": "cup", "x": 475, "y": 466, "conf": 0.32}
+{"t": "2026-11-02T02:54:40", "reading": "moved", "light": 87.6, "what": "bottle", "x": 332, "y": 370, "conf": 0.3}
+{"t": "2026-11-02T02:55:01", "reading": "moved", "light": 87.5, "what": "cup", "x": 475, "y": 466, "conf": 0.32}
+{"t": "2026-11-02T02:55:06", "reading": "moved", "light": 87.5, "what": "bottle", "x": 332, "y": 370, "conf": 0.33}
+{"t": "2026-11-02T02:55:11", "reading": "moved", "light": 87.5, "what": "cup", "x": 475, "y": 465, "conf": 0.36}
+{"t": "2026-11-02T02:55:16", "reading": "moved", "light": 87.4, "what": "bottle", "x": 332, "y": 370, "conf": 0.3}
+{"t": "2026-11-02T02:57:21", "reading": "moved", "light": 87.9, "what": "cup", "x": 475, "y": 465, "conf": 0.36}
+{"t": "2026-11-02T02:57:36", "reading": "moved", "light": 88.0, "what": "bottle", "x": 332, "y": 370, "conf": 0.31}
+{"t": "2026-11-02T02:57:41", "reading": "moved", "light": 87.8, "what": "cup", "x": 475, "y": 465, "conf": 0.35}
+{"t": "2026-11-02T02:57:47", "reading": "moved", "light": 87.9, "what": "bottle", "x": 332, "y": 370, "conf": 0.31}
+{"t": "2026-11-02T02:57:57", "reading": "moved", "light": 87.7, "what": "cup", "x": 475, "y": 465, "conf": 0.37}
+{"t": "2026-11-02T02:58:07", "reading": "moved", "light": 87.7, "what": "bottle", "x": 332, "y": 370, "conf": 0.34}
+{"t": "2026-11-02T02:58:18", "reading": "moved", "light": 87.7, "what": "cup", "x": 476, "y": 465, "conf": 0.44}
+{"t": "2026-11-02T02:58:33", "reading": "moved", "light": 87.6, "what": "bottle", "x": 332, "y": 370, "conf": 0.31}
+{"t": "2026-11-02T02:59:10", "alive": true, "light": 87.5, "state": "present"}
+{"t": "2026-11-02T02:59:25", "reading": "moved", "light": 87.4, "what": "cup", "x": 475, "y": 466, "conf": 0.32}
+{"t": "2026-11-02T02:59:30", "reading": "moved", "light": 87.4, "what": "bottle", "x": 332, "y": 370, "conf": 0.32}
+{"t": "2026-11-02T03:01:30", "reading": "moved", "light": 88.0, "what": "cup", "x": 476, "y": 465, "conf": 0.38}
+{"t": "2026-11-02T03:01:40", "reading": "moved", "light": 87.9, "what": "bottle", "x": 332, "y": 370, "conf": 0.33}
+{"t": "2026-11-02T03:01:45", "reading": "moved", "light": 87.9, "what": "cup", "x": 475, "y": 466, "conf": 0.31}
+{"t": "2026-11-02T03:01:50", "reading": "moved", "light": 87.8, "what": "bottle", "x": 332, "y": 370, "conf": 0.31}
+{"t": "2026-11-02T03:01:56", "reading": "moved", "light": 87.8, "what": "cup", "x": 475, "y": 465, "conf": 0.36}
+{"t": "2026-11-02T03:02:01", "reading": "moved", "light": 87.8, "what": "bottle", "x": 332, "y": 370, "conf": 0.31}
+{"t": "2026-11-02T03:02:06", "reading": "moved", "light": 87.8, "what": "cup", "x": 475, "y": 465, "conf": 0.32}
+{"t": "2026-11-02T03:02:11", "reading": "moved", "light": 87.7, "what": "bottle", "x": 332, "y": 370, "conf": 0.32}
+{"t": "2026-11-02T03:03:03", "reading": "moved", "light": 87.5, "what": "cup", "x": 475, "y": 465, "conf": 0.36}
+{"t": "2026-11-02T03:03:08", "reading": "moved", "light": 87.5, "what": "bottle", "x": 332, "y": 370, "conf": 0.38}
+{"t": "2026-11-02T03:05:23", "reading": "moved", "light": 88.0, "what": "cup", "x": 475, "y": 466, "conf": 0.34}
+{"t": "2026-11-02T03:05:33", "reading": "gone", "light": 88.0}
+{"t": "2026-11-02T03:05:39", "reading": "back", "light": 88.0, "what": "cup", "x": 475, "y": 465, "conf": 0.31}
+{"t": "2026-11-02T03:05:49", "reading": "moved", "light": 87.8, "what": "bottle", "x": 332, "y": 370, "conf": 0.31}
+{"t": "2026-11-02T03:05:54", "reading": "moved", "light": 87.8, "what": "cup", "x": 476, "y": 465, "conf": 0.36}
+{"t": "2026-11-02T03:06:05", "reading": "moved", "light": 87.7, "what": "bottle", "x": 332, "y": 370, "conf": 0.31}
+{"t": "2026-11-02T03:06:10", "reading": "moved", "light": 87.7, "what": "cup", "x": 476, "y": 465, "conf": 0.42}
+{"t": "2026-11-02T03:06:15", "reading": "moved", "light": 87.9, "what": "bottle", "x": 332, "y": 370, "conf": 0.31}
+{"t": "2026-11-02T03:06:20", "reading": "moved", "light": 87.7, "what": "cup", "x": 476, "y": 465, "conf": 0.4}
+{"t": "2026-11-02T03:06:36", "reading": "moved", "light": 87.7, "what": "bottle", "x": 332, "y": 370, "conf": 0.4}
+{"t": "2026-11-02T03:06:41", "reading": "moved", "light": 87.6, "what": "cup", "x": 475, "y": 466, "conf": 0.35}
+{"t": "2026-11-02T03:06:46", "reading": "moved", "light": 87.6, "what": "bottle", "x": 332, "y": 370, "conf": 0.31}
+{"t": "2026-11-02T03:06:56", "reading": "moved", "light": 87.5, "what": "cup", "x": 475, "y": 466, "conf": 0.31}
+{"t": "2026-11-02T03:07:02", "reading": "moved", "light": 87.5, "what": "bottle", "x": 332, "y": 370, "conf": 0.33}
+{"t": "2026-11-02T03:07:59", "reading": "moved", "light": 87.4, "what": "cup", "x": 475, "y": 465, "conf": 0.41}
+{"t": "2026-11-02T03:08:04", "reading": "moved", "light": 87.4, "what": "bottle", "x": 332, "y": 370, "conf": 0.36}
+{"t": "2026-11-02T03:09:11", "alive": true, "light": 87.3, "state": "present"}
+{"t": "2026-11-02T03:09:32", "reading": "moved", "light": 87.9, "what": "cup", "x": 475, "y": 466, "conf": 0.3}
+{"t": "2026-11-02T03:09:37", "reading": "moved", "light": 88.0, "what": "bottle", "x": 332, "y": 370, "conf": 0.37}
+{"t": "2026-11-02T03:09:42", "reading": "moved", "light": 87.9, "what": "cup", "x": 475, "y": 465, "conf": 0.42}
+{"t": "2026-11-02T03:09:53", "reading": "moved", "light": 87.8, "what": "bottle", "x": 332, "y": 370, "conf": 0.31}
+{"t": "2026-11-02T03:10:03", "reading": "gone", "light": 87.7}
+{"t": "2026-11-02T03:10:08", "reading": "back", "light": 87.8, "what": "cup", "x": 475, "y": 466, "conf": 0.33}
+{"t": "2026-11-02T03:10:14", "reading": "moved", "light": 87.7, "what": "bottle", "x": 332, "y": 370, "conf": 0.38}
+{"t": "2026-11-02T03:10:24", "reading": "moved", "light": 87.7, "what": "cup", "x": 475, "y": 465, "conf": 0.44}
+{"t": "2026-11-02T03:10:29", "reading": "moved", "light": 87.7, "what": "bottle", "x": 332, "y": 370, "conf": 0.32}
+{"t": "2026-11-02T03:11:06", "reading": "gone", "light": 87.5}
+{"t": "2026-11-02T03:11:11", "reading": "back", "light": 87.5, "what": "bottle", "x": 332, "y": 370, "conf": 0.33}
+{"t": "2026-11-02T03:13:26", "reading": "moved", "light": 87.9, "what": "cup", "x": 475, "y": 465, "conf": 0.36}
+{"t": "2026-11-02T03:13:31", "reading": "moved", "light": 87.9, "what": "bottle", "x": 332, "y": 370, "conf": 0.36}
+{"t": "2026-11-02T03:13:46", "reading": "moved", "light": 87.8, "what": "cup", "x": 475, "y": 465, "conf": 0.4}
+{"t": "2026-11-02T03:14:02", "reading": "moved", "light": 87.8, "what": "bottle", "x": 332, "y": 370, "conf": 0.35}
+{"t": "2026-11-02T03:14:12", "reading": "moved", "light": 87.7, "what": "cup", "x": 475, "y": 466, "conf": 0.32}
+{"t": "2026-11-02T03:14:17", "reading": "moved", "light": 87.7, "what": "bottle", "x": 332, "y": 370, "conf": 0.35}
+{"t": "2026-11-02T03:14:38", "reading": "moved", "light": 87.6, "what": "cup", "x": 475, "y": 466, "conf": 0.37}
+{"t": "2026-11-02T03:14:43", "reading": "moved", "light": 87.5, "what": "bottle", "x": 332, "y": 370, "conf": 0.34}
+{"t": "2026-11-02T03:14:48", "reading": "gone", "light": 87.6}
+{"t": "2026-11-02T03:14:54", "reading": "back", "light": 87.6, "what": "bottle", "x": 332, "y": 370, "conf": 0.33}
+{"t": "2026-11-02T03:17:29", "reading": "moved", "light": 87.9, "what": "cup", "x": 475, "y": 465, "conf": 0.42}
+{"t": "2026-11-02T03:17:34", "reading": "moved", "light": 88.0, "what": "bottle", "x": 332, "y": 370, "conf": 0.31}
+{"t": "2026-11-02T03:18:00", "reading": "gone", "light": 87.8}
+{"t": "2026-11-02T03:18:05", "reading": "back", "light": 87.8, "what": "bottle", "x": 332, "y": 370, "conf": 0.31}
+{"t": "2026-11-02T03:18:26", "reading": "moved", "light": 87.7, "what": "cup", "x": 475, "y": 465, "conf": 0.4}
+{"t": "2026-11-02T03:18:37", "reading": "moved", "light": 87.7, "what": "bottle", "x": 332, "y": 370, "conf": 0.36}
+{"t": "2026-11-02T03:18:42", "reading": "moved", "light": 87.6, "what": "cup", "x": 476, "y": 465, "conf": 0.43}
+{"t": "2026-11-02T03:18:47", "reading": "moved", "light": 87.5, "what": "bottle", "x": 332, "y": 370, "conf": 0.36}
+{"t": "2026-11-02T03:18:52", "reading": "moved", "light": 87.5, "what": "cup", "x": 476, "y": 465, "conf": 0.36}
+{"t": "2026-11-02T03:18:57", "reading": "moved", "light": 87.5, "what": "bottle", "x": 332, "y": 370, "conf": 0.31}
+{"t": "2026-11-02T03:19:13", "alive": true, "light": 87.5, "state": "present"}
+{"t": "2026-11-02T03:21:23", "reading": "moved", "light": 87.9, "what": "cup", "x": 475, "y": 465, "conf": 0.37}
+{"t": "2026-11-02T03:21:28", "reading": "moved", "light": 88.1, "what": "bottle", "x": 332, "y": 370, "conf": 0.37}
+{"t": "2026-11-02T03:21:43", "reading": "moved", "light": 88.0, "what": "cup", "x": 475, "y": 465, "conf": 0.43}
+{"t": "2026-11-02T03:21:49", "reading": "moved", "light": 87.9, "what": "bottle", "x": 332, "y": 370, "conf": 0.33}
+{"t": "2026-11-02T03:21:54", "reading": "moved", "light": 87.8, "what": "cup", "x": 475, "y": 465, "conf": 0.38}
+{"t": "2026-11-02T03:22:04", "reading": "moved", "light": 87.7, "what": "bottle", "x": 332, "y": 370, "conf": 0.33}
+{"t": "2026-11-02T03:22:14", "reading": "moved", "light": 87.7, "what": "cup", "x": 476, "y": 465, "conf": 0.32}
+{"t": "2026-11-02T03:22:20", "reading": "moved", "light": 87.7, "what": "bottle", "x": 332, "y": 370, "conf": 0.32}
+{"t": "2026-11-02T03:22:25", "reading": "moved", "light": 87.6, "what": "cup", "x": 475, "y": 465, "conf": 0.4}
+{"t": "2026-11-02T03:22:30", "reading": "moved", "light": 87.7, "what": "bottle", "x": 332, "y": 370, "conf": 0.33}
+{"t": "2026-11-02T03:22:40", "reading": "moved", "light": 87.6, "what": "cup", "x": 475, "y": 466, "conf": 0.31}
+{"t": "2026-11-02T03:22:46", "reading": "moved", "light": 87.6, "what": "bottle", "x": 332, "y": 370, "conf": 0.31}
+{"t": "2026-11-02T03:23:06", "reading": "moved", "light": 87.9, "what": "cup", "x": 476, "y": 465, "conf": 0.41}
+{"t": "2026-11-02T03:23:12", "reading": "moved", "light": 87.5, "what": "bottle", "x": 332, "y": 370, "conf": 0.31}
+{"t": "2026-11-02T03:23:27", "reading": "moved", "light": 87.5, "what": "cup", "x": 475, "y": 466, "conf": 0.33}
+{"t": "2026-11-02T03:23:32", "reading": "moved", "light": 87.4, "what": "bottle", "x": 332, "y": 370, "conf": 0.34}
+{"t": "2026-11-02T03:23:58", "reading": "moved", "light": 87.4, "what": "cup", "x": 475, "y": 465, "conf": 0.3}
+{"t": "2026-11-02T03:24:03", "reading": "moved", "light": 87.3, "what": "bottle", "x": 332, "y": 370, "conf": 0.4}
+{"t": "2026-11-02T03:25:32", "reading": "moved", "light": 88.0, "what": "cup", "x": 476, "y": 465, "conf": 0.39}
+{"t": "2026-11-02T03:25:42", "reading": "moved", "light": 87.9, "what": "bottle", "x": 332, "y": 370, "conf": 0.34}
+{"t": "2026-11-02T03:25:52", "reading": "moved", "light": 87.8, "what": "cup", "x": 475, "y": 465, "conf": 0.37}
+{"t": "2026-11-02T03:25:58", "reading": "gone", "light": 87.8}
+{"t": "2026-11-02T03:26:03", "reading": "back", "light": 87.8, "what": "bottle", "x": 332, "y": 369, "conf": 0.32}
+{"t": "2026-11-02T03:26:08", "reading": "moved", "light": 87.8, "what": "cup", "x": 475, "y": 466, "conf": 0.35}
+{"t": "2026-11-02T03:26:13", "reading": "gone", "light": 87.7}
+{"t": "2026-11-02T03:26:18", "reading": "back", "light": 87.7, "what": "cup", "x": 475, "y": 465, "conf": 0.34}
+{"t": "2026-11-02T03:26:29", "reading": "moved", "light": 87.7, "what": "bottle", "x": 332, "y": 370, "conf": 0.35}
+{"t": "2026-11-02T03:26:34", "reading": "moved", "light": 87.6, "what": "cup", "x": 475, "y": 466, "conf": 0.33}
+{"t": "2026-11-02T03:26:39", "reading": "moved", "light": 87.7, "what": "bottle", "x": 332, "y": 370, "conf": 0.37}
+{"t": "2026-11-02T03:26:44", "reading": "moved", "light": 87.6, "what": "cup", "x": 475, "y": 465, "conf": 0.44}
+{"t": "2026-11-02T03:26:49", "reading": "moved", "light": 87.7, "what": "bottle", "x": 332, "y": 370, "conf": 0.3}
+{"t": "2026-11-02T03:27:15", "reading": "moved", "light": 87.7, "what": "cup", "x": 475, "y": 466, "conf": 0.31}
+{"t": "2026-11-02T03:27:20", "reading": "moved", "light": 87.6, "what": "bottle", "x": 332, "y": 370, "conf": 0.43}
+{"t": "2026-11-02T03:27:31", "reading": "moved", "light": 87.4, "what": "cup", "x": 475, "y": 466, "conf": 0.3}
+{"t": "2026-11-02T03:27:36", "reading": "moved", "light": 87.4, "what": "bottle", "x": 332, "y": 370, "conf": 0.35}
+{"t": "2026-11-02T03:28:02", "reading": "gone", "light": 87.4}
+{"t": "2026-11-02T03:28:07", "reading": "back", "light": 87.4, "what": "bottle", "x": 332, "y": 370, "conf": 0.4}
+{"t": "2026-11-02T03:29:15", "alive": true, "light": 85.3, "state": "present"}
+{"t": "2026-11-02T03:39:16", "alive": true, "light": 85.4, "state": "present"}
+{"t": "2026-11-02T03:49:18", "alive": true, "light": 85.4, "state": "present"}
+{"t": "2026-11-02T03:59:20", "alive": true, "light": 85.7, "state": "present"}
+{"t": "2026-11-02T04:09:22", "alive": true, "light": 85.3, "state": "present"}
+{"t": "2026-11-02T04:19:24", "alive": true, "light": 85.4, "state": "present"}
+{"t": "2026-11-02T04:29:25", "alive": true, "light": 85.4, "state": "present"}
+{"t": "2026-11-02T04:39:27", "alive": true, "light": 85.3, "state": "present"}
+{"t": "2026-11-02T04:49:28", "alive": true, "light": 85.6, "state": "present"}
+{"t": "2026-11-02T04:59:30", "alive": true, "light": 85.4, "state": "present"}
+{"t": "2026-11-02T05:09:32", "alive": true, "light": 85.4, "state": "present"}
+{"t": "2026-11-02T05:19:34", "alive": true, "light": 85.4, "state": "present"}
+{"t": "2026-11-02T05:29:35", "alive": true, "light": 85.5, "state": "present"}
+{"t": "2026-11-02T05:39:37", "alive": true, "light": 85.4, "state": "present"}
+{"t": "2026-11-02T05:49:39", "alive": true, "light": 85.3, "state": "present"}
+{"t": "2026-11-02T05:59:40", "alive": true, "light": 85.8, "state": "present"}
+{"t": "2026-11-02T06:09:42", "alive": true, "light": 94.2, "state": "present"}
+{"t": "2026-11-02T06:18:20", "reading": "moved", "light": 100.5, "what": "cup", "x": 475, "y": 466, "conf": 0.33}
+{"t": "2026-11-02T06:18:26", "reading": "moved", "light": 100.7, "what": "bottle", "x": 332, "y": 370, "conf": 0.32}
+{"t": "2026-11-02T06:18:41", "reading": "gone", "light": 101.0}
+{"t": "2026-11-02T06:18:46", "reading": "back", "light": 101.2, "what": "bottle", "x": 332, "y": 370, "conf": 0.3}
+{"t": "2026-11-02T06:18:57", "reading": "moved", "light": 101.5, "what": "cup", "x": 475, "y": 466, "conf": 0.3}
+{"t": "2026-11-02T06:19:02", "reading": "gone", "light": 101.7}
+{"t": "2026-11-02T06:19:07", "reading": "back", "light": 100.7, "what": "bottle", "x": 332, "y": 370, "conf": 0.37}
+{"t": "2026-11-02T06:19:28", "reading": "moved", "light": 101.1, "what": "cup", "x": 475, "y": 466, "conf": 0.31}
+{"t": "2026-11-02T06:19:33", "reading": "moved", "light": 101.4, "what": "bottle", "x": 332, "y": 370, "conf": 0.33}
+{"t": "2026-11-02T06:19:43", "reading": "moved", "light": 101.8, "what": "cup", "x": 475, "y": 466, "conf": 0.3}
+{"t": "2026-11-02T06:19:43", "alive": true, "light": 101.8, "state": "present"}
+{"t": "2026-11-02T06:19:59", "reading": "moved", "light": 102.4, "what": "bottle", "x": 332, "y": 370, "conf": 0.33}
+{"t": "2026-11-02T06:20:04", "reading": "moved", "light": 102.6, "what": "cup", "x": 475, "y": 466, "conf": 0.34}
+{"t": "2026-11-02T06:20:15", "reading": "gone", "light": 102.9}
+{"t": "2026-11-02T06:20:20", "reading": "back", "light": 103.1, "what": "cup", "x": 475, "y": 466, "conf": 0.32}
+{"t": "2026-11-02T06:20:35", "reading": "moved", "light": 103.4, "what": "bottle", "x": 332, "y": 370, "conf": 0.31}
+{"t": "2026-11-02T06:20:41", "reading": "gone", "light": 103.6}
+{"t": "2026-11-02T06:21:01", "reading": "back", "light": 104.3, "what": "cup", "x": 475, "y": 466, "conf": 0.33}
+{"t": "2026-11-02T06:21:06", "reading": "gone", "light": 104.5}
+{"t": "2026-11-02T06:21:17", "reading": "back", "light": 104.9, "what": "cup", "x": 475, "y": 466, "conf": 0.33}
+{"t": "2026-11-02T06:21:27", "reading": "moved", "light": 104.1, "what": "bottle", "x": 332, "y": 370, "conf": 0.33}
+{"t": "2026-11-02T06:21:32", "reading": "gone", "light": 104.3}
+{"t": "2026-11-02T06:21:38", "reading": "back", "light": 104.5, "what": "cup", "x": 475, "y": 466, "conf": 0.31}
+{"t": "2026-11-02T06:21:43", "reading": "moved", "light": 104.5, "what": "bottle", "x": 332, "y": 370, "conf": 0.31}
+{"t": "2026-11-02T06:21:48", "reading": "gone", "light": 104.7}
+{"t": "2026-11-02T06:21:53", "reading": "back", "light": 104.9, "what": "cup", "x": 475, "y": 466, "conf": 0.32}
+{"t": "2026-11-02T06:21:58", "reading": "gone", "light": 105.0}
+{"t": "2026-11-02T06:22:04", "reading": "back", "light": 105.1, "what": "cup", "x": 475, "y": 466, "conf": 0.33}
+{"t": "2026-11-02T06:22:09", "reading": "gone", "light": 105.3}
+{"t": "2026-11-02T06:22:24", "reading": "back", "light": 105.9, "what": "cup", "x": 475, "y": 466, "conf": 0.33}
+{"t": "2026-11-02T06:22:29", "reading": "gone", "light": 106.0}
+{"t": "2026-11-02T06:22:45", "reading": "back", "light": 106.6, "what": "cup", "x": 475, "y": 466, "conf": 0.32}
+{"t": "2026-11-02T06:22:55", "reading": "gone", "light": 106.8}
+{"t": "2026-11-02T06:23:16", "reading": "back", "light": 107.2, "what": "cup", "x": 475, "y": 466, "conf": 0.32}
+{"t": "2026-11-02T06:23:27", "reading": "gone", "light": 106.7}
+{"t": "2026-11-02T06:23:32", "reading": "back", "light": 106.8, "what": "cup", "x": 475, "y": 466, "conf": 0.32}
+{"t": "2026-11-02T06:23:53", "reading": "gone", "light": 107.5}
+{"t": "2026-11-02T06:23:58", "reading": "back", "light": 107.8, "what": "cup", "x": 475, "y": 466, "conf": 0.35}
+{"t": "2026-11-02T06:24:24", "reading": "gone", "light": 108.6}
+{"t": "2026-11-02T06:24:29", "reading": "back", "light": 108.9, "what": "cup", "x": 476, "y": 466, "conf": 0.35}
+{"t": "2026-11-02T06:24:34", "reading": "gone", "light": 109.0}
+{"t": "2026-11-02T06:24:39", "reading": "back", "light": 109.1, "what": "cup", "x": 475, "y": 466, "conf": 0.32}
+{"t": "2026-11-02T06:24:44", "reading": "gone", "light": 109.3}
+{"t": "2026-11-02T06:24:50", "reading": "back", "light": 109.5, "what": "cup", "x": 475, "y": 466, "conf": 0.37}
+{"t": "2026-11-02T06:25:21", "reading": "gone", "light": 109.7}
+{"t": "2026-11-02T06:25:26", "reading": "back", "light": 109.6, "what": "cup", "x": 475, "y": 466, "conf": 0.3}
+{"t": "2026-11-02T06:25:31", "reading": "gone", "light": 109.8}
+{"t": "2026-11-02T06:25:36", "reading": "back", "light": 109.9, "what": "cup", "x": 475, "y": 466, "conf": 0.34}
+{"t": "2026-11-02T06:26:13", "reading": "gone", "light": 110.9}
+{"t": "2026-11-02T06:26:18", "reading": "back", "light": 111.0, "what": "cup", "x": 475, "y": 466, "conf": 0.36}
+{"t": "2026-11-02T06:28:12", "reading": "gone", "light": 113.1}
+{"t": "2026-11-02T06:28:17", "reading": "back", "light": 113.1, "what": "cup", "x": 476, "y": 466, "conf": 0.32}
+{"t": "2026-11-02T06:28:38", "reading": "gone", "light": 113.4}
+{"t": "2026-11-02T06:28:43", "reading": "back", "light": 113.7, "what": "cup", "x": 475, "y": 466, "conf": 0.32}
+{"t": "2026-11-02T06:28:59", "reading": "gone", "light": 114.1}
+{"t": "2026-11-02T06:29:04", "reading": "back", "light": 114.3, "what": "cup", "x": 475, "y": 466, "conf": 0.31}
+{"t": "2026-11-02T06:29:19", "reading": "gone", "light": 114.3}
+{"t": "2026-11-02T06:29:25", "reading": "back", "light": 114.6, "what": "cup", "x": 476, "y": 466, "conf": 0.3}
+{"t": "2026-11-02T06:29:30", "reading": "gone", "light": 114.7}
+{"t": "2026-11-02T06:29:45", "alive": true, "light": 115.3, "state": "gone"}
+{"t": "2026-11-02T06:30:01", "reading": "back", "light": 115.8, "what": "cup", "x": 475, "y": 466, "conf": 0.31}
+{"t": "2026-11-02T06:30:06", "reading": "gone", "light": 115.9}
+{"t": "2026-11-02T06:30:11", "reading": "back", "light": 116.1, "what": "cup", "x": 475, "y": 466, "conf": 0.3}
+{"t": "2026-11-02T06:30:16", "reading": "gone", "light": 116.2}
+{"t": "2026-11-02T06:30:22", "reading": "back", "light": 116.4, "what": "cup", "x": 475, "y": 466, "conf": 0.31}
+{"t": "2026-11-02T06:30:37", "reading": "gone", "light": 116.3}
+{"t": "2026-11-02T06:30:48", "reading": "back", "light": 116.6, "what": "cup", "x": 475, "y": 466, "conf": 0.32}
+{"t": "2026-11-02T06:30:53", "reading": "gone", "light": 116.8}
+{"t": "2026-11-02T06:31:03", "reading": "back", "light": 117.0, "what": "cup", "x": 475, "y": 466, "conf": 0.32}
+{"t": "2026-11-02T06:31:08", "reading": "gone", "light": 117.2}
+{"t": "2026-11-02T06:31:13", "reading": "back", "light": 117.3, "what": "cup", "x": 475, "y": 466, "conf": 0.32}
+{"t": "2026-11-02T06:31:19", "reading": "gone", "light": 117.4}
+{"t": "2026-11-02T06:31:34", "reading": "back", "light": 117.3, "what": "cup", "x": 475, "y": 466, "conf": 0.3}
+{"t": "2026-11-02T06:31:39", "reading": "gone", "light": 117.4}
+{"t": "2026-11-02T06:32:11", "reading": "back", "light": 118.1, "what": "cup", "x": 476, "y": 466, "conf": 0.31}
+{"t": "2026-11-02T06:32:42", "reading": "gone", "light": 118.0}
+{"t": "2026-11-02T06:32:47", "reading": "back", "light": 118.1, "what": "cup", "x": 475, "y": 466, "conf": 0.31}
+{"t": "2026-11-02T06:33:02", "reading": "gone", "light": 118.3}
+{"t": "2026-11-02T06:33:13", "reading": "back", "light": 118.3, "what": "cup", "x": 475, "y": 466, "conf": 0.32}
+{"t": "2026-11-02T06:33:18", "reading": "gone", "light": 118.4}
+{"t": "2026-11-02T06:33:44", "reading": "back", "light": 118.4, "what": "cup", "x": 475, "y": 466, "conf": 0.31}
+{"t": "2026-11-02T06:33:49", "reading": "gone", "light": 118.4}
+{"t": "2026-11-02T06:33:54", "reading": "back", "light": 118.4, "what": "cup", "x": 475, "y": 466, "conf": 0.33}
+{"t": "2026-11-02T06:34:00", "reading": "gone", "light": 118.4}
+{"t": "2026-11-02T06:34:10", "reading": "back", "light": 118.4, "what": "cup", "x": 475, "y": 466, "conf": 0.31}
+{"t": "2026-11-02T06:34:20", "reading": "gone", "light": 118.5}
+{"t": "2026-11-02T06:35:02", "reading": "back", "light": 119.6, "what": "cup", "x": 475, "y": 466, "conf": 0.32}
+{"t": "2026-11-02T06:35:07", "reading": "gone", "light": 119.6}
+{"t": "2026-11-02T06:36:25", "reading": "back", "light": 120.7, "what": "cup", "x": 475, "y": 466, "conf": 0.31}
+{"t": "2026-11-02T06:36:30", "reading": "gone", "light": 120.7}
+{"t": "2026-11-02T06:36:35", "reading": "back", "light": 120.8, "what": "cup", "x": 475, "y": 466, "conf": 0.3}
+{"t": "2026-11-02T06:36:40", "reading": "gone", "light": 120.8}
+{"t": "2026-11-02T06:37:42", "reading": "back", "light": 120.9, "what": "cup", "x": 475, "y": 466, "conf": 0.3}
+{"t": "2026-11-02T06:37:48", "reading": "gone", "light": 120.9}
+{"t": "2026-11-02T06:38:24", "reading": "back", "light": 120.8, "what": "cup", "x": 475, "y": 466, "conf": 0.3}
+{"t": "2026-11-02T06:38:34", "reading": "gone", "light": 120.8}
+{"t": "2026-11-02T06:39:11", "reading": "back", "light": 120.7, "what": "cup", "x": 476, "y": 466, "conf": 0.3}
+{"t": "2026-11-02T06:39:16", "reading": "gone", "light": 120.7}
+{"t": "2026-11-02T06:39:47", "alive": true, "light": 120.8, "state": "gone"}
+{"t": "2026-11-02T06:40:18", "reading": "back", "light": 120.7, "what": "cup", "x": 474, "y": 466, "conf": 0.31}
+{"t": "2026-11-02T06:40:23", "reading": "gone", "light": 120.7}
+{"t": "2026-11-02T06:40:54", "reading": "back", "light": 120.6, "what": "cup", "x": 475, "y": 466, "conf": 0.3}
+{"t": "2026-11-02T06:41:00", "reading": "gone", "light": 120.6}
+{"t": "2026-11-02T06:42:59", "reading": "back", "light": 120.7, "what": "cup", "x": 475, "y": 466, "conf": 0.34}
+{"t": "2026-11-02T06:43:04", "reading": "gone", "light": 120.8}
+{"t": "2026-11-02T06:43:25", "reading": "back", "light": 121.1, "what": "cup", "x": 475, "y": 466, "conf": 0.3}
+{"t": "2026-11-02T06:43:30", "reading": "gone", "light": 121.2}
+{"t": "2026-11-02T06:44:42", "reading": "back", "light": 121.8, "what": "cup", "x": 474, "y": 466, "conf": 0.31}
+{"t": "2026-11-02T06:44:48", "reading": "gone", "light": 121.9}
+{"t": "2026-11-02T06:49:48", "alive": true, "light": 123.0, "state": "gone"}
+{"t": "2026-11-02T06:50:40", "reading": "back", "light": 123.3, "what": "cup", "x": 475, "y": 466, "conf": 0.31}
+{"t": "2026-11-02T06:50:45", "reading": "gone", "light": 123.4}
+{"t": "2026-11-02T06:53:26", "reading": "back", "light": 124.2, "what": "cup", "x": 474, "y": 466, "conf": 0.31}
+{"t": "2026-11-02T06:53:31", "reading": "gone", "light": 124.2}
+{"t": "2026-11-02T06:53:47", "reading": "back", "light": 124.3, "what": "cup", "x": 475, "y": 466, "conf": 0.3}
+{"t": "2026-11-02T06:53:52", "reading": "gone", "light": 124.3}
+{"t": "2026-11-02T06:54:07", "reading": "back", "light": 124.3, "what": "cup", "x": 474, "y": 466, "conf": 0.31}
+{"t": "2026-11-02T06:54:18", "reading": "gone", "light": 124.4}
+{"t": "2026-11-02T06:54:23", "reading": "back", "light": 124.2, "what": "cup", "x": 475, "y": 466, "conf": 0.31}
+{"t": "2026-11-02T06:54:28", "reading": "gone", "light": 124.3}
+{"t": "2026-11-02T06:54:59", "reading": "back", "light": 124.3, "what": "cup", "x": 474, "y": 466, "conf": 0.3}
+{"t": "2026-11-02T06:55:10", "reading": "gone", "light": 124.2}
+{"t": "2026-11-02T06:55:30", "reading": "back", "light": 124.2, "what": "cup", "x": 475, "y": 466, "conf": 0.35}
+{"t": "2026-11-02T06:55:36", "reading": "gone", "light": 124.3}
+{"t": "2026-11-02T06:55:51", "reading": "back", "light": 124.2, "what": "cup", "x": 474, "y": 466, "conf": 0.31}
+{"t": "2026-11-02T06:55:56", "reading": "gone", "light": 124.3}
+{"t": "2026-11-02T06:56:02", "reading": "back", "light": 124.3, "what": "cup", "x": 475, "y": 466, "conf": 0.3}
+{"t": "2026-11-02T06:56:12", "reading": "gone", "light": 124.4}
+{"t": "2026-11-02T06:56:17", "reading": "back", "light": 124.4, "what": "cup", "x": 474, "y": 466, "conf": 0.31}
+{"t": "2026-11-02T06:56:28", "reading": "gone", "light": 124.3}
+{"t": "2026-11-02T06:56:33", "reading": "back", "light": 124.4, "what": "cup", "x": 475, "y": 466, "conf": 0.34}
+{"t": "2026-11-02T06:56:53", "reading": "gone", "light": 124.5}
+{"t": "2026-11-02T06:56:59", "reading": "back", "light": 124.5, "what": "cup", "x": 475, "y": 466, "conf": 0.32}
+{"t": "2026-11-02T06:58:32", "reading": "gone", "light": 124.3}
+{"t": "2026-11-02T06:58:42", "reading": "back", "light": 124.2, "what": "cup", "x": 474, "y": 466, "conf": 0.31}
+{"t": "2026-11-02T06:58:48", "reading": "gone", "light": 124.3}
+{"t": "2026-11-02T06:58:53", "reading": "back", "light": 124.3, "what": "cup", "x": 475, "y": 466, "conf": 0.33}
+{"t": "2026-11-02T06:59:13", "reading": "gone", "light": 124.5}
+{"t": "2026-11-02T06:59:24", "reading": "back", "light": 124.2, "what": "cup", "x": 474, "y": 466, "conf": 0.31}
+{"t": "2026-11-02T06:59:50", "alive": true, "light": 124.5, "state": "present"}
+{"t": "2026-11-02T07:00:05", "reading": "gone", "light": 123.8}
+{"t": "2026-11-02T07:00:10", "reading": "back", "light": 124.0, "what": "cup", "x": 474, "y": 466, "conf": 0.33}
+{"t": "2026-11-02T07:00:42", "reading": "gone", "light": 124.0}
+{"t": "2026-11-02T07:00:47", "reading": "back", "light": 124.0, "what": "cup", "x": 474, "y": 466, "conf": 0.3}
+{"t": "2026-11-02T07:00:52", "reading": "gone", "light": 124.0}
+{"t": "2026-11-02T07:00:57", "reading": "back", "light": 124.1, "what": "cup", "x": 475, "y": 466, "conf": 0.33}
+{"t": "2026-11-02T07:01:13", "reading": "gone", "light": 124.1}
+{"t": "2026-11-02T07:01:18", "reading": "back", "light": 124.0, "what": "cup", "x": 474, "y": 466, "conf": 0.38}
+{"t": "2026-11-02T07:01:23", "reading": "gone", "light": 123.8}
+{"t": "2026-11-02T07:01:28", "reading": "back", "light": 123.8, "what": "cup", "x": 474, "y": 466, "conf": 0.3}
+{"t": "2026-11-02T07:09:51", "alive": true, "light": 122.9, "state": "present"}
+{"t": "2026-11-02T07:19:53", "alive": true, "light": 123.6, "state": "present"}
+{"t": "2026-11-02T07:24:23", "reading": "gone", "light": 123.1}
+{"t": "2026-11-02T07:24:28", "reading": "back", "light": 122.9, "what": "cup", "x": 475, "y": 466, "conf": 0.34}
+{"t": "2026-11-02T07:29:55", "alive": true, "light": 123.6, "state": "present"}
+{"t": "2026-11-02T07:33:12", "reading": "gone", "light": 124.1}
+{"t": "2026-11-02T07:33:17", "reading": "back", "light": 124.1, "what": "cup", "x": 475, "y": 466, "conf": 0.33}
+{"t": "2026-11-02T07:35:58", "reading": "gone", "light": 124.7}
+{"t": "2026-11-02T07:36:03", "reading": "back", "light": 124.7, "what": "cup", "x": 474, "y": 466, "conf": 0.34}
+{"t": "2026-11-02T07:39:56", "alive": true, "light": 125.4, "state": "present"}
+{"t": "2026-11-02T07:42:11", "reading": "gone", "light": 125.1}
+{"t": "2026-11-02T07:42:16", "reading": "back", "light": 124.9, "what": "cup", "x": 474, "y": 466, "conf": 0.32}
+{"t": "2026-11-02T07:43:08", "reading": "gone", "light": 124.9}
+{"t": "2026-11-02T07:43:13", "reading": "back", "light": 124.9, "what": "cup", "x": 474, "y": 466, "conf": 0.31}
+{"t": "2026-11-02T07:43:29", "reading": "gone", "light": 124.8}
+{"t": "2026-11-02T07:43:39", "reading": "back", "light": 124.8, "what": "cup", "x": 474, "y": 466, "conf": 0.32}
+{"t": "2026-11-02T07:43:55", "reading": "gone", "light": 124.9}
+{"t": "2026-11-02T07:44:05", "reading": "back", "light": 125.0, "what": "cup", "x": 474, "y": 466, "conf": 0.31}
+{"t": "2026-11-02T07:44:36", "reading": "gone", "light": 125.1}
+{"t": "2026-11-02T07:45:12", "reading": "back", "light": 125.1, "what": "cup", "x": 474, "y": 466, "conf": 0.33}
+{"t": "2026-11-02T07:45:23", "reading": "gone", "light": 125.2}
+{"t": "2026-11-02T07:45:38", "reading": "back", "light": 124.6, "what": "cup", "x": 474, "y": 466, "conf": 0.32}
+{"t": "2026-11-02T07:45:44", "reading": "gone", "light": 124.4}
+{"t": "2026-11-02T07:45:49", "reading": "back", "light": 124.2, "what": "cup", "x": 474, "y": 466, "conf": 0.31}
+{"t": "2026-11-02T07:45:54", "reading": "gone", "light": 124.1}
+{"t": "2026-11-02T07:45:59", "reading": "back", "light": 124.1, "what": "cup", "x": 474, "y": 466, "conf": 0.31}
+{"t": "2026-11-02T07:46:04", "reading": "gone", "light": 124.0}
+{"t": "2026-11-02T07:46:30", "reading": "back", "light": 123.9, "what": "cup", "x": 475, "y": 466, "conf": 0.3}
+{"t": "2026-11-02T07:46:46", "reading": "gone", "light": 123.7}
+{"t": "2026-11-02T07:46:51", "reading": "back", "light": 123.8, "what": "cup", "x": 474, "y": 466, "conf": 0.31}
+{"t": "2026-11-02T07:46:56", "reading": "gone", "light": 123.9}
+{"t": "2026-11-02T07:49:58", "alive": true, "light": 126.8, "state": "gone"}
+{"t": "2026-11-02T07:53:35", "reading": "back", "light": 130.0, "what": "bottle", "x": 332, "y": 370, "conf": 0.32}
+{"t": "2026-11-02T07:53:41", "reading": "gone", "light": 130.2}
+{"t": "2026-11-02T07:57:18", "reading": "back", "light": 130.4, "what": "cup", "x": 476, "y": 466, "conf": 0.31}
+{"t": "2026-11-02T07:58:00", "reading": "gone", "light": 130.8}
+{"t": "2026-11-02T07:58:05", "reading": "back", "light": 130.8, "what": "cup", "x": 476, "y": 466, "conf": 0.31}
+{"t": "2026-11-02T07:58:15", "reading": "gone", "light": 130.8}
+{"t": "2026-11-02T07:58:36", "reading": "back", "light": 130.8, "what": "cup", "x": 476, "y": 466, "conf": 0.31}
+{"t": "2026-11-02T07:58:41", "reading": "gone", "light": 130.8}
+{"t": "2026-11-02T07:59:59", "alive": true, "light": 131.5, "state": "gone"}
+{"t": "2026-11-02T08:00:30", "reading": "back", "light": 131.8, "what": "bottle", "x": 332, "y": 370, "conf": 0.31}
+{"t": "2026-11-02T08:00:35", "reading": "gone", "light": 131.9}
+{"t": "2026-11-02T08:00:46", "reading": "back", "light": 132.0, "what": "cup", "x": 475, "y": 466, "conf": 0.3}
+{"t": "2026-11-02T08:00:51", "reading": "moved", "light": 132.1, "what": "bottle", "x": 332, "y": 370, "conf": 0.3}
+{"t": "2026-11-02T08:04:18", "reading": "gone", "light": 132.9}
+{"t": "2026-11-02T08:04:24", "reading": "back", "light": 132.7, "what": "bottle", "x": 332, "y": 370, "conf": 0.31}
+{"t": "2026-11-02T08:05:52", "reading": "gone", "light": 133.3}
+{"t": "2026-11-02T08:06:18", "reading": "back", "light": 133.5, "what": "bottle", "x": 331, "y": 370, "conf": 0.3}
+{"t": "2026-11-02T08:06:23", "reading": "gone", "light": 133.3}
+{"t": "2026-11-02T08:07:56", "reading": "back", "light": 133.2, "what": "cup", "x": 474, "y": 466, "conf": 0.31}
+{"t": "2026-11-02T08:08:01", "reading": "gone", "light": 133.1}
+{"t": "2026-11-02T08:08:06", "reading": "back", "light": 132.9, "what": "cup", "x": 474, "y": 466, "conf": 0.3}
+{"t": "2026-11-02T08:08:12", "reading": "gone", "light": 132.8}
+{"t": "2026-11-02T08:08:27", "reading": "back", "light": 132.7, "what": "cup", "x": 474, "y": 466, "conf": 0.31}
+{"t": "2026-11-02T08:08:32", "reading": "gone", "light": 132.5}
+{"t": "2026-11-02T08:08:38", "reading": "back", "light": 132.4, "what": "cup", "x": 474, "y": 466, "conf": 0.3}
+{"t": "2026-11-02T08:08:43", "reading": "gone", "light": 132.4}
+{"t": "2026-11-02T08:08:48", "reading": "back", "light": 132.3, "what": "cup", "x": 474, "y": 466, "conf": 0.3}
+{"t": "2026-11-02T08:08:53", "reading": "gone", "light": 132.3}
+{"t": "2026-11-02T08:08:58", "reading": "back", "light": 132.1, "what": "cup", "x": 474, "y": 466, "conf": 0.3}
+{"t": "2026-11-02T08:09:09", "reading": "gone", "light": 132.0}
+{"t": "2026-11-02T08:10:01", "alive": true, "light": 131.6, "state": "gone"}
+{"t": "2026-11-02T08:10:11", "reading": "back", "light": 131.3, "what": "bottle", "x": 331, "y": 370, "conf": 0.31}
+{"t": "2026-11-02T08:11:24", "reading": "gone", "light": 128.5}
+{"t": "2026-11-02T08:11:29", "reading": "back", "light": 128.0, "what": "bottle", "x": 332, "y": 370, "conf": 0.34}
+{"t": "2026-11-02T08:11:34", "reading": "gone", "light": 127.8}
+{"t": "2026-11-02T08:11:49", "reading": "back", "light": 127.2, "what": "bottle", "x": 331, "y": 370, "conf": 0.3}
+{"t": "2026-11-02T08:11:55", "reading": "gone", "light": 126.9}
+{"t": "2026-11-02T08:20:02", "alive": true, "light": 127.4, "state": "gone"}
+{"t": "2026-11-02T08:20:43", "reading": "back", "light": 130.0, "what": "bottle", "x": 331, "y": 370, "conf": 0.32}
+{"t": "2026-11-02T08:20:49", "reading": "gone", "light": 130.1}
+{"t": "2026-11-02T08:20:59", "reading": "back", "light": 130.3, "what": "bottle", "x": 331, "y": 370, "conf": 0.32}
+{"t": "2026-11-02T08:22:32", "reading": "moved", "light": 131.8, "what": "cup", "x": 475, "y": 467, "conf": 0.35}
+{"t": "2026-11-02T08:22:58", "reading": "gone", "light": 131.3}
+{"t": "2026-11-02T08:23:03", "reading": "back", "light": 131.4, "what": "cup", "x": 475, "y": 468, "conf": 0.33}
+{"t": "2026-11-02T08:23:09", "reading": "gone", "light": 131.7}
+{"t": "2026-11-02T08:23:14", "reading": "back", "light": 131.3, "what": "cup", "x": 475, "y": 468, "conf": 0.31}
+{"t": "2026-11-02T08:23:19", "reading": "gone", "light": 131.7}
+{"t": "2026-11-02T08:23:29", "reading": "back", "light": 132.1, "what": "cup", "x": 475, "y": 467, "conf": 0.32}
+{"t": "2026-11-02T08:24:06", "reading": "moved", "light": 132.8, "what": "bottle", "x": 331, "y": 369, "conf": 0.34}
+{"t": "2026-11-02T08:24:11", "reading": "moved", "light": 132.9, "what": "cup", "x": 474, "y": 467, "conf": 0.3}
+{"t": "2026-11-02T08:24:16", "reading": "moved", "light": 133.0, "what": "bottle", "x": 331, "y": 370, "conf": 0.32}
+{"t": "2026-11-02T08:24:21", "reading": "gone", "light": 132.5}
+{"t": "2026-11-02T08:30:03", "alive": true, "light": 130.3, "state": "gone"}
+{"t": "2026-11-02T08:38:00", "reading": "back", "light": 133.2, "what": "bottle", "x": 331, "y": 370, "conf": 0.32}
+{"t": "2026-11-02T08:38:37", "reading": "gone", "light": 134.7}
+{"t": "2026-11-02T08:40:05", "alive": true, "light": 131.7, "state": "gone"}
+{"t": "2026-11-02T08:50:06", "alive": true, "light": 129.9, "state": "gone"}
+{"t": "2026-11-02T09:00:07", "alive": true, "light": 128.7, "state": "gone"}
+{"t": "2026-11-02T09:09:02", "reading": "back", "light": 133.9, "what": "bottle", "x": 330, "y": 370, "conf": 0.41}
+{"t": "2026-11-02T09:09:07", "reading": "gone", "light": 133.1}
+{"t": "2026-11-02T09:10:09", "alive": true, "light": 133.1, "state": "gone"}
+{"t": "2026-11-02T09:20:10", "alive": true, "light": 128.1, "state": "gone"}
+{"t": "2026-11-02T09:20:52", "reading": "back", "light": 127.0, "what": "bottle", "x": 330, "y": 369, "conf": 0.4}
+{"t": "2026-11-02T09:21:02", "reading": "gone", "light": 126.5}
+{"t": "2026-11-02T09:22:46", "reading": "back", "light": 124.4, "what": "bottle", "x": 330, "y": 370, "conf": 0.33}
+{"t": "2026-11-02T09:29:50", "stopped": true}

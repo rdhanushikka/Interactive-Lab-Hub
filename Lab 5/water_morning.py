@@ -23,6 +23,7 @@ from pathlib import Path
 parser = argparse.ArgumentParser()
 parser.add_argument("--log", default="night_log.jsonl")
 parser.add_argument("--gap", type=int, default=90, help="seconds within which events are one reach")
+parser.add_argument("--night-start", help="HH:MM to count from, if the lights never went off")
 parser.add_argument("--speak", action="store_true")
 parser.add_argument("--screen", action="store_true")
 parser.add_argument("--qwen", action="store_true")
@@ -41,6 +42,13 @@ def t(e):
 # Count from the moment the lights went off, if they did.
 starts = [e for e in entries if e.get("night_start")]
 night_start = t(starts[0]) if starts else t(entries[0])
+if args.night_start:
+    hh, mm = map(int, args.night_start.split(":"))
+    first = t(entries[0])
+    night_start = first.replace(hour=hh, minute=mm, second=0)
+    if night_start < first:            # e.g. log began 23:57, --night-start 00:30 is the next day
+        night_start += datetime.timedelta(days=1)
+    starts = [True]
 night_end = t(entries[-1])
 night = [e for e in entries if t(e) >= night_start]
 
@@ -72,8 +80,11 @@ if not reaches:
     line = f"The bottle never moved between {night_start:%-I:%M} and {night_end:%-I:%M}."
 elif len(reaches) == 1:
     line = f"You reached for the water once, at {times[0]}."
-else:
+elif len(reaches) <= 6:
     line = f"You reached for the water {len(reaches)} times, at " + ", ".join(times[:-1]) + f" and {times[-1]}."
+else:
+    line = (f"You reached for the water {len(reaches)} times between {times[0]} and {times[-1]}. "
+            f"That many is more likely the detector than you; check the snapshots.")
 if dark_minutes >= 5:
     line += f" The camera couldn't see for {dark_minutes:.0f} minutes of that."
 if not starts:
