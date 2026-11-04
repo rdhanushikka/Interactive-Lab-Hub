@@ -398,7 +398,7 @@ See encoder_accel_servo_dashboard.py in the Lab 4 folder for an optional example
 
 **Code:** [`lazy_susan.py`](lazy_susan.py)
 
-**Video:** *(link)*
+**Video:** [Lazy susan demo: touch the pad, hear "Rotating", the tray turns](images/lazy-susan-demo.mp4)
 
 **How it works:**
 
@@ -592,7 +592,9 @@ Document all the prototypes and iterations you have designed and worked on! Agai
 
 ### Part F: what I did
 
-- **Looks like:** *(photos of the final build on a table with dishes)*
+- **Looks like:** the setup on the dining table. Copper tape runs from the sensor to a pad at each seat, the servo hat drives the tray, and the speaker announces the turn.
+
+  ![Lazy susan setup: copper tape pads, MPR121, servo hat and Pi on the table](images/lazy-susan-setup.jpeg)
 - **Works like:** the video above, plus [`lazy_susan.py`](lazy_susan.py)
 - **Acts like:** sit down, touch the pad at your seat, hear "Rotating", the dish you wanted arrives in front of you a second later
 
