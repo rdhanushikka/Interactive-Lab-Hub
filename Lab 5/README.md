@@ -379,9 +379,9 @@ It ran all night without crashing, and the morning report was wrong: 93 reaches.
 |---|---|
 | ![reach at 12:16](images/night1-reach-0016.jpg) | ![living room, lamp on, cup to the right](images/night1-living-room.jpg) |
 
-**Cleaned-up log of the same night.** With the cup flicker taken out, the night reduces to three reaches: 10:15 pm, 11:36 pm and 1:02 am. This is an edited version, not raw detector output; the move times were noted by hand. Text: [`logs/night_2026-11-01_cleaned.txt`](logs/night_2026-11-01_cleaned.txt).
+**Cleaned-up log of the same night.** With the cup flicker taken out, the night reduces to three reaches: 10:15 pm, 11:36 pm and 1:02 am. This is an edited version, not raw detector output; the move times were noted by hand. Text: [`logs/night_2026-11-01_reaches.txt`](logs/night_2026-11-01_reaches.txt).
 
-![the bottle gone and back at 10:15 pm, 11:36 pm and 1:02 am](logs/night_2026-11-01_cleaned.png)
+![the bottle gone and back at 10:15 pm, 11:36 pm and 1:02 am](logs/night_2026-11-01_reaches.png)
 
 **What changed in the interpreter after that night.** It now locks onto one bottle and follows it by position, only accepting detections of the same class within 120 px of where it last was. The confidence threshold dropped from 0.3 to 0.15, which is safe once position filtering ignores stray boxes, and means the bottle rarely drops out. A change has to hold for 3 looks in a row before it's logged, and an absence for 6, so one-look flicker never becomes an event. Looks are every 2 s instead of 5. The tracker is a class with no camera in it, so the whole night could be replayed as a test: 17,000 simulated looks with the cup flickering and the bottle dropping out 10 % of the time produced zero false events, and two 12 s pick-ups produced exactly two gone/back pairs. A sip shorter than about 12 s, with the bottle put back in the same spot, is still missed; that's the stated limit.
 
