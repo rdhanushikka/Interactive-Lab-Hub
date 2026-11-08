@@ -127,7 +127,7 @@ Then press q to quit and run it again with a flag. Each one changes a single thi
 
    ![YOLO called a backpack a person](images/yolo-false-backpack.jpg)
 
-3. *(third situation)*
+3. **Counted one person twice.** In the Part E watch log, walking away to the right side of the room, the reading at 12:37:36 was `2 person(s) at right/far, right/far`, and one second later it was back to one. Only one person was in the room. Moving, far from the camera and half turned, the body got two overlapping boxes (one around the upper body, one around the whole figure) that were different enough for YOLO not to merge them. The same moments show the box size jumping: `left/far` and `left/close` in the same second at 12:37:06. A count from a single frame isn't reliable while someone is moving; it has to hold for a few frames before it's believed. ([watch_log.txt](watch_log.txt))
 
 The two failures pull in opposite directions. Raising the threshold loses real people at the edge of the frame or in bad light; lowering it invents people out of furniture. For an overnight system that means the threshold is a design choice about which mistake is cheaper, not a number to tune once.
 
