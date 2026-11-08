@@ -367,17 +367,19 @@ Every five seconds it grabs a frame, measures brightness, and runs YOLO on three
 
 ![Pi 5 and webcam on the desk beside the bed, aimed at the water bottle](images/pi-webcam-bedside.jpg)
 
-*The Pi setup: Pi 5 and USB webcam on the desk next to the bed, aimed at the bottle.*
+*Armaan's Pi setup: Pi 5 and USB webcam on the desk next to the bed, aimed at the bottle.*
 
 The decision that matters most is treating `dark` as its own reading. Without it, every dark minute would read as "the bottle is gone," and the morning would report a hundred reaches.
 
-**First real night, 1 to 2 November, on a MacBook's built-in camera.** The Pi with the webcam was elsewhere, so the night shift ran on a laptop with the lid open. Log: [`logs/night_2026-11-01_first_run.jsonl`](logs/night_2026-11-01_first_run.jsonl), 9.5 hours, 647 lines.
+**Dhanu's first real night, 1 to 2 November.** The Pi with the webcam was elsewhere, so the night shift ran on a laptop with the lid open. Log: [`logs/night_2026-11-01_first_run.jsonl`](logs/night_2026-11-01_first_run.jsonl), 9.5 hours, 647 lines.
 
 It ran all night without crashing, and the morning report was wrong: 93 reaches. Two things the log and the snapshots showed.
 
 1. *The lights never went off.* Brightness stayed between 85 and 156 all night (the floor lamp and hallway light were on), so `night_start` never fired and the report counted from 11:57 pm. The silent hand-off depends on the room actually going dark, and this room didn't. `water_morning.py --night-start HH:MM` was added for exactly this case.
 
 2. *A cup next to the bottle.* The first version took the largest drinkware box in each frame. A white cup at the right of the table was detected at about the same confidence as the bottle (0.34 vs 0.35), so the "bottle" position flipped between the two all night and every flip was logged as a move. The 148 gone/back pairs were the bottle dropping below the confidence threshold for one look and coming back.
+
+*Dhanu's photos from that night:*
 
 | the bottle picked up, 12:16 am | the scene most of the night |
 |---|---|
