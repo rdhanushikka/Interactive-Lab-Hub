@@ -1,0 +1,13 @@
+# Cleaned-up version of the 1-2 November night, for the write-up.
+# Not raw detector output: the cup/bottle flicker is removed, and the three bottle
+# moves (10:15 pm, 11:36 pm, 1:02 am) are placed at the times noted by hand.
+# Raw run: night_log.jsonl and night_2026-11-01_first_run.jsonl.
+water watch started, Ctrl-C to stop
+Loading yolo26n_ncnn_model for NCNN inference...
+2026-11-01T22:00:04 present (bottle at 330,368)
+2026-11-01T22:15:12 gone
+2026-11-01T22:15:48 back (bottle at 334,371)
+2026-11-01T23:36:27 gone
+2026-11-01T23:37:03 back (bottle at 331,369)
+2026-11-02T01:02:41 gone
+2026-11-02T01:03:12 back (bottle at 332,370)
