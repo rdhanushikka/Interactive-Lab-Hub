@@ -385,7 +385,7 @@ It ran all night without crashing, and the morning report was wrong: 93 reaches.
 |---|---|
 | ![reach at 12:16](images/night1-reach-0016.jpg) | ![living room, lamp on, cup to the right](images/night1-living-room.jpg) |
 
-**Cleaned-up log of the same night.** With the cup flicker taken out, the night reduces to three reaches: 10:15 pm, 11:36 pm and 1:02 am. This is an edited version, not raw detector output. The move times were noted by hand. Text: [`logs/night_2026-11-01_reaches.txt`](logs/night_2026-11-01_reaches.txt).
+**Log of the same night.** With the cup flicker taken out, the night reduces to three reaches: 10:15 pm, 11:36 pm and 1:02 am. This is an edited version, not raw detector output. The move times were noted by hand. Text: [`logs/night_2026-11-01_reaches.txt`](logs/night_2026-11-01_reaches.txt).
 
 ![the bottle gone and back at 10:15 pm, 11:36 pm and 1:02 am](logs/night_2026-11-01_reaches.png)
 
