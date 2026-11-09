@@ -371,7 +371,7 @@ Every five seconds it grabs a frame, measures brightness, and runs YOLO on three
 
 The decision that matters most is treating `dark` as its own reading. Without it, every dark minute would read as "the bottle is gone," and the morning would report a hundred reaches.
 
-**Dhanu's first real night, 1 to 2 November.** The Pi with the webcam was elsewhere, so the night shift ran on a laptop with the lid open. Log: [`logs/night_2026-11-01_first_run.jsonl`](logs/night_2026-11-01_first_run.jsonl), 9.5 hours, 647 lines.
+**Dhanu's first night, 1 to 2 November.** The Pi with the webcam was elsewhere, so the night shift ran on a laptop with the lid open. Log: [`logs/night_2026-11-01_first_run.jsonl`](logs/night_2026-11-01_first_run.jsonl), 9.5 hours, 647 lines.
 
 It ran all night without crashing, and the morning report was wrong: 93 reaches. Two things the log and the snapshots showed.
 
@@ -417,11 +417,11 @@ night 23:57 to 09:29 (9.5 h), 93 reach(es), 0 dark min, 59 heartbeats
 You reached for the water 93 times between 12:16 and 9:21. That many is more likely the detector than you; check the snapshots. (The lights never went off, so this counts the whole log.)
 ```
 
-That is the report for the first real night. The count is wrong for the reasons in Part H (the cup next to the bottle), and the report says so instead of listing 93 times. Qwen is optional (`--qwen`): it's handed the finished sentence and asked to rephrase it without adding facts, so the numbers can't drift. `--screen` draws the night on the MiniPiTFT as a bar with a tick per reach and the dark stretches noted, and `--speak` reads the line aloud with the Lab 3 voice.
+That is the report for the first night. The count is wrong for the reasons in Part H (the cup next to the bottle), and the report says so instead of listing 93 times. Qwen is optional (`--qwen`): it's handed the finished sentence and asked to rephrase it without adding facts, so the numbers can't drift. `--screen` draws the night on the MiniPiTFT as a bar with a tick per reach and the dark stretches noted, and `--speak` reads the line aloud with the Lab 3 voice.
 
 A quiet night prints "the bottle never moved," and the model is never asked to invent an unusual moment. If the count comes out implausibly high, the report says so and points at the snapshots instead of listing ninety times. `--night-start HH:MM` sets the start by hand when the lights never went off.
 
-*(photo of the morning screen after a real night)*
+*(photo of the morning screen after a night)*
 
 
 ## Final documentation
