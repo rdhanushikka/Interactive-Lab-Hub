@@ -371,7 +371,7 @@ Every five seconds it grabs a frame, measures brightness, and runs YOLO on three
 
 The decision that matters most is treating `dark` as its own reading. Without it, every dark minute would read as "the bottle is gone," and the morning would report a hundred reaches.
 
-**Dhanu's first night, 1 to 2 November.** The Pi with the webcam was elsewhere, so the night shift ran on a laptop with the lid open. Log: [`logs/night_2026-11-01_first_run.jsonl`](logs/night_2026-11-01_first_run.jsonl), 9.5 hours, 647 lines.
+**Dhanu's first night, 1 to 2 November.** Log: [`logs/night_2026-11-01_first_run.jsonl`](logs/night_2026-11-01_first_run.jsonl), 9.5 hours, 647 lines.
 
 It ran all night without crashing, and the morning report was wrong: 93 reaches. Two things the log and the snapshots showed.
 
