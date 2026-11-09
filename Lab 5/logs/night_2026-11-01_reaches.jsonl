@@ -1,0 +1,8 @@
+{"t": "2026-11-01T22:00:04", "reading": "present", "what": "bottle", "x": 330, "y": 368}
+{"t": "2026-11-01T22:15:12", "reading": "gone"}
+{"t": "2026-11-01T22:15:48", "reading": "back", "what": "bottle", "x": 334, "y": 371}
+{"t": "2026-11-01T23:36:27", "reading": "gone"}
+{"t": "2026-11-01T23:37:03", "reading": "back", "what": "bottle", "x": 331, "y": 369}
+{"t": "2026-11-02T01:02:41", "reading": "gone"}
+{"t": "2026-11-02T01:03:12", "reading": "back", "what": "bottle", "x": 332, "y": 370}
+{"t": "2026-11-02T09:29:50", "stopped": true}
