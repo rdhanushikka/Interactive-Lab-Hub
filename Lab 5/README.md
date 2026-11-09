@@ -438,6 +438,8 @@ Document all the prototypes and iterations you have designed and worked on. The 
 
 As always, make sure you document contributions and ideas from others (and AI) explicitly in your writeup.
 
+**Contributions.** This lab was done with Ammar Syed as a group turn-in. I used AI (Claude) to help organize this README and to generate the code for `water_night.py` and `water_morning.py`. The storyboard feedback came from Ani Hadagali and Gabriela Yauli. Photos are credited where they appear.
+
 You are permitted (but not required) to work in groups and share a turn in. You are expected to make equal contribution on any group work you do, and N people's group project should look like N times the work of a single person's lab. Make sure the page for the group turn in is linked to your personal Interactive Lab Hub page.
 
 ## Deliverables & Submission for Lab 5
