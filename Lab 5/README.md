@@ -423,8 +423,6 @@ That is the report for the first night. The count is wrong for the reasons in Pa
 
 A quiet night prints "the bottle never moved," and the model is never asked to invent an unusual moment. If the count comes out implausibly high, the report says so and points at the snapshots instead of listing ninety times. `--night-start HH:MM` sets the start by hand when the lights never went off.
 
-*(photo of the morning screen after a night)*
-
 
 ## Final documentation
 
