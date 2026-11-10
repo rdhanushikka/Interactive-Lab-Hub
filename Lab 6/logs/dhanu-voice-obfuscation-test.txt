@@ -1,0 +1,41 @@
+[LISTENING] elliot-pi
+[VOICE OBFUSCATION] OFF
+[LISTENING] as4422-pi
+[VOICE OBFUSCATION] ON
+[LISTENING] elliot-pi
+[LISTENING] elliot-pi
+[LISTENING] elliot-pi
+
+[BUTTON] pressed
+[WAITING] Requesting the channel...
+[BUSY] elliot-pi is speaking
+
+[BUTTON] released
+[IDLE] Button released
+[LISTENING] as4422-pi
+
+[BUTTON] pressed
+[WAITING] Requesting the channel...
+[BUSY] as4422-pi is speaking
+
+[BUTTON] released
+[IDLE] Button released
+
+[BUTTON] pressed
+[WAITING] Requesting the channel...
+[BUSY] as4422-pi is speaking
+
+[BUTTON] released
+[IDLE] Button released
+sox WARN rate: rate clipped 64 samples; decrease volume?
+sox WARN sox: `coreaudio' output clipped 58 samples; decrease volume?
+[LISTENING] as4422-pi
+
+[BUTTON] pressed
+[WAITING] Requesting the channel...
+[SPEAKING] Channel granted
+
+[BUTTON] released
+[IDLE] Button released
+[LISTENING] as4422-pi
+[LISTENING] as4422-pi

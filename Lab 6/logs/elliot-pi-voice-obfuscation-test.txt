@@ -1,0 +1,29 @@
+pi@raspberrypi:~/Interactive-Lab-Hub $ cd ~/Interactive-Lab-Hub/"Lab 6"
+source .venv/bin/activate
+python walkie_talkie.py
+[OK] Connected as elliot-pi. Hold the button to talk.
+[VOICE OBFUSCATION] OFF
+[WAITING] Requesting the channel...
+[SPEAKING] Channel granted
+arecord: pcm_read:2221: read error: Interrupted system call
+[IDLE] Button released
+[LISTENING] as4422-pi
+[VOICE OBFUSCATION] Toggle requested
+[VOICE OBFUSCATION] ON
+[WAITING] Requesting the channel...
+[SPEAKING] Channel granted
+arecord: pcm_read:2221: read error: Interrupted system call
+[IDLE] Button released
+[WAITING] Requesting the channel...
+[SPEAKING] Channel granted
+arecord: pcm_read:2221: read error: Interrupted system call
+[IDLE] Button released
+[WAITING] Requesting the channel...
+[SPEAKING] Channel granted
+arecord: pcm_read:2221: read error: Interrupted system call
+[IDLE] Button released
+[LISTENING] as4422-pi
+[LISTENING] as4422-pi
+[LISTENING] dhanu-mac
+[LISTENING] as4422-pi
+[LISTENING] as4422-pi

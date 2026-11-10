@@ -1,0 +1,20 @@
+{
+  "broker": "farlab.infosci.cornell.edu",
+  "port": 1883,
+  "username": "idd",
+  "password": "device@theFarm",
+  "team_id": "walkietalkie",
+  "device_id": "elliot-pi",
+  "qwiic_address": 111,
+  "capture_device": "default",
+  "playback_device": "default",
+  "sample_rate": 16000,
+  "channels": 1,
+  "chunk_ms": 40,
+  "jitter_chunks": 8,
+  "stale_audio_ms": 1500,
+  "hold_to_talk_ms": 250,
+  "double_click_ms": 450,
+  "distortion_frequency_hz": 70,
+  "max_talk_seconds": 30
+}
