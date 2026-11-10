@@ -13,7 +13,7 @@ Please place links here to the README.md's for each of your labs here:
 
 [Lab 5. Observant Systems](https://github.com/ammarsyed/Interactive-Lab-Hub/tree/Fall2026/Lab%205) (group turn-in, in Ammar's repo)
 
-Lab 6. Little Interactions Everywhere
+[Lab 6. Little Interactions Everywhere](https://github.com/Elliot-verified/Interactive-Lab-Hub/tree/Fall2026/Lab%206) (group turn-in, in Elliot's repo)
 
 Final Project
 
